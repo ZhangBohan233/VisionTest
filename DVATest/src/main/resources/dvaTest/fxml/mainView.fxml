@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaTest.gui.MainView" vgap="10.0" hgap="5.0">
+
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0"/>
+    </padding>
+
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="100"/>
+    </columnConstraints>
+
+    <MenuBar GridPane.columnSpan="2">
+        <Menu text="%fileMenu"/>
+        <Menu text="%aboutMenu"/>
+    </MenuBar>
+
+    <TitledPane fx:id="distVisionPane" disable="true" expanded="false" text="%distVision" GridPane.rowIndex="1">
+        <HBox spacing="5.0">
+            <Button text="%snellenChart"/>
+            <Button text="%eChart"/>
+            <Button text="%cChart"/>
+            <Button/>
+        </HBox>
+    </TitledPane>
+
+    <Separator GridPane.rowIndex="2"/>
+
+    <HBox fx:id="needDisplayDeviceBox" GridPane.rowIndex="3" spacing="10.0">
+        <Label text="%needConnection"/>
+        <Button text="%clickToConnect" onAction="#onConnectionClick"/>
+    </HBox>
+
+
+</GridPane>
