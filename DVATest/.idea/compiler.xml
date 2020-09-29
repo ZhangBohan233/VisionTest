@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="DvaScreen" />
         <module name="DVATest" />
+        <module name="dva-screen" />
       </profile>
     </annotationProcessing>
   </component>

@@ -6,4 +6,6 @@ module DvaScreen {
 
     exports dvaScreen;
     exports dvaScreen.gui;
+
+    opens dvaScreen.gui;
 }

@@ -7,15 +7,19 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<HBox xmlns="http://javafx.com/javafx"
+<GridPane xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="dvaTest.gui.ConnectionView"
-      prefHeight="400.0" prefWidth="300.0" spacing="5.0">
+      prefHeight="400.0" prefWidth="300.0" vgap="10.0" hgap="5.0">
 
     <padding>
         <Insets topRightBottomLeft="5.0"/>
     </padding>
 
+    <Label text="%screenIp"/>
+    <TextField GridPane.columnIndex="1"/>
 
+    <Label text="%port" GridPane.rowIndex="1"/>
+    <TextField GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-</HBox>
+</GridPane>
