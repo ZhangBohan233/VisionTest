@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -32,12 +33,20 @@ public class Screen extends Application {
 
         primaryStage.show();
 
-        if (!ServerManager.initialize()) {
+        if (!ServerManager.startServer(controller)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error"));
             alert.setContentText(bundle.getString("cannotConnectToNet"));
             return;
         }
+
+        primaryStage.setOnCloseRequest(e -> {
+            try {
+                ServerManager.stopServer();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
 
         controller.askConnectionIfNone();
     }

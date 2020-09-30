@@ -6,6 +6,8 @@ module DVATest {
 
     exports dvaTest;
     exports dvaTest.gui;
+    exports dvaTest.gui.widgets;
 
     opens dvaTest.gui;
+    opens dvaTest.gui.widgets;
 }

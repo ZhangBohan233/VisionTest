@@ -18,4 +18,6 @@ public class ScreenConnectionView implements Initializable {
         thisIpLabel.setText(ServerManager.getThisAddress().getHostAddress());
         portLabel.setText(String.valueOf(ServerManager.getPort()));
     }
+
+
 }

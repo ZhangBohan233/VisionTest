@@ -1,6 +1,7 @@
 package dvaScreen.gui;
 
 import dvaScreen.connection.ServerManager;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -14,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class ScreenMainView implements Initializable {
 
-    private Stage stage;
+    private Stage stage, connectionStage;
     private ResourceBundle bundle;
 
     @Override
@@ -27,7 +28,7 @@ public class ScreenMainView implements Initializable {
     }
 
     public void askConnectionIfNone() {
-        if (ServerManager.getCurrentServer() == null) {
+        if (!ServerManager.hasConnection()) {
             showConnectionView();
         }
     }
@@ -38,16 +39,20 @@ public class ScreenMainView implements Initializable {
                     new FXMLLoader(getClass().getResource("/dvaScreen/fxml/screenConnectionView.fxml"), bundle);
             Parent root = loader.load();
 
-            Stage newStage = new Stage();
-            newStage.initOwner(stage);
-            newStage.initModality(Modality.WINDOW_MODAL);
+            connectionStage = new Stage();
+            connectionStage.initOwner(stage);
+            connectionStage.initModality(Modality.WINDOW_MODAL);
 
-            newStage.setTitle(bundle.getString("connectComputer"));
-            newStage.setScene(new Scene(root));
+            connectionStage.setTitle(bundle.getString("connectComputer"));
+            connectionStage.setScene(new Scene(root));
 
-            newStage.show();
+            connectionStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void closeConnectionWindow() {
+        Platform.runLater(() -> connectionStage.close());
     }
 }

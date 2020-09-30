@@ -1,5 +1,7 @@
 package dvaScreen.connection;
 
+import dvaScreen.gui.ScreenMainView;
+
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -11,13 +13,31 @@ public class ServerManager {
 
     private static Server currentServer;
 
-    public static boolean initialize() {
+    public static boolean startServer(ScreenMainView mainView) {
         try {
             generateIpAddress();
+            if (currentServer == null) {
+                currentServer = new Server(mainView, port);
+                currentServer.start();
+            } else {
+                return false;
+            }
             return true;
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public static void stopServer() throws IOException {
+        if (currentServer == null) {
+            throw new IOException("No server running");
+        } else {
+            currentServer.stopServer();
+        }
+    }
+
+    public static boolean hasConnection() {
+        return currentServer != null && currentServer.getClientSocket() != null;
     }
 
     public static Server getCurrentServer() {

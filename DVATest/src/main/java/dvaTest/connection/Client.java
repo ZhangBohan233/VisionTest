@@ -1,19 +1,18 @@
 package dvaTest.connection;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.io.OutputStream;
+import java.net.*;
 
 public class Client extends Thread {
 
-    public static int DEFAULT_PORT = 3456;
-    private int port = DEFAULT_PORT;
-
     public Socket clientSocket;
 
-    public Client() {
+    Client(String address, int port) throws IOException {
+        clientSocket = new Socket();
+        clientSocket.connect(new InetSocketAddress(address, port));
 
+        OutputStream outputStream = clientSocket.getOutputStream();
+        outputStream.write(Signals.GREET);
     }
 }

@@ -40,6 +40,17 @@ public class MainView implements Initializable {
         stage.setTitle(Main.getBundle().getString("connectionTitle"));
         stage.setScene(new Scene(root));
 
+        ConnectionView connectionView = loader.getController();
+        connectionView.setStage(stage, this);
+
         stage.show();
+    }
+
+    void setConnected() {
+        needDisplayDeviceBox.setManaged(false);
+        needDisplayDeviceBox.setVisible(false);
+
+        distVisionPane.setDisable(false);
+        distVisionPane.setExpanded(true);
     }
 }

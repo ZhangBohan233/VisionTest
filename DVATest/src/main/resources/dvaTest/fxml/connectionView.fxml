@@ -17,9 +17,13 @@
     </padding>
 
     <Label text="%screenIp"/>
-    <TextField GridPane.columnIndex="1"/>
+    <TextField fx:id="ipField" GridPane.columnIndex="1"/>
 
     <Label text="%port" GridPane.rowIndex="1"/>
-    <TextField GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <TextField fx:id="portField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Button text="%connect" onAction="#onConnectClicked" GridPane.rowIndex="2"/>
+
+    <Label fx:id="msgLabel" GridPane.rowIndex="3"/>
 
 </GridPane>
