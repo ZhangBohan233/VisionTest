@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -29,6 +30,9 @@ public class ConnectionView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
+
+        addIpFieldListener();
+        addPortFieldListener();
 
         portField.setText(CacheSaver.getLastUsedPort());
     }
@@ -71,5 +75,35 @@ public class ConnectionView implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void addIpFieldListener() {
+        ipField.textProperty().addListener(((observableValue, s, t1) -> {
+            if (t1.length() > s.length()) {  // 有新的输入
+                for (int i = s.length(); i < t1.length(); i++) {
+                    char newChar = t1.charAt(i);
+                    if ((newChar >= '0' && newChar <= '9') || newChar == '.') {
+                        ipField.setText(t1);
+                    } else {
+                        ipField.setText(s);
+                    }
+                }
+            }
+        }));
+    }
+
+    private void addPortFieldListener() {
+        portField.textProperty().addListener(((observableValue, s, t1) -> {
+            if (t1.length() > s.length()) {  // 有新的输入
+                for (int i = s.length(); i < t1.length(); i++) {
+                    char newChar = t1.charAt(i);
+                    if (newChar >= '0' && newChar <= '9') {
+                        portField.setText(t1);
+                    } else {
+                        portField.setText(s);
+                    }
+                }
+            }
+        }));
     }
 }

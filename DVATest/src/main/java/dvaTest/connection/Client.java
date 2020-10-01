@@ -12,7 +12,14 @@ public class Client extends Thread {
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(address, port));
 
-        OutputStream outputStream = clientSocket.getOutputStream();
-        outputStream.write(Signals.GREET);
+        sendMessage(Signals.GREET);
+    }
+
+    public synchronized void sendMessage(byte[] array) throws IOException {
+        clientSocket.getOutputStream().write(array);
+    }
+
+    public synchronized void sendMessage(byte signal) throws IOException {
+        clientSocket.getOutputStream().write(signal);
     }
 }

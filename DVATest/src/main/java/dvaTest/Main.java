@@ -1,5 +1,6 @@
 package dvaTest;
 
+import common.EventLogger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,9 +15,18 @@ public class Main extends Application {
 
     private static ResourceBundle bundle;
 
+    public static void main(String[] args) {
+        try {
+            launch(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            EventLogger.log(e);
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        bundle = ResourceBundle.getBundle("dvaTest.bundles.Languages",
+        bundle = ResourceBundle.getBundle("common.bundles.Languages",
                 new Locale("zh", "CN"));
 
         FXMLLoader loader =
