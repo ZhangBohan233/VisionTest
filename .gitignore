@@ -1,4 +1,5 @@
 *.iml
+*.log
 DVATest/.idea/
 DVAScreen/.idea/
 

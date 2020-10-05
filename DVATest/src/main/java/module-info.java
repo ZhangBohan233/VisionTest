@@ -9,6 +9,9 @@ module DVATest {
     exports dvaTest.gui.widgets;
     exports dvaScreen;
     exports dvaScreen.gui;
+    exports dvaTest.testCore;
+    exports dvaTest.testCore.testItems;
+    exports dvaTest.testCore.tests;
 
     opens dvaScreen.gui;
     opens dvaTest.gui;

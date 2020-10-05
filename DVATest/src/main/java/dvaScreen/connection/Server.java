@@ -42,4 +42,8 @@ public class Server extends Thread {
         }
         serverSocket.close();
     }
+
+    public void sendMessage(byte signal) throws IOException {
+        clientSocket.getOutputStream().write(signal);
+    }
 }

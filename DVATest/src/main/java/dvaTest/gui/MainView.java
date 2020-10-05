@@ -2,6 +2,8 @@ package dvaTest.gui;
 
 import common.EventLogger;
 import dvaTest.Main;
+import dvaTest.connection.ClientManager;
+import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,10 +34,14 @@ public class MainView implements Initializable {
     @FXML
     Slider frameTimeSlider;
 
+    private ResourceBundle bundle;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setFrameTimeSliderListener();
         refreshFrameTimeLabel(frameTimeSlider.getValue());
+
+        this.bundle = resourceBundle;
     }
 
     @FXML
@@ -47,7 +53,7 @@ public class MainView implements Initializable {
                         Main.getBundle());
         Parent root = loader.load();
 
-        stage.setTitle(Main.getBundle().getString("connectionTitle"));
+        stage.setTitle(bundle.getString("connectionTitle"));
         stage.setScene(new Scene(root));
 
         ConnectionView connectionView = loader.getController();
@@ -80,21 +86,27 @@ public class MainView implements Initializable {
     }
 
     private void showTestView(TestType testType) {
+        TestPref testPref = new TestPref.TestPrefBuilder()
+                .testType(testType)
+                .frameTimeMills((long) (frameTimeSlider.getValue() * 1000))
+                .build();
         try {
             Stage stage = new Stage();
 
             FXMLLoader loader =
-                    new FXMLLoader(getClass().getResource("/dvaTest/fxml/testView.fxml"),
-                            Main.getBundle());
+                    new FXMLLoader(getClass().getResource("/dvaTest/fxml/testPrepView.fxml"),
+                            bundle);
             Parent root = loader.load();
 
-            stage.setTitle(Main.getBundle().getString("connectionTitle"));
+            stage.setTitle(testType.show(bundle));
             stage.setScene(new Scene(root));
 
-            TestView testView = loader.getController();
-            testView.setTestType(testType);
+            TestPrepView testPrepView = loader.getController();
+            testPrepView.setTestPref(testPref, stage);
 
             stage.show();
+
+            ClientManager.getCurrentClient().sendMessage(testType.getSignal());
         } catch (IOException e) {
             e.printStackTrace();
             EventLogger.log(e);

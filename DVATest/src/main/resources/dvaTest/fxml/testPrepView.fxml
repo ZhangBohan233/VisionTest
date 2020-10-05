@@ -6,12 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="dvaScreen.gui.ScreenMainView"
-      prefHeight="400.0" prefWidth="300.0">
-
-    <ImageView fx:id="logoView"/>
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="dvaTest.gui.TestPrepView"
+            prefHeight="400.0" prefWidth="600.0">
+    <Button text="%startTest" onAction="#startTestClicked"/>
 
 </VBox>

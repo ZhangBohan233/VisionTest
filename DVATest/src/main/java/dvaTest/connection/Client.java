@@ -1,7 +1,9 @@
 package dvaTest.connection;
 
+import common.Signals;
+import dvaTest.testCore.tests.TestUnit;
+
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.*;
 
 public class Client extends Thread {
@@ -21,5 +23,9 @@ public class Client extends Thread {
 
     public synchronized void sendMessage(byte signal) throws IOException {
         clientSocket.getOutputStream().write(signal);
+    }
+
+    public synchronized void sendTestUnit(TestUnit testUnit) throws IOException {
+        sendMessage(testUnit.toByteArray());
     }
 }
