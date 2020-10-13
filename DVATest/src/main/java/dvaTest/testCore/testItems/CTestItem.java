@@ -6,6 +6,8 @@ import java.util.List;
 
 public class CTestItem extends TestItem {
 
+    public static TestItem BLANK_ITEM = new CTestItem(-1, "blank", "c/C_BLANK.png");
+
     public static List<TestItem> ITEMS = List.of(
             new CTestItem(1, "upRight", "c/C1.png"),
             new CTestItem(2, "up", "c/C2.png"),

@@ -2,7 +2,6 @@ package dvaTest.testCore.testItems;
 
 import dvaTest.testCore.TestType;
 
-import java.net.URL;
 import java.util.List;
 
 public abstract class TestItem {

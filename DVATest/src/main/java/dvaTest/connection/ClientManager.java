@@ -18,4 +18,12 @@ public class ClientManager {
         }
         currentClient = new Client(address, port);
     }
+
+    public static void closeCurrentClient() throws IOException {
+        if (currentClient == null) {
+            throw new IOException("No active client. ");
+        }
+        currentClient.disconnect();
+        currentClient = null;
+    }
 }

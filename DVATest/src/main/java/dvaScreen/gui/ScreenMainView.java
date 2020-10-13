@@ -28,10 +28,12 @@ public class ScreenMainView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
-        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C1.png");
-        Image image = new Image(inputStream);
-
-        logoView.setImage(image);
+//        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C1.png");
+//        Image image = new Image(inputStream);
+//
+//        logoView.setPreserveRatio(true);
+//        logoView.setFitWidth(800.0);
+//        logoView.setImage(image);
     }
 
     public void setStage(Stage stage) {

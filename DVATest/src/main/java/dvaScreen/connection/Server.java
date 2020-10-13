@@ -40,6 +40,11 @@ public class Server extends Thread {
         if (serverSocket == null) {
             throw new IOException("Server not started.");
         }
+        if (clientSocket != null) {
+            clientSocket.shutdownInput();
+            clientSocket.shutdownOutput();
+            clientSocket.close();
+        }
         serverSocket.close();
     }
 

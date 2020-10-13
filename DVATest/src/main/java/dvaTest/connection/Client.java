@@ -28,4 +28,10 @@ public class Client extends Thread {
     public synchronized void sendTestUnit(TestUnit testUnit) throws IOException {
         sendMessage(testUnit.toByteArray());
     }
+
+    public void disconnect() throws IOException {
+        clientSocket.shutdownInput();
+        clientSocket.shutdownOutput();
+        clientSocket.close();
+    }
 }

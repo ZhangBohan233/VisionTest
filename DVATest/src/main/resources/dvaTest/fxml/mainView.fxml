@@ -55,4 +55,10 @@
     </HBox>
 
 
+    <HBox fx:id="connectionBox" GridPane.rowIndex="5" spacing="10.0" managed="false" visible="false">
+        <Label text="%connected"/>
+        <Button text="%disconnect" onAction="#onDisconnectClicked"/>
+    </HBox>
+
+
 </GridPane>

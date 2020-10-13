@@ -34,7 +34,7 @@ public class Listener extends Thread {
             byte[] buf = new byte[1024];
             InputStream inputStream = client.getInputStream();
             int read;
-            while ((read = inputStream.read(buf)) >= 0) {
+            while (!client.isInputShutdown() && (read = inputStream.read(buf)) >= 0) {
                 if (read == 1) {  // 单个信号
                     processSignal(buf[0]);
                 } else if (read > 0) {
@@ -65,7 +65,9 @@ public class Listener extends Thread {
                 break;
 
             case Signals.STOP_TEST:
-                screenTestStage.close();
+                Platform.runLater(() -> {
+                    screenTestStage.close();
+                });
                 break;
             case Signals.DISCONNECT:
                 try {

@@ -22,15 +22,28 @@ public class ScreenTestView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
+
+        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C_BLANK.png");
+        Image image = new Image(inputStream);
+        imageView.setFitWidth(500.0);
+        imageView.setImage(image);
+
+        try {
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showGraph(TestUnit testUnit) {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(testUnit.getTestItem().getImagePath());
-        System.out.println(getClass().getClassLoader().getResource(testUnit.getTestItem().getImagePath()));
+        InputStream inputStream = getClass().getResourceAsStream(testUnit.getTestItem().getImagePath());
+        System.out.println("Received " + testUnit.getTestItem().getImagePath());
         Image image = new Image(inputStream);
 
         Platform.runLater(() -> {
+            imageView.setFitWidth(500.0);
             imageView.setImage(image);
+            System.out.println("Shown " + testUnit.getTestItem().getImagePath());
         });
 
         try {

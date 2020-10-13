@@ -26,7 +26,7 @@ public class MainView implements Initializable {
     TitledPane distVisionPane;
 
     @FXML
-    HBox needDisplayDeviceBox;
+    HBox needDisplayDeviceBox, connectionBox;
 
     @FXML
     Label frameTimeValueLabel;
@@ -63,6 +63,12 @@ public class MainView implements Initializable {
     }
 
     @FXML
+    void onDisconnectClicked() throws IOException {
+        ClientManager.closeCurrentClient();
+        setDisconnected();
+    }
+
+    @FXML
     void snellenChartClicked() {
         showTestView(TestType.SNELLEN_CHART);
     }
@@ -81,8 +87,22 @@ public class MainView implements Initializable {
         needDisplayDeviceBox.setManaged(false);
         needDisplayDeviceBox.setVisible(false);
 
+        connectionBox.setManaged(true);
+        connectionBox.setVisible(true);
+
         distVisionPane.setDisable(false);
         distVisionPane.setExpanded(true);
+    }
+
+    public void setDisconnected() {
+        needDisplayDeviceBox.setManaged(true);
+        needDisplayDeviceBox.setVisible(true);
+
+        connectionBox.setManaged(false);
+        connectionBox.setVisible(false);
+
+        distVisionPane.setDisable(true);
+        distVisionPane.setExpanded(false);
     }
 
     private void showTestView(TestType testType) {

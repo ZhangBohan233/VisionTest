@@ -12,6 +12,6 @@
           fx:controller="dvaScreen.gui.ScreenTestView"
           prefHeight="400.0" prefWidth="600.0">
 
-    <ImageView fx:id="imageView"/>
+    <ImageView fx:id="imageView" preserveRatio="true"/>
 
 </GridPane>
