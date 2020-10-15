@@ -11,13 +11,13 @@ public abstract class Test {
 
     protected List<Double> visionLevels;
     protected Map<String, TestImage> testImageMap;
-    protected TestImage[] testImages;
-    protected int currentLevelIndex;
-
-    /**
-     * 在当前等级的测试次数
-     */
-    protected int currentLevelCount;
+    protected final TestImage[] testImages;
+//    protected int currentLevelIndex;
+//
+//    /**
+//     * 在当前等级的测试次数
+//     */
+//    protected int currentLevelCount;
 
     public Test(List<Double> visionLevels, Map<String, TestImage> testImageMap) {
         this.visionLevels = visionLevels;
@@ -25,31 +25,26 @@ public abstract class Test {
 
         testImages = testImageMap.values().toArray(new TestImage[0]);
 
-        currentLevelIndex = visionLevels.size() / 2;
+//        currentLevelIndex = visionLevels.size() / 2;
     }
 
-    public final TestUnit generateNext() {
-        int level = currentLevelIndex;
-        TestUnit unit = generateNextInternal();
-        if (level == currentLevelIndex) {
-            currentLevelCount++;
-        } else {
-            currentLevelCount = 0;
-        }
-        return unit;
+    public int visionLevelCount() {
+        return visionLevels.size();
     }
 
-    protected abstract double getScale();
+    public abstract TestUnit generate(int levelIndex);
+//    {
+//        int level = currentLevelIndex;
+//        TestUnit unit = generateNextInternal();
+//        if (level == currentLevelIndex) {
+//            currentLevelCount++;
+//        } else {
+//            currentLevelCount = 0;
+//        }
+//        return unit;
+//    }
 
-    protected abstract TestUnit generateNextInternal();
-
-    public void higherLevelBinary() {
-
-    }
-
-    public void lowerLevelBinary() {
-
-    }
+    protected abstract double getScale(int levelIndex);
 
     public TestImage[] getTestImageArray() {
         return testImages;

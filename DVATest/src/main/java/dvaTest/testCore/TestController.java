@@ -9,6 +9,8 @@ import dvaTest.testCore.tests.Test;
 import dvaTest.testCore.tests.TestUnit;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,7 +19,13 @@ public class TestController {
     private final TestPref testPref;
     private final TestView testView;
     private final Test test;
+    private final TestLevelAllocator levelAllocator;
     private boolean interrupted = false;
+
+    private TestUnit curTrueUnit;
+    private String userInputName;
+
+    private List<TestResultUnit> testResultUnits = new ArrayList<>();
 
     public TestController(TestPref testPref, TestView testView) {
         this.testPref = testPref;
@@ -32,6 +40,8 @@ public class TestController {
         } else {
             throw new RuntimeException("Unexpected test type. ");
         }
+
+        this.levelAllocator = new TestLevelAllocator(test.visionLevelCount());
     }
 
     public void start() {
@@ -40,18 +50,30 @@ public class TestController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+
                 if (interrupted) {
                     cancel();
                     return;
                 }
 
-                TestUnit testUnit = test.generateNext();
-                try {
-                    ClientManager.getCurrentClient().sendTestUnit(testUnit);
-                } catch (IOException e) {
+                // 处理上一次测试
+                if (curTrueUnit != null) {
+                    proceedOne();
+                }
+
+                if (levelAllocator.hasNext()) {
+                    curTrueUnit = test.generate(levelAllocator.nextLevel());
+
+                    try {
+                        ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
+                    } catch (IOException e) {
+                        cancel();
+                        EventLogger.log(e);
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    finishTest();
                     cancel();
-                    EventLogger.log(e);
-                    throw new RuntimeException(e);
                 }
             }
         }, 0, testPref.getFrameTimeMills());
@@ -66,13 +88,30 @@ public class TestController {
         }
     }
 
-    public void userInput() {
-
+    public void userInput(String name) {
+        userInputName = name;
     }
 
-//    private static class
+    private void proceedOne() {
+        testResultUnits.add(new TestResultUnit(curTrueUnit, userInputName));
 
-    public class TestRecorder {
+        if (curTrueUnit.getTestItem().getName().equals(userInputName)) {
+            // 正确的结果
+            levelAllocator.correctResult();
+        }
+    }
 
+    private void finishTest() {
+        
+    }
+
+    private static class TestResultUnit {
+        private final TestUnit testUnit;
+        private final String userInput;
+
+        private TestResultUnit(TestUnit testUnit, String userInput) {
+            this.testUnit = testUnit;
+            this.userInput = userInput;
+        }
     }
 }

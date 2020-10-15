@@ -20,20 +20,17 @@ public class CTest extends Test {
     );
 
     public CTest() {
-        super(
-                List.of(0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5),
-                ITEMS
-        );
+        super(List.of(0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5), ITEMS);
     }
 
     @Override
-    protected double getScale() {
-        return 1 / visionLevels.get(currentLevelIndex);
+    protected double getScale(int levelIndex) {
+        return 1 / visionLevels.get(levelIndex);
     }
 
     @Override
-    public TestUnit generateNextInternal() {
+    public TestUnit generate(int levelIndex) {
         int directionIndex = (int) (Math.random() * 8);
-        return new TestUnit(visionLevels.get(currentLevelIndex), getScale(), testImages[directionIndex]);
+        return new TestUnit(visionLevels.get(levelIndex), getScale(levelIndex), testImages[directionIndex]);
     }
 }

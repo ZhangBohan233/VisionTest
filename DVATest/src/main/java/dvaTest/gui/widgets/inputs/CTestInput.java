@@ -67,6 +67,6 @@ public class CTestInput extends TestInput {
     }
 
     private void directionButtonClicked(String directionName) {
-
+        testController.userInput(directionName);
     }
 }
