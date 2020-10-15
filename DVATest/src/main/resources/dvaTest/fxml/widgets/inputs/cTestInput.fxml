@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import dvaTest.gui.widgets.inputs.CTestInput?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root type="dvaTest.gui.widgets.inputs.CTestInput"
+         xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+    <GridPane hgap="5.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+
+        <Button text="↖" onAction="#upLeftClicked" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="↑" onAction="#upClicked" GridPane.columnIndex="1" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="↗" onAction="#upRightClicked" GridPane.columnIndex="2" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+
+        <Button text="←" onAction="#leftClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="→" onAction="#rightClicked" GridPane.rowIndex="1" GridPane.columnIndex="2" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+
+        <Button text="↙" onAction="#downLeftClicked" GridPane.rowIndex="2" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="↓" onAction="#downClicked" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="↘" onAction="#downRightClicked" GridPane.rowIndex="2" GridPane.columnIndex="2" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+    </GridPane>
+
+</fx:root>

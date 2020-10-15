@@ -1,12 +1,16 @@
 package dvaTest.gui;
 
 import common.EventLogger;
+import dvaTest.gui.widgets.inputs.CTestInput;
+import dvaTest.gui.widgets.inputs.TestInput;
 import dvaTest.testCore.TestPref;
+import dvaTest.testCore.TestType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,6 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TestPrepView implements Initializable {
+
+    @FXML
+    Pane inputContainer;
 
     private TestPref testPref;
     private ResourceBundle bundle;
@@ -27,6 +34,8 @@ public class TestPrepView implements Initializable {
     public void setTestPref(TestPref testPref, Stage stage) {
         this.testPref = testPref;
         this.stage = stage;
+
+        inputContainer.getChildren().add(TestView.makeTestInput(testPref));
     }
 
     @FXML

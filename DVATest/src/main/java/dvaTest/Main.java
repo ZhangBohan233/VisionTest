@@ -1,6 +1,7 @@
 package dvaTest;
 
 import common.EventLogger;
+import dvaTest.connection.ClientManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -35,6 +37,14 @@ public class Main extends Application {
 
         primaryStage.setTitle(bundle.getString("appName"));
         primaryStage.setScene(new Scene(root));
+
+        primaryStage.setOnHidden(e -> {
+            try {
+                ClientManager.closeCurrentClient();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
 
         primaryStage.show();
     }

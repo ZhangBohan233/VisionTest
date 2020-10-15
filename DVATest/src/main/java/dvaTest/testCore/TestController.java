@@ -65,4 +65,14 @@ public class TestController {
             throw new RuntimeException(e);
         }
     }
+
+    public void userInput() {
+
+    }
+
+//    private static class
+
+    public class TestRecorder {
+
+    }
 }

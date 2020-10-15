@@ -52,7 +52,7 @@ public class Listener extends Thread {
         switch (signal) {
             case Signals.GREET:
                 System.out.println("connected! ");
-                mainView.closeConnectionWindow();
+                mainView.setConnectedUi();
                 break;
             case Signals.SHOW_SNELLEN:
                 showTestScreen(TestType.SNELLEN_CHART);
@@ -72,6 +72,7 @@ public class Listener extends Thread {
             case Signals.DISCONNECT:
                 try {
                     client.close();
+                    mainView.setDisconnectedUi();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -7,6 +7,7 @@ module DVATest {
     exports dvaTest;
     exports dvaTest.gui;
     exports dvaTest.gui.widgets;
+    exports dvaTest.gui.widgets.inputs;
     exports dvaScreen;
     exports dvaScreen.gui;
     exports dvaTest.testCore;
@@ -16,4 +17,5 @@ module DVATest {
     opens dvaScreen.gui;
     opens dvaTest.gui;
     opens dvaTest.gui.widgets;
+    opens dvaTest.gui.widgets.inputs;
 }

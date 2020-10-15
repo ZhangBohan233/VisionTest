@@ -36,7 +36,7 @@ public class Screen extends Application {
         Parent root = loader.load();
 
         ScreenMainView controller = loader.getController();
-        controller.setStage(primaryStage);
+        controller.setup(primaryStage);
 
         primaryStage.setTitle(bundle.getString("appNameScreen"));
         primaryStage.setScene(new Scene(root));

@@ -20,10 +20,9 @@ public class ClientManager {
     }
 
     public static void closeCurrentClient() throws IOException {
-        if (currentClient == null) {
-            throw new IOException("No active client. ");
+        if (currentClient != null) {
+            currentClient.disconnect();
+            currentClient = null;
         }
-        currentClient.disconnect();
-        currentClient = null;
     }
 }

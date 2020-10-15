@@ -3,22 +3,22 @@ package dvaTest.testCore.tests;
 import common.Signals;
 import common.Utility;
 import dvaTest.testCore.TestType;
-import dvaTest.testCore.testItems.TestItem;
+import dvaTest.testCore.testItems.TestImage;
 
 public class TestUnit {
 
     private final double visionLevel;
     private final double graphScale;
 
-    private final TestItem testItem;
+    private final TestImage testItem;
 
-    TestUnit(double visionLevel, double graphScale, TestItem testItem) {
+    TestUnit(double visionLevel, double graphScale, TestImage testItem) {
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
         this.testItem = testItem;
     }
 
-    public TestItem getTestItem() {
+    public TestImage getTestItem() {
         return testItem;
     }
 
@@ -46,7 +46,7 @@ public class TestUnit {
         TestType testType = TestType.fromByte(array[2]);
         double visionLevel = Utility.bytesToDouble(array, 3);
         double graphScale = Utility.bytesToDouble(array, 11);
-        TestItem testItem = TestItem.getByOrdNum(testType, ordNum);
+        TestImage testItem = TestImage.getByOrdNum(testType, ordNum);
         return new TestUnit(visionLevel, graphScale, testItem);
     }
 }

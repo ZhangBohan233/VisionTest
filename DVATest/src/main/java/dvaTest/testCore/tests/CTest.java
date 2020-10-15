@@ -1,7 +1,6 @@
 package dvaTest.testCore.tests;
 
-import dvaTest.testCore.testItems.CTestItem;
-import dvaTest.testCore.testItems.TestItem;
+import dvaTest.testCore.testItems.CTestImage;
 
 import java.util.List;
 
@@ -19,6 +18,6 @@ public class CTest extends Test {
     @Override
     public TestUnit generateNextInternal() {
         int directionIndex = (int) (Math.random() * 8);
-        return new TestUnit(visionLevels.get(currentLevelIndex), getScale(), CTestItem.ITEMS.get(directionIndex));
+        return new TestUnit(visionLevels.get(currentLevelIndex), getScale(), CTestImage.ITEMS.get(directionIndex));
     }
 }

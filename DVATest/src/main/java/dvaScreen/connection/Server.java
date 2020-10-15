@@ -5,6 +5,7 @@ import dvaScreen.gui.ScreenMainView;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Server extends Thread {
 
@@ -26,6 +27,8 @@ public class Server extends Thread {
 
             Listener listener = new Listener(mainView, clientSocket);
             listener.start();
+        } catch (SocketException e) {
+            // No client has connected
         } catch (IOException e) {
             e.printStackTrace();
             throw new ServerException();
