@@ -3,35 +3,37 @@ package dvaTest.testCore;
 import common.Signals;
 import dvaTest.testCore.testItems.CTestImage;
 import dvaTest.testCore.testItems.TestImage;
+import dvaTest.testCore.tests.CTest;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public enum TestType {
     SNELLEN_CHART("snellenChart", Signals.SHOW_SNELLEN, null),
-    C_CHART("cChart", Signals.SHOW_C, CTestImage.ITEMS),
+    C_CHART("cChart", Signals.SHOW_C, CTest.ITEMS),
     E_CHART("eChart", Signals.SHOW_E, null);
 
     private final String bundleKey;
     private final byte signal;
-    private final List<TestImage> testItems;
+    private final Map<String, TestImage> testItems;
 
-    TestType(String bundleKey, byte signal, List<TestImage> testItems) {
+    TestType(String bundleKey, byte signal, Map<String, TestImage> testItems) {
         this.bundleKey = bundleKey;
         this.signal = signal;
         this.testItems = testItems;
     }
 
-    public List<TestImage> getTestItems() {
+    public static TestType fromByte(byte b) {
+        return values()[b & 0xff];
+    }
+
+    public Map<String, TestImage> getTestItems() {
         return testItems;
     }
 
     public byte toByte() {
         return (byte) ordinal();
-    }
-
-    public static TestType fromByte(byte b) {
-        return values()[b & 0xff];
     }
 
     public byte getSignal() {

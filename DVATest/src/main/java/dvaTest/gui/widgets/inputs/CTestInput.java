@@ -28,45 +28,45 @@ public class CTestInput extends TestInput {
 
     @FXML
     void upLeftClicked() {
-        directionButtonClicked(CTestImage.UP_LEFT);
+        directionButtonClicked("upLeft");
     }
 
     @FXML
     void upClicked() {
-        directionButtonClicked(CTestImage.UP);
+        directionButtonClicked("up");
     }
 
     @FXML
     void upRightClicked() {
-        directionButtonClicked(CTestImage.UP_RIGHT);
+        directionButtonClicked("upRight");
     }
 
     @FXML
     void leftClicked() {
-        directionButtonClicked(CTestImage.LEFT);
+        directionButtonClicked("left");
     }
 
     @FXML
     void rightClicked() {
-        directionButtonClicked(CTestImage.RIGHT);
+        directionButtonClicked("right");
     }
 
     @FXML
     void downLeftClicked() {
-        directionButtonClicked(CTestImage.DOWN_LEFT);
+        directionButtonClicked("downLeft");
     }
 
     @FXML
     void downClicked() {
-        directionButtonClicked(CTestImage.DOWN);
+        directionButtonClicked("down");
     }
 
     @FXML
     void downRightClicked() {
-        directionButtonClicked(CTestImage.DOWN_RIGHT);
+        directionButtonClicked("downRight");
     }
 
-    private void directionButtonClicked(int direction) {
+    private void directionButtonClicked(String directionName) {
 
     }
 }

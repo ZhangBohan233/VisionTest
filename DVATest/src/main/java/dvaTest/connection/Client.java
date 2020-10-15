@@ -30,6 +30,7 @@ public class Client extends Thread {
     }
 
     public void disconnect() throws IOException {
+        sendMessage(Signals.DISCONNECT);
         clientSocket.shutdownInput();
         clientSocket.shutdownOutput();
         clientSocket.close();
