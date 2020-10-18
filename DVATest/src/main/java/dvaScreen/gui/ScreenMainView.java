@@ -1,22 +1,16 @@
 package dvaScreen.gui;
 
+import common.Utility;
 import dvaScreen.connection.ServerManager;
-import javafx.application.Platform;
+import dvaScreen.gui.items.ResolutionItem;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,7 +20,7 @@ public class ScreenMainView implements Initializable {
     ImageView logoView;
 
     @FXML
-    Label thisIpLabel, portLabel;
+    Label thisIpLabel, portLabel, screenPpiLabel;
 
     @FXML
     GridPane notConnectedPane;
@@ -34,12 +28,31 @@ public class ScreenMainView implements Initializable {
     @FXML
     HBox connectedPane;
 
+    @FXML
+    ComboBox<ResolutionItem> resolutionBox;
+
+    @FXML
+    TextField fracField;
+
+    @FXML
+    Spinner<Integer> intSpinner;
+
+    SpinnerValueFactory<Integer> intFactory;
+
     private Stage stage, connectionStage;
     private ResourceBundle bundle;
+
+    private static double calculatePpiRounded(int width, int height, double screenSize) {
+        return Utility.round(Math.sqrt(height * height + width * width) / screenSize, 1);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
+
+        setSpinners();
+        addPpiGroupListeners();
+        fillResolutionBox();
 //        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C1.png");
 //        Image image = new Image(inputStream);
 //
@@ -58,6 +71,69 @@ public class ScreenMainView implements Initializable {
         if (!ServerManager.hasConnection()) {
             setDisconnectedUi();
         }
+    }
+
+    public double getPpi() {
+        return Double.parseDouble(screenPpiLabel.getText());
+    }
+
+    private void fillResolutionBox() {
+        resolutionBox.getItems().addAll(ResolutionItem.resolutionItems);
+        resolutionBox.getSelectionModel().select(ResolutionItem.DEFAULT_INDEX);
+    }
+
+    private void setSpinners() {
+        intFactory = new SpinnerValueFactory<>() {
+            @Override
+            public void decrement(int steps) {
+                setValue(getValue() - steps);
+                updatePpi();
+            }
+
+            @Override
+            public void increment(int steps) {
+                setValue(getValue() + steps);
+                updatePpi();
+            }
+        };
+
+        intSpinner.setValueFactory(intFactory);
+        intFactory.setValue(15);
+    }
+
+    private void addPpiGroupListeners() {
+        fracField.textProperty().addListener(((observableValue, s, t1) -> {
+            if (t1.length() > 0) {
+                try {
+                    Integer.parseInt(t1);
+                    fracField.setText(t1);
+                } catch (NumberFormatException nfe) {
+                    fracField.setText(s);
+                }
+            }
+            updatePpi();
+        }));
+
+        resolutionBox.getSelectionModel().selectedItemProperty()
+                .addListener(((observableValue, resolutionItem, t1) -> updatePpi()));
+    }
+
+    private double getScreenSize() {
+        int inches = intSpinner.getValue();
+        String frac = "0." + fracField.getText();
+        return inches + Double.parseDouble(frac);
+    }
+
+    private void updatePpi() {
+        ResolutionItem ri = resolutionBox.getValue();
+        screenPpiLabel.setText(String.valueOf(calculatePpiRounded(ri.getWidth(), ri.getHeight(),
+                getScreenSize())));
+    }
+
+    private void setScreenSize(double value) {
+        int intPart = (int) value;
+        intFactory.setValue(intPart);
+        fracField.setText(String.valueOf(value - intPart).substring(2));
     }
 
 //    void showConnectionView() {

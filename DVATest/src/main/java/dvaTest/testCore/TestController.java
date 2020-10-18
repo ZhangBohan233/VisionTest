@@ -98,11 +98,13 @@ public class TestController {
         if (curTrueUnit.getTestItem().getName().equals(userInputName)) {
             // 正确的结果
             levelAllocator.correctResult();
+        } else {
+            levelAllocator.incorrectResult();
         }
     }
 
     private void finishTest() {
-        
+
     }
 
     private static class TestResultUnit {

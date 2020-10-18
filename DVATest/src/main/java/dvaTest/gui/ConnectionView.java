@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -79,31 +78,27 @@ public class ConnectionView implements Initializable {
 
     private void addIpFieldListener() {
         ipField.textProperty().addListener(((observableValue, s, t1) -> {
-            if (t1.length() > s.length()) {  // 有新的输入
-                for (int i = s.length(); i < t1.length(); i++) {
-                    char newChar = t1.charAt(i);
-                    if ((newChar >= '0' && newChar <= '9') || newChar == '.') {
-                        ipField.setText(t1);
-                    } else {
-                        ipField.setText(s);
-                    }
+            for (int i = 0; i < t1.length(); i++) {
+                char newChar = t1.charAt(i);
+                if ((newChar < '0' || newChar > '9') && newChar != '.') {
+                    ipField.setText(s);
+                    return;
                 }
             }
+            ipField.setText(t1);
         }));
     }
 
     private void addPortFieldListener() {
         portField.textProperty().addListener(((observableValue, s, t1) -> {
-            if (t1.length() > s.length()) {  // 有新的输入
-                for (int i = s.length(); i < t1.length(); i++) {
-                    char newChar = t1.charAt(i);
-                    if (newChar >= '0' && newChar <= '9') {
-                        portField.setText(t1);
-                    } else {
-                        portField.setText(s);
-                    }
+            for (int i = 0; i < t1.length(); i++) {
+                char newChar = t1.charAt(i);
+                if (newChar < '0' || newChar > '9') {
+                    portField.setText(s);
+                    return;
                 }
             }
+            portField.setText(t1);
         }));
     }
 }

@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
 <?import javafx.geometry.Insets?>
-<?import javafx.collections.FXCollections?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="dvaScreen.gui.ScreenMainView"
-      prefHeight="400.0" prefWidth="300.0" spacing="10.0">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox prefHeight="400.0" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaScreen.gui.ScreenMainView">
 
     <padding>
         <Insets topRightBottomLeft="5.0"/>
@@ -22,35 +15,52 @@
 
     <GridPane hgap="20.0" vgap="10.0">
         <Label text="%screenResolution"/>
-        <ComboBox GridPane.columnIndex="1">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="800x600"/>
-                </FXCollections>
-            </items>
-        </ComboBox>
+        <ComboBox fx:id="resolutionBox" GridPane.columnIndex="1"/>
 
         <Label text="%screenSize" GridPane.rowIndex="1"/>
-        <ComboBox GridPane.rowIndex="1" GridPane.columnIndex="1">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="24'"/>
-                </FXCollections>
-            </items>
-        </ComboBox>
+        <HBox GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER_LEFT" spacing="2.0">
+            <Spinner fx:id="intSpinner" styleClass="split-arrows-vertical" prefWidth="50.0"/>
+            <Label text="."/>
+            <TextField fx:id="fracField" prefWidth="50.0"/>
+            <Label text="%inches"/>
+        </HBox>
+<!--        <TextField fx:id="screenSizeField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>-->
+
+        <Label text="%screenPpi" GridPane.rowIndex="3"/>
+        <Label fx:id="screenPpiLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
     </GridPane>
 
     <Separator/>
 
-    <GridPane fx:id="notConnectedPane" vgap="10.0" hgap="20.0">
+    <GridPane fx:id="notConnectedPane" hgap="20.0" vgap="10.0">
 
         <Label text="%connectionHint" GridPane.columnSpan="2"/>
 
         <Label text="%thisIp" GridPane.rowIndex="1"/>
-        <Label fx:id="thisIpLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Label fx:id="thisIpLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
         <Label text="%port" GridPane.rowIndex="2"/>
-        <Label fx:id="portLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        <Label fx:id="portLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
 
     </GridPane>
 

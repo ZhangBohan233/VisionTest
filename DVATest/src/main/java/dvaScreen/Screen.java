@@ -26,6 +26,10 @@ public class Screen extends Application {
         }
     }
 
+    public static ResourceBundle getBundle() {
+        return bundle;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         bundle = ResourceBundle.getBundle("common.bundles.Languages",

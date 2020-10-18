@@ -19,6 +19,8 @@ public class ScreenTestView implements Initializable {
 
     private ResourceBundle bundle;
 
+    private double ppi;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
@@ -33,6 +35,10 @@ public class ScreenTestView implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setPpi(double ppi) {
+        this.ppi = ppi;
     }
 
     public void showGraph(TestUnit testUnit) {

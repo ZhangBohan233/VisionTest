@@ -16,4 +16,17 @@ public class Utility {
         }
         return Double.longBitsToDouble(v);
     }
+
+    private static int digitMultiplier(int digit) {
+        int multiplier = 1;
+        for (int i = 0; i < digit; i++) {
+            multiplier *= 10;
+        }
+        return multiplier;
+    }
+
+    public static double round(double value, int digit) {
+        int multiplier = digitMultiplier(digit);
+        return (double) Math.round(value * multiplier) / multiplier;
+    }
 }
