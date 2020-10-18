@@ -12,7 +12,7 @@ public class Utility {
     public static double bytesToDouble(byte[] array, int index) {
         long v = 0;
         for (int i = 0; i < 8; i++) {
-            v |= (array[index + i] & 0xff) << (8 * i);
+            v |= ((long) (array[index + i] & 0xff)) << (8 * i);
         }
         return Double.longBitsToDouble(v);
     }
@@ -28,5 +28,12 @@ public class Utility {
     public static double round(double value, int digit) {
         int multiplier = digitMultiplier(digit);
         return (double) Math.round(value * multiplier) / multiplier;
+    }
+
+    public static void main(String[] args) {
+        byte[] arr = new byte[8];
+        doubleToBytes(1.0, arr, 0);
+
+        System.out.println(bytesToDouble(arr, 0));
     }
 }

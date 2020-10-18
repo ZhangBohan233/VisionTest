@@ -19,8 +19,20 @@ public class CTest extends Test {
             "right", new CTestImage("right", "c/C8.png")
     );
 
-    public CTest() {
-        super(List.of(0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5), ITEMS);
+    public static final CTest CTEST = new CTest(ITEMS);
+
+    private CTest(Map<String, TestImage> testImages) {
+        super(List.of(0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5), testImages);
+    }
+
+    @Override
+    public int standardLevelIndex() {
+        return 10;  // 标准为1.0
+    }
+
+    @Override
+    public double standardHeightMm() {
+        return 7.5;
     }
 
     @Override
@@ -31,6 +43,6 @@ public class CTest extends Test {
     @Override
     public TestUnit generate(int levelIndex) {
         int directionIndex = (int) (Math.random() * 8);
-        return new TestUnit(visionLevels.get(levelIndex), getScale(levelIndex), testImages[directionIndex]);
+        return new TestUnit(visionLevels.get(levelIndex), getScale(levelIndex), testImages[directionIndex], this);
     }
 }

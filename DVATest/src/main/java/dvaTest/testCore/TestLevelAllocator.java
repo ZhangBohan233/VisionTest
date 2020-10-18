@@ -9,10 +9,10 @@ public class TestLevelAllocator {
      */
     private boolean neverFalse = true;
 
-    public TestLevelAllocator(int totalLevelCount) {
+    public TestLevelAllocator(int totalLevelCount, int initialLevelIndex) {
         this.totalLevelCount = totalLevelCount;
 
-        currentLevelIndex = totalLevelCount / 2;
+        currentLevelIndex = initialLevelIndex;
     }
 
     public boolean hasNext() {

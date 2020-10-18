@@ -4,6 +4,7 @@ import common.Signals;
 import dvaTest.testCore.testItems.CTestImage;
 import dvaTest.testCore.testItems.TestImage;
 import dvaTest.testCore.tests.CTest;
+import dvaTest.testCore.tests.Test;
 
 import java.util.Collection;
 import java.util.Map;
@@ -42,5 +43,19 @@ public enum TestType {
 
     public String show(ResourceBundle bundle) {
         return bundle.getString(bundleKey);
+    }
+
+    public Test getStaticTest() {
+        Test test;
+        if (this == SNELLEN_CHART) {
+            test = null;
+        } else if (this == C_CHART) {
+            test = CTest.CTEST;
+        } else if (this == E_CHART) {
+            test = null;
+        } else {
+            throw new TestTypeException("Unexpected test type. ");
+        }
+        return test;
     }
 }

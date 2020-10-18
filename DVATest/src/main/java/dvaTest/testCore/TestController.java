@@ -31,17 +31,9 @@ public class TestController {
         this.testPref = testPref;
         this.testView = testView;
 
-        if (testPref.getTestType() == TestType.SNELLEN_CHART) {
-            test = null;
-        } else if (testPref.getTestType() == TestType.C_CHART) {
-            test = new CTest();
-        } else if (testPref.getTestType() == TestType.E_CHART) {
-            test = null;
-        } else {
-            throw new RuntimeException("Unexpected test type. ");
-        }
+        test = testPref.getTestType().getStaticTest();
 
-        this.levelAllocator = new TestLevelAllocator(test.visionLevelCount());
+        this.levelAllocator = new TestLevelAllocator(test.visionLevelCount(), test.standardLevelIndex());
     }
 
     public void start() {

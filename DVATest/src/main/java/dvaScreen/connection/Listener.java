@@ -108,7 +108,7 @@ public class Listener extends Thread {
                 });
 
                 screenTestView = loader.getController();
-                screenTestView.setPpi(mainView.getPpi());
+                screenTestView.setPixelPerMm(mainView.getPixelsPerMm());
 //                controller.setStage(primaryStage);
 
                 screenTestStage.setTitle(testType.show(mainView.getBundle()));

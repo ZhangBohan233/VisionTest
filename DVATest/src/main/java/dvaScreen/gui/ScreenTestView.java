@@ -19,15 +19,16 @@ public class ScreenTestView implements Initializable {
 
     private ResourceBundle bundle;
 
-    private double ppi;
+    private double pixelPerMm;
+    private double imageHeight;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
 
-        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C_BLANK.png");
+        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C100.png");
         Image image = new Image(inputStream);
-        imageView.setFitWidth(500.0);
+        imageView.setFitHeight(500);
         imageView.setImage(image);
 
         try {
@@ -37,8 +38,8 @@ public class ScreenTestView implements Initializable {
         }
     }
 
-    public void setPpi(double ppi) {
-        this.ppi = ppi;
+    public void setPixelPerMm(double pixelPerMm) {
+        this.pixelPerMm = pixelPerMm;
     }
 
     public void showGraph(TestUnit testUnit) {
@@ -46,10 +47,13 @@ public class ScreenTestView implements Initializable {
         System.out.println("Received " + testUnit.getTestItem().getImagePath());
         Image image = new Image(inputStream);
 
+        final double graphHeightMm = testUnit.getGraphScale() * testUnit.getTest().standardHeightMm();
+        final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / getWindowsScaling());
+
         Platform.runLater(() -> {
-            imageView.setFitWidth(500.0);
+            imageView.setFitHeight(graphHeightPixels);
             imageView.setImage(image);
-            System.out.println("Shown " + testUnit.getTestItem().getImagePath());
+            System.out.println("Shown " + testUnit.getTestItem().getImagePath() + " " + testUnit.getVisionLevel());
         });
 
         try {
@@ -57,5 +61,9 @@ public class ScreenTestView implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private double getWindowsScaling() {
+        return 1.25;
     }
 }

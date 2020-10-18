@@ -10,12 +10,14 @@ public class TestUnit {
     private final double visionLevel;
     private final double graphScale;
 
+    private final Test test;
     private final TestImage testItem;
 
-    TestUnit(double visionLevel, double graphScale, TestImage testItem) {
+    TestUnit(double visionLevel, double graphScale, TestImage testItem, Test test) {
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
         this.testItem = testItem;
+        this.test = test;
     }
 
     public TestImage getTestItem() {
@@ -54,6 +56,10 @@ public class TestUnit {
         System.arraycopy(array, 19, strBytes, 0, strLen);
         String name = new String(strBytes);
         TestImage testItem = TestImage.getByName(testType, name);
-        return new TestUnit(visionLevel, graphScale, testItem);
+        return new TestUnit(visionLevel, graphScale, testItem, testType.getStaticTest());
+    }
+
+    public Test getTest() {
+        return test;
     }
 }

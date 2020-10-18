@@ -77,6 +77,16 @@ public class ScreenMainView implements Initializable {
         return Double.parseDouble(screenPpiLabel.getText());
     }
 
+    public double getPixelsPerMm() {
+        double screenSize = getScreenSize();
+        ResolutionItem ri = resolutionBox.getValue();
+        double ratio = (double) ri.getHeight() / ri.getWidth();
+        double heightInches = Math.sqrt(screenSize * screenSize / (1 + 1 / (ratio * ratio)));
+        double res = ri.getHeight() / (heightInches * 25.4);
+        System.out.println(heightInches + " " + res);
+        return res;
+    }
+
     private void fillResolutionBox() {
         resolutionBox.getItems().addAll(ResolutionItem.resolutionItems);
         resolutionBox.getSelectionModel().select(ResolutionItem.DEFAULT_INDEX);
