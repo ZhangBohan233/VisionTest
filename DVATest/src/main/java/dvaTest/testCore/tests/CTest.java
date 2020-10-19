@@ -9,14 +9,14 @@ import java.util.Map;
 public class CTest extends Test {
 
     public static Map<String, TestImage> ITEMS = Map.of(
-            "upRight", new CTestImage("upRight", "c/C1.png"),
-            "up", new CTestImage("up", "c/C2.png"),
-            "upLeft", new CTestImage("upLeft", "c/C3.png"),
-            "left", new CTestImage("left", "c/C4.png"),
-            "downLeft", new CTestImage("downLeft", "c/C5.png"),
-            "down", new CTestImage("down", "c/C6.png"),
-            "downRight", new CTestImage("downRight", "c/C7.png"),
-            "right", new CTestImage("right", "c/C8.png")
+            "right", new CTestImage("right", "c/C1.jpg"),
+            "downRight", new CTestImage("downRight", "c/C2.jpg"),
+            "down", new CTestImage("down", "c/C3.jpg"),
+            "downLeft", new CTestImage("downLeft", "c/C4.jpg"),
+            "left", new CTestImage("left", "c/C5.jpg"),
+            "upLeft", new CTestImage("upLeft", "c/C6.jpg"),
+            "up", new CTestImage("up", "c/C7.jpg"),
+            "upRight", new CTestImage("upRight", "c/C8.jpg")
     );
 
     public static final CTest CTEST = new CTest(ITEMS);

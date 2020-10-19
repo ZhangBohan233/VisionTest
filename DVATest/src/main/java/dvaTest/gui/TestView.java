@@ -6,9 +6,12 @@ import dvaTest.testCore.TestController;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
 import dvaTest.testCore.TestTypeException;
+import dvaTest.testCore.tests.TestUnit;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -18,6 +21,9 @@ public class TestView implements Initializable {
 
     @FXML
     Pane inputContainer;
+
+    @FXML
+    Label levelLabel, inputLabel;
 
     private TestInput testInput;
 
@@ -38,6 +44,16 @@ public class TestView implements Initializable {
 
     public void start() {
         testController.start();
+    }
+
+    public void updateGui(TestUnit testUnit) {
+        Platform.runLater(() -> {
+            levelLabel.setText(String.valueOf(testUnit.getVisionLevel()));
+        });
+    }
+
+    public void updateInput(String input) {
+        Platform.runLater(() -> inputLabel.setText(input));
     }
 
     @FXML

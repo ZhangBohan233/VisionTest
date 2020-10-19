@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import dvaTest.gui.widgets.inputs.CTestInput?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="dvaTest.gui.TestView"
-      prefHeight="400.0" prefWidth="600.0">
+      prefHeight="400.0" prefWidth="600.0" spacing="10.0">
 
     <Button text="%stopTest" onAction="#stopTest"/>
+    <GridPane hgap="20.0" vgap="10.0">
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+
+        <Label text="%currentLevel"/>
+        <Label fx:id="levelLabel" GridPane.columnIndex="1"/>
+
+        <Label text="%currentInput" GridPane.rowIndex="1"/>
+        <Label fx:id="inputLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    </GridPane>
 
     <Pane fx:id="inputContainer"/>
 

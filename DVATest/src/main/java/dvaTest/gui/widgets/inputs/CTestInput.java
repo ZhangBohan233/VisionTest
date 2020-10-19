@@ -1,6 +1,7 @@
 package dvaTest.gui.widgets.inputs;
 
 import dvaTest.Main;
+import dvaTest.gui.TestView;
 import dvaTest.testCore.testItems.CTestImage;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,8 @@ public class CTestInput extends TestInput {
     static final ResourceBundle bundle = Main.getBundle();
 
     public CTestInput() {
+        super();
+
         FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/dvaTest/fxml/widgets/inputs/cTestInput.fxml"),
                 bundle);

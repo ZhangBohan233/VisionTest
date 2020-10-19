@@ -4,7 +4,6 @@ import common.EventLogger;
 import common.Signals;
 import dvaTest.connection.ClientManager;
 import dvaTest.gui.TestView;
-import dvaTest.testCore.tests.CTest;
 import dvaTest.testCore.tests.Test;
 import dvaTest.testCore.tests.TestUnit;
 
@@ -33,7 +32,8 @@ public class TestController {
 
         test = testPref.getTestType().getStaticTest();
 
-        this.levelAllocator = new TestLevelAllocator(test.visionLevelCount(), test.standardLevelIndex());
+        this.levelAllocator =
+                new TestLevelAllocator(test.visionLevelCount(), test.visionLevelCount() / 2);
     }
 
     public void start() {
@@ -54,7 +54,8 @@ public class TestController {
                 }
 
                 if (levelAllocator.hasNext()) {
-                    curTrueUnit = test.generate(levelAllocator.nextLevel());
+                    userInput("");  // 重置为无输入
+                    curTrueUnit = test.generate(levelAllocator.next());
 
                     try {
                         ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
@@ -63,6 +64,8 @@ public class TestController {
                         EventLogger.log(e);
                         throw new RuntimeException(e);
                     }
+
+                    testView.updateGui(curTrueUnit);
                 } else {
                     finishTest();
                     cancel();
@@ -82,6 +85,7 @@ public class TestController {
 
     public void userInput(String name) {
         userInputName = name;
+        testView.updateInput(name);
     }
 
     private void proceedOne() {
@@ -96,16 +100,23 @@ public class TestController {
     }
 
     private void finishTest() {
+        System.out.println(testResultUnits);
 
+        // todo: 关闭测试窗口，记录数据
     }
 
     private static class TestResultUnit {
         private final TestUnit testUnit;
-        private final String userInput;
+        private final String userInput;  // "" if no input
 
         private TestResultUnit(TestUnit testUnit, String userInput) {
             this.testUnit = testUnit;
             this.userInput = userInput;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("Given: %s, input: %s", testUnit, userInput);
         }
     }
 }

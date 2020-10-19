@@ -32,6 +32,14 @@ public class TestUnit {
         return visionLevel;
     }
 
+    @Override
+    public String toString() {
+        return "TestUnit{" +
+                "visionLevel=" + visionLevel +
+                ", testItem=" + testItem +
+                '}';
+    }
+
     public byte[] toByteArray() {
         String name = testItem.getName();
         byte[] array = new byte[19 + name.length()];
