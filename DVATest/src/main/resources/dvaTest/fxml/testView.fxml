@@ -2,10 +2,15 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="dvaTest.gui.TestView"
       prefHeight="400.0" prefWidth="600.0" spacing="10.0">
+
+    <padding>
+        <Insets topRightBottomLeft="5.0"/>
+    </padding>
 
     <Button text="%stopTest" onAction="#stopTest"/>
     <GridPane hgap="20.0" vgap="10.0">

@@ -1,4 +1,4 @@
-package dvaTest.data;
+package common.data;
 
 import dvaTest.connection.ClientManager;
 

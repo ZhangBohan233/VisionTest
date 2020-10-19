@@ -50,7 +50,7 @@ public class TestPrepView implements Initializable {
             stage.setScene(new Scene(root));
 
             TestView testView = loader.getController();
-            testView.setup(testPref);
+            testView.setup(stage, testPref);
 
             stage.show();
 

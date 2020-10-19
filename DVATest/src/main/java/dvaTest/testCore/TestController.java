@@ -37,7 +37,6 @@ public class TestController {
     }
 
     public void start() {
-
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -54,7 +53,7 @@ public class TestController {
                 }
 
                 if (levelAllocator.hasNext()) {
-                    userInput("");  // 重置为无输入
+                    userInput("", "");  // 重置为无输入
                     curTrueUnit = test.generate(levelAllocator.next());
 
                     try {
@@ -83,15 +82,16 @@ public class TestController {
         }
     }
 
-    public void userInput(String name) {
+    public void userInput(String name, String buttonText) {
         userInputName = name;
-        testView.updateInput(name);
+        testView.updateInput(buttonText);
     }
 
     private void proceedOne() {
-        testResultUnits.add(new TestResultUnit(curTrueUnit, userInputName));
+        TestResultUnit tru = new TestResultUnit(curTrueUnit, userInputName);
+        testResultUnits.add(tru);
 
-        if (curTrueUnit.getTestItem().getName().equals(userInputName)) {
+        if (tru.isCorrect()) {
             // 正确的结果
             levelAllocator.correctResult();
         } else {
@@ -103,20 +103,13 @@ public class TestController {
         System.out.println(testResultUnits);
 
         // todo: 关闭测试窗口，记录数据
-    }
-
-    private static class TestResultUnit {
-        private final TestUnit testUnit;
-        private final String userInput;  // "" if no input
-
-        private TestResultUnit(TestUnit testUnit, String userInput) {
-            this.testUnit = testUnit;
-            this.userInput = userInput;
+        try {
+            ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        @Override
-        public String toString() {
-            return String.format("Given: %s, input: %s", testUnit, userInput);
-        }
+        testView.showResult(testResultUnits);
+        testView.closeWindow();
     }
 }

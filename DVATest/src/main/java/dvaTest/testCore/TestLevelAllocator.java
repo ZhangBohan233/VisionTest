@@ -25,7 +25,7 @@ public class TestLevelAllocator {
     }
 
     public boolean hasNext() {
-        return levelTestsCount[curLvIndex] < 5;
+        return levelTestsCount[curLvIndex] < 8;
     }
 
     public int next() {

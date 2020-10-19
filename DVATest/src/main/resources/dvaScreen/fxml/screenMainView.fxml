@@ -4,6 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <VBox prefHeight="400.0" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaScreen.gui.ScreenMainView">
 
@@ -14,6 +16,18 @@
     <ImageView fx:id="logoView"/>
 
     <GridPane hgap="20.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+
         <Label text="%screenResolution"/>
         <ComboBox fx:id="resolutionBox" GridPane.columnIndex="1"/>
 
@@ -26,9 +40,32 @@
         </HBox>
 <!--        <TextField fx:id="screenSizeField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>-->
 
-        <Label text="%screenPpi" GridPane.rowIndex="3"/>
-        <Label fx:id="screenPpiLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="%systemZoom" GridPane.rowIndex="3"/>
+        <HBox spacing="5.0" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <ComboBox fx:id="systemZoomBox" value="125%">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="100%"/>
+                        <String fx:value="125%"/>
+                        <String fx:value="150%"/>
+                        <String fx:value="175%"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <Label text="(?)">
+                <tooltip>
+                    <Tooltip text="%systemZoomInfo"/>
+                </tooltip>
+            </Label>
+        </HBox>
 
+        <Label text="%screenPpi" GridPane.rowIndex="4"/>
+        <Label fx:id="screenPpiLabel" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </GridPane>
+
+    <Separator/>
+
+    <GridPane fx:id="notConnectedPane" hgap="20.0" vgap="10.0">
         <columnConstraints>
             <ColumnConstraints/>
             <ColumnConstraints/>
@@ -37,13 +74,7 @@
             <RowConstraints/>
             <RowConstraints/>
             <RowConstraints/>
-            <RowConstraints/>
         </rowConstraints>
-    </GridPane>
-
-    <Separator/>
-
-    <GridPane fx:id="notConnectedPane" hgap="20.0" vgap="10.0">
 
         <Label text="%connectionHint" GridPane.columnSpan="2"/>
 
@@ -52,16 +83,6 @@
 
         <Label text="%port" GridPane.rowIndex="2"/>
         <Label fx:id="portLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <columnConstraints>
-            <ColumnConstraints/>
-            <ColumnConstraints/>
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints/>
-            <RowConstraints/>
-            <RowConstraints/>
-        </rowConstraints>
-
     </GridPane>
 
     <HBox fx:id="connectedPane">

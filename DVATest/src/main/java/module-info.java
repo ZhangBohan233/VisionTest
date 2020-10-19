@@ -8,12 +8,14 @@ module DVATest {
     exports dvaTest.gui;
     exports dvaTest.gui.widgets;
     exports dvaTest.gui.widgets.inputs;
-    exports dvaScreen;
-    exports dvaScreen.gui;
-    exports dvaScreen.gui.items;
+    exports dvaTest.gui.items;
     exports dvaTest.testCore;
     exports dvaTest.testCore.testItems;
     exports dvaTest.testCore.tests;
+
+    exports dvaScreen;
+    exports dvaScreen.gui;
+    exports dvaScreen.gui.items;
 
     opens dvaScreen.gui;
     opens dvaTest.gui;

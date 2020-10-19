@@ -1,7 +1,7 @@
 package dvaTest.gui;
 
 import dvaTest.connection.ClientManager;
-import dvaTest.data.CacheSaver;
+import common.data.CacheSaver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

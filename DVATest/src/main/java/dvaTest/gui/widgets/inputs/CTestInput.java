@@ -3,8 +3,10 @@ package dvaTest.gui.widgets.inputs;
 import dvaTest.Main;
 import dvaTest.gui.TestView;
 import dvaTest.testCore.testItems.CTestImage;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -30,46 +32,46 @@ public class CTestInput extends TestInput {
     }
 
     @FXML
-    void upLeftClicked() {
-        directionButtonClicked("upLeft");
+    void upLeftClicked(ActionEvent event) {
+        directionButtonClicked("upLeft", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void upClicked() {
-        directionButtonClicked("up");
+    void upClicked(ActionEvent event) {
+        directionButtonClicked("up", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void upRightClicked() {
-        directionButtonClicked("upRight");
+    void upRightClicked(ActionEvent event) {
+        directionButtonClicked("upRight", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void leftClicked() {
-        directionButtonClicked("left");
+    void leftClicked(ActionEvent event) {
+        directionButtonClicked("left", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void rightClicked() {
-        directionButtonClicked("right");
+    void rightClicked(ActionEvent event) {
+        directionButtonClicked("right", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void downLeftClicked() {
-        directionButtonClicked("downLeft");
+    void downLeftClicked(ActionEvent event) {
+        directionButtonClicked("downLeft", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void downClicked() {
-        directionButtonClicked("down");
+    void downClicked(ActionEvent event) {
+        directionButtonClicked("down", ((Button) event.getSource()).getText());
     }
 
     @FXML
-    void downRightClicked() {
-        directionButtonClicked("downRight");
+    void downRightClicked(ActionEvent event) {
+        directionButtonClicked("downRight", ((Button) event.getSource()).getText());
     }
 
-    private void directionButtonClicked(String directionName) {
-        testController.userInput(directionName);
+    private void directionButtonClicked(String directionName, String buttonText) {
+        testController.userInput(directionName, buttonText);
     }
 }

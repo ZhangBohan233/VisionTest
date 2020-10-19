@@ -32,6 +32,9 @@ public class ScreenMainView implements Initializable {
     ComboBox<ResolutionItem> resolutionBox;
 
     @FXML
+    ComboBox<String> systemZoomBox;
+
+    @FXML
     TextField fracField;
 
     @FXML
@@ -85,6 +88,12 @@ public class ScreenMainView implements Initializable {
         double res = ri.getHeight() / (heightInches * 25.4);
         System.out.println(heightInches + " " + res);
         return res;
+    }
+
+    public double getSystemZoom() {
+        String zoomStringPer = systemZoomBox.getValue();
+        String zoomString = zoomStringPer.substring(0, zoomStringPer.length() - 1);
+        return Double.parseDouble(zoomString) / 100;
     }
 
     private void fillResolutionBox() {

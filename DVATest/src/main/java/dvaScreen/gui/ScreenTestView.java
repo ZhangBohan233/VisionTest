@@ -21,6 +21,7 @@ public class ScreenTestView implements Initializable {
 
     private double pixelPerMm;
     private double imageHeight;
+    private double systemZoom;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -38,8 +39,13 @@ public class ScreenTestView implements Initializable {
         }
     }
 
-    public void setPixelPerMm(double pixelPerMm) {
+    /**
+     * @param pixelPerMm 每毫米屏幕（短边）包含的像素行数
+     * @param systemZoom 系统缩放
+     */
+    public void setScreenParams(double pixelPerMm, double systemZoom) {
         this.pixelPerMm = pixelPerMm;
+        this.systemZoom = systemZoom;
     }
 
     public void showGraph(TestUnit testUnit) {
@@ -48,7 +54,7 @@ public class ScreenTestView implements Initializable {
         Image image = new Image(inputStream);
 
         final double graphHeightMm = testUnit.getGraphScale() * testUnit.getTest().standardHeightMm();
-        final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / getWindowsScaling());
+        final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / systemZoom);
 
         Platform.runLater(() -> {
             imageView.setFitHeight(graphHeightPixels);
@@ -61,9 +67,5 @@ public class ScreenTestView implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private double getWindowsScaling() {
-        return 1.25;
     }
 }
