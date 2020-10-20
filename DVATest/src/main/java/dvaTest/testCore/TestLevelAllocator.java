@@ -43,7 +43,7 @@ public class TestLevelAllocator {
             return;
         }
         curLvContCorrCount++;
-        if (curLvContCorrCount >= 3) {
+        if (curLvContCorrCount >= 3 && curLvIndex < totalLevelCount - 1) {
             curLvIndex++;
             curLvContCorrCount = 0;
         }
@@ -60,7 +60,7 @@ public class TestLevelAllocator {
         }
 
         curLvContFailCount++;
-        if (curLvContFailCount >= 3) {
+        if (curLvContFailCount >= 3 && curLvIndex > 0) {
             curLvIndex--;
             curLvContFailCount = 0;
         }

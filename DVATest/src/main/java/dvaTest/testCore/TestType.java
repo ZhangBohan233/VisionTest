@@ -58,4 +58,30 @@ public enum TestType {
         }
         return test;
     }
+
+    @Override
+    public String toString() {
+        if (this == SNELLEN_CHART) {
+            return "snellen";
+        } else if (this == C_CHART) {
+            return "c";
+        } else if (this == E_CHART) {
+            return "e";
+        } else {
+            throw new TestTypeException("Unexpected test type. ");
+        }
+    }
+
+    public static TestType fromString(String s) {
+        switch (s) {
+            case "snellen":
+                return SNELLEN_CHART;
+            case "c":
+                return C_CHART;
+            case "e":
+                return E_CHART;
+            default:
+                throw new TestTypeException("Unexpected test type " + s);
+        }
+    }
 }

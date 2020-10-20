@@ -1,6 +1,8 @@
 *.iml
 *.log
 DVATest/.idea/
+DVATest/data/
+DVATest/cache/
 DVAScreen/.idea/
 
 target/

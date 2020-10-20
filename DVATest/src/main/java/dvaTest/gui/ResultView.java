@@ -1,18 +1,28 @@
 package dvaTest.gui;
 
+import common.Utility;
+import common.data.DataSaver;
 import dvaScreen.gui.items.ResolutionItem;
 import dvaTest.gui.items.ResultTableItem;
-import dvaTest.testCore.TestResultUnit;
+import dvaTest.testCore.ResultRecord;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.net.URL;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class ResultView implements Initializable {
 
@@ -30,8 +40,9 @@ public class ResultView implements Initializable {
 
     private ResourceBundle bundle;
     private Stage thisStage;
+    private boolean saved = false;
 
-    private List<TestResultUnit> resultUnitList;
+    private ResultRecord resultRecord;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -40,17 +51,13 @@ public class ResultView implements Initializable {
         setTableFactory();
     }
 
-    public void setup(Stage stage, List<TestResultUnit> resultUnitList) {
+    public void setup(Stage stage, ResultRecord resultRecord) {
         this.thisStage = stage;
-        this.resultUnitList = resultUnitList;
+        this.resultRecord = resultRecord;
 
-        Map<Double, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
-        for (TestResultUnit tru: resultUnitList) {
-            double visionLevel = tru.getTestUnit().getVisionLevel();
-            int[] res = sucFailMap.computeIfAbsent(visionLevel, k -> new int[2]);
-            if (tru.isCorrect()) res[0]++;
-            else res[1]++;
-        }
+        setOnClose();
+
+        Map<Double, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
 
         for (Map.Entry<Double, int[]> entry : sucFailMap.entrySet()) {
             resultTable.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
@@ -59,10 +66,101 @@ public class ResultView implements Initializable {
         Collections.sort(resultTable.getItems());
     }
 
+    @FXML
+    void saveClicked() {
+        save(false);
+    }
+
     private void setTableFactory() {
         visionLevelCol.setCellValueFactory(new PropertyValueFactory<>("visionLevel"));
         correctCountCol.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
         incorrectCountCol.setCellValueFactory(new PropertyValueFactory<>("incorrectCount"));
         correctRatioCol.setCellValueFactory(new PropertyValueFactory<>("correctRatio"));
+    }
+
+    private void save(boolean closeAfterSave) {
+        Stage dialogStage = new Stage();
+        dialogStage.initOwner(thisStage);
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initStyle(StageStyle.UTILITY);
+        dialogStage.setTitle(bundle.getString("save"));
+
+        Label nameLabel = new Label(bundle.getString("inputSubjectName"));
+        TextField nameField = new TextField();
+        Label messageLabel = new Label();
+        messageLabel.setTextFill(Paint.valueOf("red"));
+
+        Button saveButton = new Button(bundle.getString("save"));
+        Button cancelButton = new Button(bundle.getString("cancel"));
+
+        saveButton.setOnAction(e -> {
+            String subjectName = nameField.getText();
+            if (Utility.isValidFileName(subjectName)) {
+                DataSaver.saveTestResult(subjectName, resultRecord);
+                saved = true;
+                dialogStage.close();
+                if (closeAfterSave) {
+                    thisStage.close();
+                }
+            } else {
+                messageLabel.setText(bundle.getString("invalidSubjectName"));
+            }
+        });
+
+        cancelButton.setOnAction(e -> dialogStage.close());
+
+        HBox buttonBox = new HBox(saveButton, cancelButton);
+        buttonBox.setSpacing(10.0);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox root = new VBox(nameLabel, nameField, messageLabel, buttonBox);
+        root.setPadding(new Insets(5.0));
+        root.setSpacing(10.0);
+
+        dialogStage.setScene(new Scene(root));
+        dialogStage.show();
+    }
+
+    private void askSave() {
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle(bundle.getString("save"));
+        dialogStage.initStyle(StageStyle.UTILITY);
+        dialogStage.initOwner(thisStage);
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+
+        Label askSaveLabel = new Label(bundle.getString("doYouWantToSave"));
+
+        Button saveButton = new Button(bundle.getString("save"));
+        Button notSaveButton = new Button(bundle.getString("notSave"));
+
+        saveButton.setOnAction(e -> {
+            dialogStage.close();
+            save(true);
+        });
+
+        notSaveButton.setOnAction(e -> {
+            dialogStage.close();
+            thisStage.close();
+        });
+
+        HBox buttonBox = new HBox(saveButton, notSaveButton);
+        buttonBox.setSpacing(10.0);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox root = new VBox(askSaveLabel, buttonBox);
+        root.setPadding(new Insets(5.0));
+        root.setSpacing(10.0);
+
+        dialogStage.setScene(new Scene(root));
+        dialogStage.showAndWait();
+    }
+
+    private void setOnClose() {
+        thisStage.setOnCloseRequest(e -> {
+            if (!saved) {
+                e.consume();
+                askSave();
+            }
+        });
     }
 }

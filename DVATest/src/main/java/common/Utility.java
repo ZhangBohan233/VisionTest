@@ -2,6 +2,8 @@ package common;
 
 public class Utility {
 
+    public static final char[] ILLEGAL_NAME_CHARS = {'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
+
     public static void doubleToBytes(double value, byte[] array, int index) {
         long l = Double.doubleToLongBits(value);
         for (int i = 0; i < 8; i++) {
@@ -28,6 +30,13 @@ public class Utility {
     public static double round(double value, int digit) {
         int multiplier = digitMultiplier(digit);
         return (double) Math.round(value * multiplier) / multiplier;
+    }
+
+    public static boolean isValidFileName(String fileName) {
+        for (char c : ILLEGAL_NAME_CHARS) {
+            if (fileName.indexOf(c) >= 0) return false;
+        }
+        return fileName.length() > 0;
     }
 
     public static void main(String[] args) {

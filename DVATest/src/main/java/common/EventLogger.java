@@ -10,10 +10,11 @@ import java.util.Date;
 public class EventLogger {
 
     private static final String LOG_BASE_NAME = "error-";
+    private static final String DATE_FMT = "yyyy-MM-dd HH-mm-ss";
 
     public static void log(Throwable throwable) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FMT);
             String realName = LOG_BASE_NAME + sdf.format(new Date(System.currentTimeMillis())) + ".log";
             FileWriter fileWriter = new FileWriter(realName);
             PrintWriter pw = new PrintWriter(fileWriter);

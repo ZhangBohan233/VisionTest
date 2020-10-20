@@ -76,7 +76,7 @@ public class TestView implements Initializable {
         Platform.runLater(() -> inputLabel.setText(input));
     }
 
-    public void showResult(List<TestResultUnit> resultUnitList) {
+    public void showResult(ResultRecord resultRecord) {
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader =
@@ -88,7 +88,7 @@ public class TestView implements Initializable {
                 windowStage.setScene(new Scene(root));
 
                 ResultView resultView = loader.getController();
-                resultView.setup(windowStage, resultUnitList);
+                resultView.setup(windowStage, resultRecord);
 
                 windowStage.show();
             } catch (IOException e) {
