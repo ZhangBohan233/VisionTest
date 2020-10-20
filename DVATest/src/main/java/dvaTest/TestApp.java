@@ -13,11 +13,11 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class Main extends Application {
+public class TestApp extends Application {
 
     private static ResourceBundle bundle;
 
-    public static void main(String[] args) {
+    public static void run(String[] args) {
         try {
             launch(args);
         } catch (Exception e) {

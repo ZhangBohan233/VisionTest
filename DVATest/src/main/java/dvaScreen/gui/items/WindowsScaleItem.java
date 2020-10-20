@@ -1,6 +1,6 @@
 package dvaScreen.gui.items;
 
-import dvaScreen.Screen;
+import dvaScreen.ScreenApp;
 
 import java.util.List;
 
@@ -32,6 +32,6 @@ public class WindowsScaleItem {
     public String toString() {
         String base = (int) (scale * 100) + "%";
 
-        return autoDetected ? base + Screen.getBundle().getString("autoDetected") : base;
+        return autoDetected ? base + ScreenApp.getBundle().getString("autoDetected") : base;
     }
 }

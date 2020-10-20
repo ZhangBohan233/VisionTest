@@ -1,6 +1,6 @@
 package dvaScreen.gui.items;
 
-import dvaScreen.Screen;
+import dvaScreen.ScreenApp;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class ResolutionItem {
     public String toString() {
         String base = width + "X" + height;
 
-        return isAutoDetected ? base + Screen.getBundle().getString("autoDetected") : base;
+        return isAutoDetected ? base + ScreenApp.getBundle().getString("autoDetected") : base;
     }
 
     public int getHeight() {

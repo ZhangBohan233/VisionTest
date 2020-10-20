@@ -1,7 +1,7 @@
 package dvaTest.gui;
 
 import common.EventLogger;
-import dvaTest.Main;
+import dvaTest.TestApp;
 import dvaTest.connection.ClientManager;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
@@ -50,7 +50,7 @@ public class MainView implements Initializable {
 
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/dvaTest/fxml/connectionView.fxml"),
-                        Main.getBundle());
+                        TestApp.getBundle());
         Parent root = loader.load();
 
         stage.setTitle(bundle.getString("connectionTitle"));

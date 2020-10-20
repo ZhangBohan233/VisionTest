@@ -1,8 +1,6 @@
 package dvaTest.gui.widgets.inputs;
 
-import dvaTest.Main;
-import dvaTest.gui.TestView;
-import dvaTest.testCore.testItems.CTestImage;
+import dvaTest.TestApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,7 @@ import java.util.ResourceBundle;
 
 public class CTestInput extends TestInput {
 
-    static final ResourceBundle bundle = Main.getBundle();
+    static final ResourceBundle bundle = TestApp.getBundle();
 
     public CTestInput() {
         super();
