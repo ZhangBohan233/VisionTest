@@ -27,12 +27,12 @@
         <Label text="%currentLevel"/>
         <Label fx:id="levelLabel" GridPane.columnIndex="1"/>
 
-        <Label text="%currentInput" GridPane.rowIndex="1">
+        <Label text="%currentInput" GridPane.rowIndex="1"/>
+        <Label fx:id="inputLabel" GridPane.rowIndex="1" GridPane.columnIndex="1">
             <font>
                 <Font name="System Bold" size="20"/>
             </font>
         </Label>
-        <Label fx:id="inputLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
     </GridPane>
 
     <Pane fx:id="inputContainer"/>

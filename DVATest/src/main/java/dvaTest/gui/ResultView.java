@@ -90,13 +90,16 @@ public class ResultView implements Initializable {
         Label messageLabel = new Label();
         messageLabel.setTextFill(Paint.valueOf("red"));
 
+        Label noteLabel = new Label(bundle.getString("note"));
+        TextArea noteArea = new TextArea();
+
         Button saveButton = new Button(bundle.getString("save"));
         Button cancelButton = new Button(bundle.getString("cancel"));
 
         saveButton.setOnAction(e -> {
             String subjectName = nameField.getText();
             if (Utility.isValidFileName(subjectName)) {
-                DataSaver.saveTestResult(subjectName, resultRecord);
+                DataSaver.saveTestResult(subjectName, resultRecord, noteArea.getText());
                 saved = true;
                 dialogStage.close();
                 if (closeAfterSave) {
@@ -113,7 +116,7 @@ public class ResultView implements Initializable {
         buttonBox.setSpacing(10.0);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
-        VBox root = new VBox(nameLabel, nameField, messageLabel, buttonBox);
+        VBox root = new VBox(nameLabel, nameField, noteLabel, noteArea, messageLabel, buttonBox);
         root.setPadding(new Insets(5.0));
         root.setSpacing(10.0);
 

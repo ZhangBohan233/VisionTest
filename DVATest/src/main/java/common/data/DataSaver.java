@@ -16,7 +16,7 @@ public class DataSaver {
     private static final SimpleDateFormat NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static void saveTestResult(String subjectName, ResultRecord resultRecord) {
+    public static void saveTestResult(String subjectName, ResultRecord resultRecord, String note) {
         createDirsIfNone();
 
         File subjectDir = new File(DATA_DIR + File.separator + subjectName);
@@ -33,6 +33,7 @@ public class DataSaver {
         base.put("time", dateStr);
         base.put("type", resultRecord.testType.toString());
         base.put("interval", resultRecord.intervalMills);
+        base.put("note", note);
 
         JSONArray resultArray = new JSONArray();
         for (ResultRecord.RecordUnit ru : resultRecord.recordUnits) {
