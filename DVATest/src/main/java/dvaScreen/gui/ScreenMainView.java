@@ -3,14 +3,18 @@ package dvaScreen.gui;
 import common.Utility;
 import dvaScreen.connection.ServerManager;
 import dvaScreen.gui.items.ResolutionItem;
+import dvaScreen.gui.items.WindowsScaleItem;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,7 +36,7 @@ public class ScreenMainView implements Initializable {
     ComboBox<ResolutionItem> resolutionBox;
 
     @FXML
-    ComboBox<String> systemZoomBox;
+    ComboBox<WindowsScaleItem> systemZoomBox;
 
     @FXML
     TextField fracField;
@@ -55,7 +59,9 @@ public class ScreenMainView implements Initializable {
 
         setSpinners();
         addPpiGroupListeners();
-        fillResolutionBox();
+        fillBoxes();
+
+        setAutoDetected();
 //        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C1.png");
 //        Image image = new Image(inputStream);
 //
@@ -91,14 +97,15 @@ public class ScreenMainView implements Initializable {
     }
 
     public double getSystemZoom() {
-        String zoomStringPer = systemZoomBox.getValue();
-        String zoomString = zoomStringPer.substring(0, zoomStringPer.length() - 1);
-        return Double.parseDouble(zoomString) / 100;
+        return systemZoomBox.getValue().getScale();
     }
 
-    private void fillResolutionBox() {
-        resolutionBox.getItems().addAll(ResolutionItem.resolutionItems);
-        resolutionBox.getSelectionModel().select(ResolutionItem.DEFAULT_INDEX);
+    private void fillBoxes() {
+        resolutionBox.getItems().addAll(ResolutionItem.RESOLUTION_ITEMS);
+        resolutionBox.getSelectionModel().select(0);
+
+        systemZoomBox.getItems().addAll(WindowsScaleItem.SCALE_ITEMS);
+        systemZoomBox.getSelectionModel().select(0);
     }
 
     private void setSpinners() {
@@ -118,6 +125,52 @@ public class ScreenMainView implements Initializable {
 
         intSpinner.setValueFactory(intFactory);
         intFactory.setValue(15);
+    }
+
+    private void setAutoDetected() {
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        double windowsWidth = screen.getWidth();
+        double windowsHeight = screen.getHeight();
+        DisplayMode mode = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+        int hardwareWidth = mode.getWidth();
+        int hardwareHeight = mode.getHeight();
+
+        double zoomFactor = hardwareHeight / windowsHeight;
+
+        setAutoDetectedResolution(hardwareWidth, hardwareHeight);
+        setAutoDetectedScale(zoomFactor);
+    }
+
+    private void setAutoDetectedResolution(int width, int height) {
+        int index = 0;
+        for (ResolutionItem ri : resolutionBox.getItems()) {
+            if (ri.getWidth() == width && ri.getHeight() == height) {
+                ri.setAutoDetected(true);
+                resolutionBox.getSelectionModel().select(index);
+                return;
+            }
+            index++;
+        }
+        ResolutionItem ri = new ResolutionItem(width, height);
+        ri.setAutoDetected(true);
+        resolutionBox.getItems().add(0, ri);
+        resolutionBox.getSelectionModel().select(0);
+    }
+
+    private void setAutoDetectedScale(double scale) {
+        int index = 0;
+        for (WindowsScaleItem wsi : systemZoomBox.getItems()) {
+            if (wsi.getScale() == scale) {
+                wsi.setAutoDetected(true);
+                systemZoomBox.getSelectionModel().select(index);
+                return;
+            }
+            index++;
+        }
+        WindowsScaleItem wsi = new WindowsScaleItem(scale);
+        wsi.setAutoDetected(true);
+        systemZoomBox.getItems().add(0, wsi);
+        systemZoomBox.getSelectionModel().select(0);
     }
 
     private void addPpiGroupListeners() {

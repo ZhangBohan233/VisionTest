@@ -6,12 +6,13 @@ import java.util.List;
 
 public class ResolutionItem {
 
-    public static List<ResolutionItem> resolutionItems = List.of(
+    public static final List<ResolutionItem> RESOLUTION_ITEMS = List.of(
             new ResolutionItem(1024, 768),
             new ResolutionItem(1280, 720),
             new ResolutionItem(1280, 960),
             new ResolutionItem(1280, 1024),
             new ResolutionItem(1366, 768),
+            new ResolutionItem(1536, 864),
             new ResolutionItem(1680, 1050),
             new ResolutionItem(1920, 1080),
             new ResolutionItem(2560, 1440),
@@ -20,7 +21,7 @@ public class ResolutionItem {
             new ResolutionItem(4096, 2304)
     );
 
-    public static final int DEFAULT_INDEX = 6;
+    public static final int DEFAULT_INDEX = 7;
 
     private final int width;
     private final int height;

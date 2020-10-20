@@ -42,16 +42,7 @@
 
         <Label text="%systemZoom" GridPane.rowIndex="3"/>
         <HBox spacing="5.0" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
-            <ComboBox fx:id="systemZoomBox" value="125%">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="100%"/>
-                        <String fx:value="125%"/>
-                        <String fx:value="150%"/>
-                        <String fx:value="175%"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
+            <ComboBox fx:id="systemZoomBox" value="125%"/>
             <Label text="(?)">
                 <tooltip>
                     <Tooltip text="%systemZoomInfo"/>

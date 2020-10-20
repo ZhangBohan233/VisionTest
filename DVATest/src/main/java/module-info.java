@@ -4,6 +4,7 @@ module DVATest {
     requires javafx.graphics;
     requires javafx.fxml;
     requires org.json;
+    requires java.desktop;
 
     exports dvaTest;
     exports dvaTest.gui;
