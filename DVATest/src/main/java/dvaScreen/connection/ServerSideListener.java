@@ -78,6 +78,8 @@ public class ServerSideListener extends Thread {
                 disconnected = true;
                 mainView.setDisconnectedUi();
                 break;
+            default:
+                System.err.println("Unknown signal received by server: " + signal);
         }
     }
 
@@ -87,6 +89,8 @@ public class ServerSideListener extends Thread {
                 TestUnit testUnit = TestUnit.fromByteArray(array);
                 screenTestView.showGraph(testUnit);
                 break;
+            default:
+                System.err.println("Unknown signal received by server: " + array[0]);
         }
     }
 
@@ -100,7 +104,7 @@ public class ServerSideListener extends Thread {
 
                 screenTestStage = new Stage();
                 screenTestStage.setMaximized(true);
-                screenTestStage.setOnHidden(e -> {
+                screenTestStage.setOnCloseRequest(e -> {
                     try {
                         ServerManager.getCurrentServer().sendMessage(Signals.SCREEN_INTERRUPT);
                     } catch (IOException ioException) {

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -67,6 +68,11 @@ public class CTestInput extends TestInput {
     @FXML
     void downRightClicked(ActionEvent event) {
         directionButtonClicked("downRight", ((Button) event.getSource()).getText());
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+
     }
 
     private void directionButtonClicked(String directionName, String buttonText) {

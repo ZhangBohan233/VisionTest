@@ -38,12 +38,12 @@ public class Client extends Thread {
         sendMessage(testUnit.toByteArray());
     }
 
-    void disconnectFromServer() throws IOException {
+    synchronized void disconnectFromServer() throws IOException {
         sendMessage(Signals.DISCONNECT_BY_CLIENT);
         shutdown();
     }
 
-    private void shutdown() throws IOException {
+    private synchronized void shutdown() throws IOException {
         disconnected = true;
         clientSocket.shutdownInput();
         clientSocket.shutdownOutput();
@@ -62,7 +62,7 @@ public class Client extends Thread {
                 InputStream inputStream = clientSocket.getInputStream();
                 int read;
                 while (!(disconnected || clientSocket.isInputShutdown()) &&
-                        (read = inputStream.read(buf)) >= 0) {
+                        (read = inputStream.read(buf)) > 0) {
                     if (read == 1) {
                         processSignal(buf[0]);
                     } else {
@@ -77,7 +77,7 @@ public class Client extends Thread {
             }
         }
 
-        private void processSignal(byte b) throws IOException {
+        private synchronized void processSignal(byte b) throws IOException {
             switch (b) {
                 case Signals.DISCONNECT_BY_SERVER:
                     disconnected = true;
@@ -85,6 +85,8 @@ public class Client extends Thread {
                     ClientManager.discardCurrentClient();
                     mainView.setDisconnected();
                     break;
+                default:
+                    throw new IOException("Unknown signal " + b);
             }
         }
     }

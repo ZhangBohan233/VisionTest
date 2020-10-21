@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -47,6 +49,19 @@ public class StdLogTestInput extends TestInput {
     @FXML
     void downClicked(ActionEvent event) {
         directionButtonClicked("down", ((Button) event.getSource()).getText());
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.UP) {
+            directionButtonClicked("up", "↑");
+        } else if (keyEvent.getCode() == KeyCode.DOWN) {
+            directionButtonClicked("down", "↓");
+        } else if (keyEvent.getCode() == KeyCode.LEFT) {
+            directionButtonClicked("left", "←");
+        } else if (keyEvent.getCode() == KeyCode.RIGHT) {
+            directionButtonClicked("right", "→");
+        }
     }
 
     private void directionButtonClicked(String directionName, String buttonText) {

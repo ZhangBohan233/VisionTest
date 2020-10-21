@@ -18,24 +18,28 @@
             <RowConstraints/>
             <RowConstraints/>
         </rowConstraints>
-        <Button text="↑" onAction="#upClicked" GridPane.columnIndex="1" prefWidth="60.0" prefHeight="60.0">
+        <Button text="↑" onAction="#upClicked" GridPane.columnIndex="1"
+                prefWidth="60.0" prefHeight="60.0">
             <font>
                 <Font name="System Bold" size="24.0"/>
             </font>
         </Button>
-        <Button text="←" onAction="#leftClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="60.0"
+        <Button text="←" onAction="#leftClicked" GridPane.rowIndex="1"
+                GridPane.columnIndex="0" prefWidth="60.0"
                 prefHeight="60.0">
             <font>
                 <Font name="System Bold" size="24.0"/>
             </font>
         </Button>
-        <Button text="→" onAction="#rightClicked" GridPane.rowIndex="1" GridPane.columnIndex="2" prefWidth="60.0"
+        <Button text="→" onAction="#rightClicked" GridPane.rowIndex="1"
+                GridPane.columnIndex="2" prefWidth="60.0"
                 prefHeight="60.0">
             <font>
                 <Font name="System Bold" size="24.0"/>
             </font>
         </Button>
-        <Button text="↓" onAction="#downClicked" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="60.0"
+        <Button text="↓" onAction="#downClicked" GridPane.rowIndex="2"
+                GridPane.columnIndex="1" prefWidth="60.0"
                 prefHeight="60.0">
             <font>
                 <Font name="System Bold" size="24.0"/>

@@ -9,18 +9,22 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class TestView implements Initializable {
+
+    @FXML
+    Pane rootPane;
 
     @FXML
     Pane inputContainer;
@@ -64,6 +68,8 @@ public class TestView implements Initializable {
 
         testInput = makeTestInput(testPref, testController);
         inputContainer.getChildren().add(testInput);
+
+        setAllOnKeyPressed(rootPane);
     }
 
     public void start() {
@@ -108,5 +114,21 @@ public class TestView implements Initializable {
     @FXML
     void stopTest() {
         testController.stop();
+    }
+
+    @FXML
+    void keyPressedAction(KeyEvent keyEvent) {
+//        keyEvent.consume();
+//        System.out.println(keyEvent);
+        testInput.keyPressed(keyEvent);
+    }
+
+    private void setAllOnKeyPressed(Node node) {
+        node.setOnKeyPressed(this::keyPressedAction);
+        if (node instanceof Pane) {
+            for (Node child : ((Pane) node).getChildren()) {
+                setAllOnKeyPressed(child);
+            }
+        }
     }
 }
