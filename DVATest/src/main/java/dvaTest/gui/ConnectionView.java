@@ -33,20 +33,23 @@ public class ConnectionView implements Initializable {
         addIpFieldListener();
         addPortFieldListener();
 
-        portField.setText(CacheSaver.getLastUsedPort());
+        restoreFromCache();
     }
 
     @FXML
     void onConnectClicked() {
+        String portText;
         int port;
         try {
-            port = Integer.parseInt(portField.getText());
+            portText = portField.getText();
+            port = Integer.parseInt(portText);
         } catch (NumberFormatException e) {
             msgLabel.setTextFill(Paint.valueOf("red"));
             msgLabel.setText(bundle.getString("invalidPortInput"));
             return;
         }
         String ipAddress = ipField.getText();
+        CacheSaver.TestCache.writePortAndIp(portText, ipAddress);
         try {
             ClientManager.startClient(ipAddress, port, parent);
 
@@ -100,5 +103,11 @@ public class ConnectionView implements Initializable {
             }
             portField.setText(t1);
         }));
+    }
+
+    private void restoreFromCache() {
+        String[] portIp = CacheSaver.TestCache.getLastUsedPortAndIp();
+        portField.setText(portIp[0]);
+        ipField.setText(portIp[1]);
     }
 }

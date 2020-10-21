@@ -13,7 +13,7 @@ import java.util.Date;
 public class DataSaver {
 
     public static final String DATA_DIR = "data";
-    private static final SimpleDateFormat NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+    private static final SimpleDateFormat NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm");
     private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void saveTestResult(String subjectName, ResultRecord resultRecord, String note) {

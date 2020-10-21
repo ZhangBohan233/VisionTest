@@ -1,6 +1,7 @@
 package dvaScreen.gui;
 
 import common.Utility;
+import common.data.CacheSaver;
 import dvaScreen.connection.ServerManager;
 import dvaScreen.gui.items.ResolutionItem;
 import dvaScreen.gui.items.WindowsScaleItem;
@@ -61,13 +62,8 @@ public class ScreenMainView implements Initializable {
         addPpiGroupListeners();
         fillBoxes();
 
+        restoreFromCache();
         setAutoDetected();
-//        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C1.png");
-//        Image image = new Image(inputStream);
-//
-//        logoView.setPreserveRatio(true);
-//        logoView.setFitWidth(800.0);
-//        logoView.setImage(image);
     }
 
     public void setup(Stage stage) {
@@ -100,6 +96,10 @@ public class ScreenMainView implements Initializable {
         return systemZoomBox.getValue().getScale();
     }
 
+    public void storeToCache() {
+        CacheSaver.ScreenCache.writeScreenSize(getScreenSize());
+    }
+
     private void fillBoxes() {
         resolutionBox.getItems().addAll(ResolutionItem.RESOLUTION_ITEMS);
         resolutionBox.getSelectionModel().select(0);
@@ -124,12 +124,12 @@ public class ScreenMainView implements Initializable {
         };
 
         intSpinner.setValueFactory(intFactory);
-        intFactory.setValue(15);
+        intFactory.setValue(24);
     }
 
     private void setAutoDetected() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        double windowsWidth = screen.getWidth();
+//        double windowsWidth = screen.getWidth();
         double windowsHeight = screen.getHeight();
         DisplayMode mode = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
         int hardwareWidth = mode.getWidth();
@@ -205,27 +205,10 @@ public class ScreenMainView implements Initializable {
     private void setScreenSize(double value) {
         int intPart = (int) value;
         intFactory.setValue(intPart);
-        fracField.setText(String.valueOf(value - intPart).substring(2));
+        String fracWithDot = String.valueOf(Utility.round(value - intPart, 2));
+        String frac = fracWithDot.substring(fracWithDot.indexOf('.') + 1);
+        fracField.setText(frac);
     }
-
-//    void showConnectionView() {
-//        try {
-//            FXMLLoader loader =
-//                    new FXMLLoader(getClass().getResource("/dvaScreen/fxml/screenConnectionView.fxml"), bundle);
-//            Parent root = loader.load();
-//
-//            connectionStage = new Stage();
-//            connectionStage.initOwner(stage);
-//            connectionStage.initModality(Modality.WINDOW_MODAL);
-//
-//            connectionStage.setTitle(bundle.getString("connectComputer"));
-//            connectionStage.setScene(new Scene(root));
-//
-//            connectionStage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     public void setConnectedUi() {
         connectedPane.setVisible(true);
@@ -243,5 +226,9 @@ public class ScreenMainView implements Initializable {
 
     public ResourceBundle getBundle() {
         return bundle;
+    }
+
+    private void restoreFromCache() {
+        setScreenSize(CacheSaver.ScreenCache.getLastScreenSize());
     }
 }

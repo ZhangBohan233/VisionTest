@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class ClientManager {
     public static final int DEFAULT_PORT = 3456;
+    public static final String DEFAULT_IP = "192.168.186.1";
 
     private static Client currentClient;
 
