@@ -5,6 +5,7 @@ import dvaTest.TestApp;
 import dvaTest.connection.ClientManager;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -95,14 +96,16 @@ public class MainView implements Initializable {
     }
 
     public void setDisconnected() {
-        needDisplayDeviceBox.setManaged(true);
-        needDisplayDeviceBox.setVisible(true);
+        Platform.runLater(() -> {
+            needDisplayDeviceBox.setManaged(true);
+            needDisplayDeviceBox.setVisible(true);
 
-        connectionBox.setManaged(false);
-        connectionBox.setVisible(false);
+            connectionBox.setManaged(false);
+            connectionBox.setVisible(false);
 
-        distVisionPane.setDisable(true);
-        distVisionPane.setExpanded(false);
+            distVisionPane.setDisable(true);
+            distVisionPane.setExpanded(false);
+        });
     }
 
     private void showTestView(TestType testType) {

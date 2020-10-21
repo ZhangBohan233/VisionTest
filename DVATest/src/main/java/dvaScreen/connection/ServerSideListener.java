@@ -16,16 +16,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-public class Listener extends Thread {
+public class ServerSideListener extends Thread {
 
-    private ScreenMainView mainView;
-    private Socket client;
+    private final ScreenMainView mainView;
+    private final Server server;
+    private final Socket client;
     private Stage screenTestStage;
     private ScreenTestView screenTestView;
+    private boolean disconnected;
 
-    Listener(ScreenMainView mainView, Socket client) {
+    ServerSideListener(ScreenMainView mainView, Server server, Socket client) {
         this.client = client;
         this.mainView = mainView;
+        this.server = server;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class Listener extends Thread {
             byte[] buf = new byte[1024];
             InputStream inputStream = client.getInputStream();
             int read;
-            while (!client.isInputShutdown() && (read = inputStream.read(buf)) >= 0) {
+            while (!(client.isInputShutdown() || disconnected) && (read = inputStream.read(buf)) >= 0) {
                 if (read == 1) {  // 单个信号
                     processSignal(buf[0]);
                 } else if (read > 0) {
@@ -43,6 +46,7 @@ public class Listener extends Thread {
                     processSignal(array);
                 }
             }
+            server.startListening();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,17 +69,11 @@ public class Listener extends Thread {
                 break;
 
             case Signals.STOP_TEST:
-                Platform.runLater(() -> {
-                    screenTestStage.close();
-                });
+                Platform.runLater(() -> screenTestStage.close());
                 break;
-            case Signals.DISCONNECT:
-                try {
-                    client.close();
-                    mainView.setDisconnectedUi();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+            case Signals.DISCONNECT_FROM_CLIENT:
+                disconnected = true;
+                mainView.setDisconnectedUi();
                 break;
         }
     }

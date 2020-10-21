@@ -1,5 +1,6 @@
 package dvaScreen.connection;
 
+import common.Signals;
 import dvaScreen.gui.ScreenMainView;
 
 import java.io.IOException;
@@ -23,16 +24,23 @@ public class Server extends Thread {
     public void run() {
         try {
             serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
-            clientSocket = serverSocket.accept();
-
-            Listener listener = new Listener(mainView, clientSocket);
-            listener.start();
-        } catch (SocketException e) {
-            // No client has connected
+            startListening();
         } catch (IOException e) {
             e.printStackTrace();
             throw new ServerException();
         }
+    }
+
+    public void startListening() throws IOException {
+        try {
+            clientSocket = serverSocket.accept();
+        } catch (SocketException e) {
+            // No client has connected
+            return;
+        }
+
+        ServerSideListener listener = new ServerSideListener(mainView, this, clientSocket);
+        listener.start();
     }
 
     public Socket getClientSocket() {
@@ -43,15 +51,18 @@ public class Server extends Thread {
         if (serverSocket == null) {
             throw new IOException("Server not started.");
         }
-        if (clientSocket != null) {
-            clientSocket.shutdownInput();
-            clientSocket.shutdownOutput();
-            clientSocket.close();
+        if (clientSocket != null && !clientSocket.isClosed()) {
+            sendMessage(Signals.DISCONNECT_FROM_SERVER);
         }
+//        if (clientSocket != null && !clientSocket.isClosed()) {
+//            clientSocket.shutdownInput();
+//            clientSocket.shutdownOutput();
+//            clientSocket.close();
+//        }
         serverSocket.close();
     }
 
-    public void sendMessage(byte signal) throws IOException {
+    public synchronized void sendMessage(byte signal) throws IOException {
         clientSocket.getOutputStream().write(signal);
     }
 }
