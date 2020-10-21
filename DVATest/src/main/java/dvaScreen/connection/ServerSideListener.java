@@ -46,7 +46,7 @@ public class ServerSideListener extends Thread {
                     processSignal(array);
                 }
             }
-            server.startListening();
+            server.startListening();  // 当前连接断开，准备连接下一个客户端
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,11 +67,14 @@ public class ServerSideListener extends Thread {
             case Signals.SHOW_C:
                 showTestScreen(TestType.C_CHART);
                 break;
+            case Signals.SHOW_STD_LOG:
+                showTestScreen(TestType.STD_LOG_CHART);
+                break;
 
             case Signals.STOP_TEST:
                 Platform.runLater(() -> screenTestStage.close());
                 break;
-            case Signals.DISCONNECT_FROM_CLIENT:
+            case Signals.DISCONNECT_BY_CLIENT:
                 disconnected = true;
                 mainView.setDisconnectedUi();
                 break;
@@ -107,7 +110,6 @@ public class ServerSideListener extends Thread {
 
                 screenTestView = loader.getController();
                 screenTestView.setScreenParams(mainView.getPixelsPerMm(), mainView.getSystemZoom());
-//                controller.setStage(primaryStage);
 
                 screenTestStage.setTitle(testType.show(mainView.getBundle()));
                 screenTestStage.setScene(new Scene(root));

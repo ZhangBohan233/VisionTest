@@ -12,6 +12,7 @@ public class Client extends Thread {
 
     private final MainView mainView;
     private final Socket clientSocket;
+    private boolean disconnected;
 
     Client(String address, int port, MainView mainView) throws IOException {
         this.mainView = mainView;
@@ -38,19 +39,18 @@ public class Client extends Thread {
     }
 
     void disconnectFromServer() throws IOException {
-        sendMessage(Signals.DISCONNECT_FROM_CLIENT);
+        sendMessage(Signals.DISCONNECT_BY_CLIENT);
         shutdown();
     }
 
     private void shutdown() throws IOException {
+        disconnected = true;
         clientSocket.shutdownInput();
         clientSocket.shutdownOutput();
         clientSocket.close();
     }
 
     class Listener extends Thread {
-
-        private boolean disconnected;
 
         Listener() {
         }
@@ -61,7 +61,8 @@ public class Client extends Thread {
                 byte[] buf = new byte[1024];
                 InputStream inputStream = clientSocket.getInputStream();
                 int read;
-                while (!(disconnected || clientSocket.isInputShutdown()) && (read = inputStream.read(buf)) >= 0) {
+                while (!(disconnected || clientSocket.isInputShutdown()) &&
+                        (read = inputStream.read(buf)) >= 0) {
                     if (read == 1) {
                         processSignal(buf[0]);
                     } else {
@@ -69,6 +70,8 @@ public class Client extends Thread {
                     }
                 }
 
+            } catch (SocketException e) {
+                // 从客户端断开了连接
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -76,7 +79,7 @@ public class Client extends Thread {
 
         private void processSignal(byte b) throws IOException {
             switch (b) {
-                case Signals.DISCONNECT_FROM_SERVER:
+                case Signals.DISCONNECT_BY_SERVER:
                     disconnected = true;
                     shutdown();
                     ClientManager.discardCurrentClient();

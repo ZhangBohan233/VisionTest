@@ -52,7 +52,7 @@ public class Server extends Thread {
             throw new IOException("Server not started.");
         }
         if (clientSocket != null && !clientSocket.isClosed()) {
-            sendMessage(Signals.DISCONNECT_FROM_SERVER);
+            sendMessage(Signals.DISCONNECT_BY_SERVER);
         }
 //        if (clientSocket != null && !clientSocket.isClosed()) {
 //            clientSocket.shutdownInput();

@@ -5,16 +5,6 @@ public class TestPref {
     private TestType testType;
     private long frameTimeMills;
 
-    /**
-     *
-     */
-    private int maxRepeat = 10;
-
-    /**
-     * 如连续答对此数量，直接跳级
-     */
-    private int directLevelUpCount = 3;
-
     public static class TestPrefBuilder {
         private final TestPref testPref = new TestPref();
 

@@ -33,7 +33,7 @@
             <Button text="%snellenChart" onAction="#snellenChartClicked"/>
             <Button text="%eChart" onAction="#eChartClicked"/>
             <Button text="%cChart" onAction="#cChartClicked"/>
-            <Button/>
+            <Button text="%stdLogChart" onAction="#stdLogChartClicked"/>
         </HBox>
     </TitledPane>
 

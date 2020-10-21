@@ -1,6 +1,7 @@
 package dvaTest.gui;
 
 import dvaTest.gui.widgets.inputs.CTestInput;
+import dvaTest.gui.widgets.inputs.StdLogTestInput;
 import dvaTest.gui.widgets.inputs.TestInput;
 import dvaTest.testCore.*;
 import dvaTest.testCore.tests.TestUnit;
@@ -39,8 +40,11 @@ public class TestView implements Initializable {
 
     static TestInput makeTestInput(TestPref testPref, TestController testController) {
         TestInput testInput;
+        // TODO: test type
         if (testPref.getTestType() == TestType.C_CHART) {
             testInput = new CTestInput();
+        } else if (testPref.getTestType() == TestType.STD_LOG_CHART) {
+            testInput = new StdLogTestInput();
         } else {
             throw new TestTypeException("No such test type");
         }

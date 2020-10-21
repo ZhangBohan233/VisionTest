@@ -84,6 +84,11 @@ public class MainView implements Initializable {
         showTestView(TestType.E_CHART);
     }
 
+    @FXML
+    void stdLogChartClicked() {
+        showTestView(TestType.STD_LOG_CHART);
+    }
+
     void setConnected() {
         needDisplayDeviceBox.setManaged(false);
         needDisplayDeviceBox.setVisible(false);

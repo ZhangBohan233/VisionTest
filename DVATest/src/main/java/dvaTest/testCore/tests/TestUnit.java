@@ -44,7 +44,7 @@ public class TestUnit {
         String name = testItem.getName();
         byte[] array = new byte[19 + name.length()];
         array[0] = Signals.NEXT_TEST_UNIT;
-        array[1] = testItem.testType().toByte();
+        array[1] = testItem.getTestType().toByte();
         Utility.doubleToBytes(visionLevel, array, 2);
         Utility.doubleToBytes(graphScale, array, 10);
 

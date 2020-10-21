@@ -1,9 +1,9 @@
 package dvaTest.testCore;
 
 import common.Signals;
-import dvaTest.testCore.testItems.CTestImage;
 import dvaTest.testCore.testItems.TestImage;
 import dvaTest.testCore.tests.CTest;
+import dvaTest.testCore.tests.StdLogTest;
 import dvaTest.testCore.tests.Test;
 
 import java.util.Collection;
@@ -13,7 +13,8 @@ import java.util.ResourceBundle;
 public enum TestType {
     SNELLEN_CHART("snellenChart", Signals.SHOW_SNELLEN, null),
     C_CHART("cChart", Signals.SHOW_C, CTest.ITEMS),
-    E_CHART("eChart", Signals.SHOW_E, null);
+    E_CHART("eChart", Signals.SHOW_E, null),
+    STD_LOG_CHART("stdLogChart", Signals.SHOW_STD_LOG, null);
 
     private final String bundleKey;
     private final byte signal;
@@ -47,12 +48,15 @@ public enum TestType {
 
     public Test getStaticTest() {
         Test test;
+        // TODO: test type
         if (this == SNELLEN_CHART) {
             test = null;
         } else if (this == C_CHART) {
             test = CTest.CTEST;
         } else if (this == E_CHART) {
             test = null;
+        } else if (this == STD_LOG_CHART) {
+            test = StdLogTest.STD_LOG_TEST;
         } else {
             throw new TestTypeException("Unexpected test type. ");
         }
@@ -67,6 +71,8 @@ public enum TestType {
             return "c";
         } else if (this == E_CHART) {
             return "e";
+        } else if (this == STD_LOG_CHART) {
+            return "stdLog";
         } else {
             throw new TestTypeException("Unexpected test type. ");
         }
@@ -80,6 +86,8 @@ public enum TestType {
                 return C_CHART;
             case "e":
                 return E_CHART;
+            case "stdLog":
+                return STD_LOG_CHART;
             default:
                 throw new TestTypeException("Unexpected test type " + s);
         }
