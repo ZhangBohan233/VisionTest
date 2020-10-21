@@ -1,5 +1,6 @@
 package dvaScreen.gui;
 
+import dvaTest.testCore.TestController;
 import dvaTest.testCore.tests.TestUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -23,17 +24,23 @@ public class ScreenTestView implements Initializable {
     private double imageHeight;
     private double systemZoom;
 
+    private Image blankImage;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
 
-        InputStream inputStream = getClass().getResourceAsStream("/common/images/c/C100.png");
-        Image image = new Image(inputStream);
+        InputStream inputStream1 = getClass().getResourceAsStream("/common/images/c/C100.png");
+        Image image = new Image(inputStream1);
         imageView.setFitHeight(500);
         imageView.setImage(image);
 
+        InputStream inputStream2 = getClass().getResourceAsStream("/common/images/c/C_BLANK.jpg");
+        blankImage = new Image(inputStream2);
+
         try {
-            inputStream.close();
+            inputStream1.close();
+            inputStream2.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,6 +62,17 @@ public class ScreenTestView implements Initializable {
 
         final double graphHeightMm = testUnit.getGraphScale() * testUnit.getTest().standardHeightMm();
         final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / systemZoom);
+
+        Platform.runLater(() -> {
+            imageView.setImage(blankImage);
+            System.out.println("Blank");
+        });
+
+        try {
+            Thread.sleep(TestController.BLANK_WAIT_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Platform.runLater(() -> {
             imageView.setFitHeight(graphHeightPixels);

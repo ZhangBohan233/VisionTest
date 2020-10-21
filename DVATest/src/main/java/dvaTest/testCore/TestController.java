@@ -15,6 +15,12 @@ import java.util.TimerTask;
 
 public class TestController {
 
+    /**
+     * 切换图片的等待时间
+     * 在此期间将不会显示任何图片
+     */
+    public static final long BLANK_WAIT_TIME = 500;
+
     private final TestPref testPref;
     private final TestView testView;
     private final Test test;
@@ -70,7 +76,7 @@ public class TestController {
                     cancel();
                 }
             }
-        }, 0, testPref.getFrameTimeMills());
+        }, 0, testPref.getFrameTimeMills() + BLANK_WAIT_TIME);
     }
 
     public void stop() {
