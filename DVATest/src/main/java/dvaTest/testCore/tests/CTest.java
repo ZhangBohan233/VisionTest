@@ -21,7 +21,10 @@ public class CTest extends Test {
     public static final CTest CTEST = new CTest(ITEMS);
 
     private CTest(Map<String, TestImage> testImages) {
-        super(new double[]{0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5}, testImages);
+        super(null,
+                new double[]{0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5},
+                null,
+                testImages);
     }
 
     @Override
@@ -36,6 +39,6 @@ public class CTest extends Test {
 
     @Override
     protected double getScale(int levelIndex) {
-        return 1 / visionLevels[levelIndex];
+        return 1 / visionLevelsFrac[levelIndex];
     }
 }

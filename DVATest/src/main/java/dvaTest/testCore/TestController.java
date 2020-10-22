@@ -30,7 +30,7 @@ public class TestController {
     private TestUnit curTrueUnit;
     private String userInputName;
 
-    private List<TestResultUnit> testResultUnits = new ArrayList<>();
+    private final List<TestResultUnit> testResultUnits = new ArrayList<>();
 
     public TestController(TestPref testPref, TestView testView) {
         this.testPref = testPref;
@@ -60,7 +60,7 @@ public class TestController {
 
                 if (levelAllocator.hasNext()) {
                     userInput("", "");  // 重置为无输入
-                    curTrueUnit = test.generate(levelAllocator.next());
+                    curTrueUnit = test.generate(levelAllocator.next(), testPref.getScoreCounting());
 
                     try {
                         ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <GridPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaTest.gui.MainView" vgap="10.0" hgap="5.0">
 
@@ -34,31 +33,36 @@
             <Button text="%eChart" onAction="#eChartClicked"/>
             <Button text="%cChart" onAction="#cChartClicked"/>
             <Button text="%stdLogChart" onAction="#stdLogChartClicked"/>
+            <Button text="%etdrsChart" onAction="#etdrsCharClicked"/>
         </HBox>
     </TitledPane>
 
     <Separator GridPane.rowIndex="2"/>
 
-    <HBox GridPane.rowIndex="3" spacing="5.0">
+    <HBox GridPane.rowIndex="3" spacing="10.0" alignment="CENTER_LEFT">
+        <Label text="%visionScoreCount"/>
+        <ComboBox fx:id="scoreCountingBox"/>
+    </HBox>
+
+    <HBox GridPane.rowIndex="4" spacing="5.0">
         <Label text="%frameTime" GridPane.rowIndex="3"/>
-        <Label fx:id="frameTimeValueLabel"/>
+        <Label fx:id="timeIntervalLabel"/>
         <Label text="%unitSecond"/>
     </HBox>
 
-    <Slider fx:id="frameTimeSlider" min="1" max="10" majorTickUnit="1" minorTickCount="1"
+    <Slider fx:id="timeIntervalSlider" min="1" max="10" majorTickUnit="1" minorTickCount="1"
             showTickMarks="true" showTickLabels="true" value="3" snapToTicks="true"
-            GridPane.rowIndex="4"/>
+            GridPane.rowIndex="5"/>
 
-    <HBox fx:id="needDisplayDeviceBox" GridPane.rowIndex="5" spacing="10.0">
+    <HBox fx:id="needDisplayDeviceBox" GridPane.rowIndex="6" spacing="10.0" alignment="CENTER_LEFT">
         <Label text="%needConnection"/>
         <Button text="%clickToConnect" onAction="#onConnectionClick"/>
     </HBox>
 
-
-    <HBox fx:id="connectionBox" GridPane.rowIndex="5" spacing="10.0" managed="false" visible="false">
+    <HBox fx:id="connectionBox" GridPane.rowIndex="6" spacing="10.0" managed="false" visible="false"
+          alignment="CENTER_LEFT">
         <Label text="%connected"/>
         <Button text="%disconnect" onAction="#onDisconnectClicked"/>
     </HBox>
-
 
 </GridPane>

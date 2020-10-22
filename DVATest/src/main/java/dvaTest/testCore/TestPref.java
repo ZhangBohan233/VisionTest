@@ -1,8 +1,11 @@
 package dvaTest.testCore;
 
+import dvaTest.gui.items.ScoreCounting;
+
 public class TestPref {
 
     private TestType testType;
+    private ScoreCounting scoreCounting;
     private long frameTimeMills;
 
     public static class TestPrefBuilder {
@@ -18,14 +21,22 @@ public class TestPref {
             return this;
         }
 
-        public TestPref build() {
+        public TestPrefBuilder scoreCounting(ScoreCounting scoreCounting) {
+            testPref.scoreCounting = scoreCounting;
+            return this;
+        }
 
+        public TestPref build() {
             return testPref;
         }
     }
 
     public TestType getTestType() {
         return testType;
+    }
+
+    public ScoreCounting getScoreCounting() {
+        return scoreCounting;
     }
 
     public long getFrameTimeMills() {

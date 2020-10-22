@@ -1,8 +1,9 @@
 package dvaTest.testCore.tests;
 
+import dvaTest.gui.items.ScoreCounting;
+import dvaTest.testCore.TestTypeException;
 import dvaTest.testCore.testItems.TestImage;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,24 +11,42 @@ import java.util.Map;
  */
 public abstract class Test {
 
-    protected final double[] visionLevels;
+    protected final double[] visionLevels5;
+    protected final double[] visionLevelsFrac;
+    protected final double[] visionLevelsLogMar;
     protected final Map<String, TestImage> testImageMap;
     protected final TestImage[] testImages;
 
-    public Test(double[] visionLevels, Map<String, TestImage> testImageMap) {
-        this.visionLevels = visionLevels;
+    public Test(double[] visionLevels5, double[] visionLevelsFrac, double[] visionLevelsLogMar,
+                Map<String, TestImage> testImageMap) {
+        this.visionLevels5 = visionLevels5;
+        this.visionLevelsFrac = visionLevelsFrac;
+        this.visionLevelsLogMar = visionLevelsLogMar;
         this.testImageMap = testImageMap;
 
         testImages = testImageMap.values().toArray(new TestImage[0]);
     }
 
     public int visionLevelCount() {
-        return visionLevels.length;
+        return visionLevels5 != null ? visionLevels5.length :
+                (visionLevelsFrac != null ? visionLevelsFrac.length :
+                        visionLevelsLogMar.length);
     }
 
-    public TestUnit generate(int levelIndex) {
+    public TestUnit generate(int levelIndex, ScoreCounting scoreCounting) {
         int directionIndex = (int) (Math.random() * testImages.length);
-        return new TestUnit(visionLevels[levelIndex], getScale(levelIndex), testImages[directionIndex], this);
+        return new TestUnit(
+                getVisionLevels(scoreCounting)[levelIndex],
+                getScale(levelIndex),
+                testImages[directionIndex],
+                this);
+    }
+
+    private double[] getVisionLevels(ScoreCounting scoreCounting) {
+        if (scoreCounting == ScoreCounting.FIVE) return visionLevels5;
+        else if (scoreCounting == ScoreCounting.FRAC) return visionLevelsFrac;
+        else if (scoreCounting == ScoreCounting.LOG_MAR) return visionLevelsLogMar;
+        else throw new TestTypeException("No such score counting. ");
     }
 
     /**

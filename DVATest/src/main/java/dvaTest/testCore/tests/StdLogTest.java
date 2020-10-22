@@ -15,8 +15,12 @@ public class StdLogTest extends Test {
             "down", new TestImage("down", "stdLog/LOG4.jpg", TestType.STD_LOG_CHART)
     );
 
-    private static final double[] VISION_LEVELS =
+    private static final double[] VISION_LEVELS_5 =
             {4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0, 5.1, 5.2, 5.3};
+    private static final double[] VISION_LEVELS_FRAC =
+            {0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5, 2.0};
+    private static final double[] VISION_LEVELS_LOG_MAR =
+            {1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0, -0.1, -0.2, -0.3};
 
     /**
      * Calculated in common.Utility
@@ -27,7 +31,7 @@ public class StdLogTest extends Test {
     public static final StdLogTest STD_LOG_TEST = new StdLogTest(ITEMS);
 
     private StdLogTest(Map<String, TestImage> testImages) {
-        super(VISION_LEVELS, testImages);
+        super(VISION_LEVELS_5, VISION_LEVELS_FRAC, VISION_LEVELS_LOG_MAR, testImages);
     }
 
     @Override

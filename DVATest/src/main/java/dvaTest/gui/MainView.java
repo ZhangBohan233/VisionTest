@@ -1,8 +1,10 @@
 package dvaTest.gui;
 
 import common.EventLogger;
+import common.data.CacheSaver;
 import dvaTest.TestApp;
 import dvaTest.connection.ClientManager;
+import dvaTest.gui.items.ScoreCounting;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
 import javafx.application.Platform;
@@ -11,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
@@ -30,19 +33,26 @@ public class MainView implements Initializable {
     HBox needDisplayDeviceBox, connectionBox;
 
     @FXML
-    Label frameTimeValueLabel;
+    Label timeIntervalLabel;
 
     @FXML
-    Slider frameTimeSlider;
+    Slider timeIntervalSlider;
+
+    @FXML
+    ComboBox<ScoreCounting> scoreCountingBox;
 
     private ResourceBundle bundle;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setFrameTimeSliderListener();
-        refreshFrameTimeLabel(frameTimeSlider.getValue());
-
         this.bundle = resourceBundle;
+
+        setFrameTimeSliderListener();
+        refreshFrameTimeLabel(timeIntervalSlider.getValue());
+
+        scoreCountingBox.getItems().addAll(ScoreCounting.FIVE, ScoreCounting.FRAC, ScoreCounting.LOG_MAR);
+
+        restoreFromCache();
     }
 
     @FXML
@@ -89,6 +99,11 @@ public class MainView implements Initializable {
         showTestView(TestType.STD_LOG_CHART);
     }
 
+    @FXML
+    void etdrsCharClicked() {
+
+    }
+
     void setConnected() {
         needDisplayDeviceBox.setManaged(false);
         needDisplayDeviceBox.setVisible(false);
@@ -113,11 +128,17 @@ public class MainView implements Initializable {
         });
     }
 
+    private long getTimeInterval() {
+        return (long) (timeIntervalSlider.getValue() * 1000);
+    }
+
     private void showTestView(TestType testType) {
         TestPref testPref = new TestPref.TestPrefBuilder()
                 .testType(testType)
-                .frameTimeMills((long) (frameTimeSlider.getValue() * 1000))
+                .scoreCounting(scoreCountingBox.getValue())
+                .frameTimeMills(getTimeInterval())
                 .build();
+        storeCache();
         try {
             Stage stage = new Stage();
 
@@ -142,7 +163,7 @@ public class MainView implements Initializable {
     }
 
     private void setFrameTimeSliderListener() {
-        frameTimeSlider.valueProperty().addListener(((observableValue, number, t1) ->
+        timeIntervalSlider.valueProperty().addListener(((observableValue, number, t1) ->
                 refreshFrameTimeLabel(t1.doubleValue())));
     }
 
@@ -152,6 +173,16 @@ public class MainView implements Initializable {
         double resFrac = Math.round(frac * 10 / 5) * 5;
         String res = String.format("%.1f", resFrac / 10 + d);
 
-        frameTimeValueLabel.setText(res);
+        timeIntervalLabel.setText(res);
+    }
+
+    private void restoreFromCache() {
+        scoreCountingBox.getSelectionModel().select(CacheSaver.TestCache.getLastUsedScoreCounting());
+        timeIntervalSlider.setValue((double) CacheSaver.TestCache.getLastUsedTimeInterval() / 1000);
+    }
+
+    private void storeCache() {
+        CacheSaver.TestCache.writeScoreCounting(scoreCountingBox.getValue());
+        CacheSaver.TestCache.writeTimeInterval(getTimeInterval());
     }
 }

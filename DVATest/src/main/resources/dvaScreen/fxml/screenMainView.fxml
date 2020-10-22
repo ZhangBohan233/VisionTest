@@ -42,7 +42,7 @@
 
         <Label text="%systemZoom" GridPane.rowIndex="3"/>
         <HBox spacing="5.0" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
-            <ComboBox fx:id="systemZoomBox" value="125%"/>
+            <ComboBox fx:id="systemZoomBox"/>
             <Label text="(?)">
                 <tooltip>
                     <Tooltip text="%systemZoomInfo"/>

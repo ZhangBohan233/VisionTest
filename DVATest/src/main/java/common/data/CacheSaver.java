@@ -1,6 +1,7 @@
 package common.data;
 
 import dvaTest.connection.ClientManager;
+import dvaTest.gui.items.ScoreCounting;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -144,6 +145,36 @@ public class CacheSaver {
 
         public static void writePortAndIp(String port, String ipAddress) {
             putTestCache("port", port, "ip", ipAddress);
+        }
+
+        public static ScoreCounting getLastUsedScoreCounting() {
+            String sc = getTestCacheByKey("scoreCounting");
+            if (sc == null) {
+                return ScoreCounting.FIVE;
+            } else {
+                try {
+                    return ScoreCounting.valueOf(sc);
+                } catch (IllegalArgumentException e) {
+                    return ScoreCounting.FIVE;
+                }
+            }
+        }
+
+        public static void writeScoreCounting(ScoreCounting sci) {
+            putCache("scoreCounting", sci.name());
+        }
+
+        public static long getLastUsedTimeInterval() {
+            String intervalStr = getTestCacheByKey("interval");
+            try {
+                return Long.parseLong(intervalStr);
+            } catch (NullPointerException | NumberFormatException e) {
+                return 3000;
+            }
+        }
+
+        public static void writeTimeInterval(long interval) {
+            putCache("interval", String.valueOf(interval));
         }
     }
 }
