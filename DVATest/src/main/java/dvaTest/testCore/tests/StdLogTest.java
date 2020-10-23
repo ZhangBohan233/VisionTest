@@ -6,7 +6,7 @@ import dvaTest.testCore.testItems.TestImage;
 import java.util.List;
 import java.util.Map;
 
-public class StdLogTest extends Test {
+public class StdLogTest extends LogBasedText {
 
     public static final Map<String, TestImage> ITEMS = Map.of(
             "left", new TestImage("left", "stdLog/LOG1.jpg", TestType.STD_LOG_CHART),
@@ -45,7 +45,7 @@ public class StdLogTest extends Test {
     }
 
     @Override
-    public double standardHeightMm() {
-        return 7.272;
+    public double standardHeightMm(double distance) {
+        return 7.272 / 5 * distance;
     }
 }

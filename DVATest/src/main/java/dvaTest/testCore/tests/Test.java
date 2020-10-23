@@ -1,7 +1,7 @@
 package dvaTest.testCore.tests;
 
 import dvaTest.gui.items.ScoreCounting;
-import dvaTest.testCore.TestTypeException;
+import dvaTest.testCore.TestPref;
 import dvaTest.testCore.testItems.TestImage;
 
 import java.util.Map;
@@ -11,43 +11,29 @@ import java.util.Map;
  */
 public abstract class Test {
 
-    protected final double[] visionLevels5;
-    protected final double[] visionLevelsFrac;
-    protected final double[] visionLevelsLogMar;
+
     protected final Map<String, TestImage> testImageMap;
     protected final TestImage[] testImages;
 
-    public Test(double[] visionLevels5, double[] visionLevelsFrac, double[] visionLevelsLogMar,
-                Map<String, TestImage> testImageMap) {
-        this.visionLevels5 = visionLevels5;
-        this.visionLevelsFrac = visionLevelsFrac;
-        this.visionLevelsLogMar = visionLevelsLogMar;
+    public Test(Map<String, TestImage> testImageMap) {
         this.testImageMap = testImageMap;
 
         testImages = testImageMap.values().toArray(new TestImage[0]);
     }
 
-    public int visionLevelCount() {
-        return visionLevels5 != null ? visionLevels5.length :
-                (visionLevelsFrac != null ? visionLevelsFrac.length :
-                        visionLevelsLogMar.length);
-    }
+    public abstract int visionLevelCount();
 
-    public TestUnit generate(int levelIndex, ScoreCounting scoreCounting) {
+    public TestUnit generate(int levelIndex, TestPref testPref) {
         int directionIndex = (int) (Math.random() * testImages.length);
         return new TestUnit(
-                getVisionLevels(scoreCounting)[levelIndex],
+                getVisionLevels(testPref.getScoreCounting())[levelIndex],
                 getScale(levelIndex),
+                testPref.getDistance(),
                 testImages[directionIndex],
                 this);
     }
 
-    private double[] getVisionLevels(ScoreCounting scoreCounting) {
-        if (scoreCounting == ScoreCounting.FIVE) return visionLevels5;
-        else if (scoreCounting == ScoreCounting.FRAC) return visionLevelsFrac;
-        else if (scoreCounting == ScoreCounting.LOG_MAR) return visionLevelsLogMar;
-        else throw new TestTypeException("No such score counting. ");
-    }
+    protected abstract double[] getVisionLevels(ScoreCounting scoreCounting);
 
     /**
      * 当前视标边长相对于标准视标边长的倍数。
@@ -69,9 +55,10 @@ public abstract class Test {
     /**
      * 标准视力等级视标的高度（毫米）
      *
+     * @param distance view distance
      * @return the absolute height of image of the standard level, in millimeter(mm).
      */
-    public abstract double standardHeightMm();
+    public abstract double standardHeightMm(double distance);
 
     public TestImage[] getTestImageArray() {
         return testImages;

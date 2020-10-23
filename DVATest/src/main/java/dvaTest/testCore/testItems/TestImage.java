@@ -17,6 +17,7 @@ public class TestImage {
         this.name = name;
         this.imagePath = IMAGE_RESOURCE_DIR + imagePath;
         this.testType = testType;
+//        System.out.println(testType);
     }
 
     public static TestImage getByName(TestType testType, String name) {

@@ -7,13 +7,15 @@ import java.util.TreeMap;
 public class ResultRecord {
 
     public final List<RecordUnit> recordUnits;
-    public final TestType testType;
-    public final long intervalMills;
+//    public final TestType testType;
+//    public final long intervalMills;
+    public final TestPref testPref;
 
     public ResultRecord(List<RecordUnit> recordUnits, TestPref testPref) {
         this.recordUnits = recordUnits;
-        this.testType = testPref.getTestType();
-        this.intervalMills = testPref.getFrameTimeMills();
+        this.testPref = testPref;
+//        this.testType = testPref.getTestType();
+//        this.intervalMills = testPref.getFrameTimeMills();
     }
 
     public static class RecordUnit {
@@ -33,7 +35,7 @@ public class ResultRecord {
         public static RecordUnit fromTest(TestController.TestResultUnit resultUnit) {
             return new RecordUnit(
                     resultUnit.getTestUnit().getVisionLevel(),
-                    resultUnit.getTestUnit().getTestItem().getName(),
+                    resultUnit.getTestUnit().getTestImage().getName(),
                     resultUnit.getUserInput(),
                     resultUnit.isCorrect()
             );

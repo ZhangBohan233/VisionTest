@@ -41,6 +41,9 @@ public class MainView implements Initializable {
     @FXML
     ComboBox<ScoreCounting> scoreCountingBox;
 
+    @FXML
+    ComboBox<Double> distanceBox;
+
     private ResourceBundle bundle;
 
     @Override
@@ -136,6 +139,7 @@ public class MainView implements Initializable {
         TestPref testPref = new TestPref.TestPrefBuilder()
                 .testType(testType)
                 .scoreCounting(scoreCountingBox.getValue())
+                .distance(distanceBox.getValue())
                 .frameTimeMills(getTimeInterval())
                 .build();
         storeCache();
@@ -177,12 +181,15 @@ public class MainView implements Initializable {
     }
 
     private void restoreFromCache() {
-        scoreCountingBox.getSelectionModel().select(CacheSaver.TestCache.getLastUsedScoreCounting());
-        timeIntervalSlider.setValue((double) CacheSaver.TestCache.getLastUsedTimeInterval() / 1000);
+        CacheSaver.MainViewCache mvc = CacheSaver.TestCache.getMainViewCache();
+        scoreCountingBox.getSelectionModel().select(mvc.scoreCounting);
+        timeIntervalSlider.setValue((double) mvc.timeInterval / 1000);
+        distanceBox.getSelectionModel().select(mvc.testDistance);
     }
 
     private void storeCache() {
-        CacheSaver.TestCache.writeScoreCounting(scoreCountingBox.getValue());
-        CacheSaver.TestCache.writeTimeInterval(getTimeInterval());
+        CacheSaver.TestCache.writeMainViewCache(scoreCountingBox.getValue(),
+                getTimeInterval(),
+                distanceBox.getValue());
     }
 }

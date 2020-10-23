@@ -60,7 +60,7 @@ public class TestController {
 
                 if (levelAllocator.hasNext()) {
                     userInput("", "");  // 重置为无输入
-                    curTrueUnit = test.generate(levelAllocator.next(), testPref.getScoreCounting());
+                    curTrueUnit = test.generate(levelAllocator.next(), testPref);
 
                     try {
                         ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
@@ -76,7 +76,7 @@ public class TestController {
                     cancel();
                 }
             }
-        }, 0, testPref.getFrameTimeMills() + BLANK_WAIT_TIME);
+        }, 0, testPref.getIntervalMills() + BLANK_WAIT_TIME);
     }
 
     public void stop() {
@@ -134,7 +134,7 @@ public class TestController {
         TestResultUnit(TestUnit testUnit, String userInput) {
             this.testUnit = testUnit;
             this.userInput = userInput;
-            this.correct = testUnit.getTestItem().getName().equals(userInput);
+            this.correct = testUnit.getTestImage().getName().equals(userInput);
         }
 
         public String getUserInput() {

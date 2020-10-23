@@ -5,7 +5,7 @@ import dvaTest.testCore.testItems.TestImage;
 
 import java.util.Map;
 
-public class CTest extends Test {
+public class CTest extends LogBasedText {
 
     public static final Map<String, TestImage> ITEMS = Map.of(
             "right", new TestImage("right", "c/C1.jpg", TestType.C_CHART),
@@ -18,12 +18,19 @@ public class CTest extends Test {
             "upRight", new TestImage("upRight", "c/C8.jpg", TestType.C_CHART)
     );
 
+    private static final double[] VISION_LEVELS_5 =
+            {4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5.0, 5.1, 5.2, 5.3};
+    private static final double[] VISION_LEVELS_FRAC =
+            {0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5, 2.0};
+    private static final double[] VISION_LEVELS_LOG_MAR =
+            {1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0, -0.1, -0.2, -0.3};
+
     public static final CTest CTEST = new CTest(ITEMS);
 
     private CTest(Map<String, TestImage> testImages) {
-        super(null,
-                new double[]{0.1, 0.12, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6, 0.8, 1.0, 1.2, 1.5},
-                null,
+        super(VISION_LEVELS_5,
+                VISION_LEVELS_FRAC,
+                VISION_LEVELS_LOG_MAR,
                 testImages);
     }
 
@@ -33,8 +40,8 @@ public class CTest extends Test {
     }
 
     @Override
-    public double standardHeightMm() {
-        return 7.5;
+    public double standardHeightMm(double distance) {
+        return 7.5 / 5 * distance;
     }
 
     @Override

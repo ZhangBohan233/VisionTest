@@ -147,34 +147,49 @@ public class CacheSaver {
             putTestCache("port", port, "ip", ipAddress);
         }
 
-        public static ScoreCounting getLastUsedScoreCounting() {
-            String sc = getTestCacheByKey("scoreCounting");
-            if (sc == null) {
-                return ScoreCounting.FIVE;
-            } else {
-                try {
-                    return ScoreCounting.valueOf(sc);
-                } catch (IllegalArgumentException e) {
-                    return ScoreCounting.FIVE;
-                }
-            }
-        }
+        public static MainViewCache getMainViewCache() {
+            String[] scIntDt = getTestCachesByKeys("scoreCounting", "interval", "distance");
 
-        public static void writeScoreCounting(ScoreCounting sci) {
-            putCache("scoreCounting", sci.name());
-        }
-
-        public static long getLastUsedTimeInterval() {
-            String intervalStr = getTestCacheByKey("interval");
+            ScoreCounting sc;
             try {
-                return Long.parseLong(intervalStr);
-            } catch (NullPointerException | NumberFormatException e) {
-                return 3000;
+                sc = ScoreCounting.valueOf(scIntDt[0]);
+            } catch (NullPointerException | IllegalArgumentException e) {
+                sc = ScoreCounting.FIVE;
             }
+
+            long interval;
+            try {
+                interval = Long.parseLong(scIntDt[1]);
+            } catch (NullPointerException | NumberFormatException e) {
+                interval = 3000;
+            }
+
+            double distance;
+            try {
+                distance = Double.parseDouble(scIntDt[2]);
+            } catch (NullPointerException | NumberFormatException e) {
+                distance = 5.0;
+            }
+
+            return new MainViewCache(sc, interval, distance);
         }
 
-        public static void writeTimeInterval(long interval) {
-            putCache("interval", String.valueOf(interval));
+        public static void writeMainViewCache(ScoreCounting sc, long timeInterval, double distance) {
+            putTestCache("scoreCounting", sc.name(),
+                    "interval", String.valueOf(timeInterval),
+                    "distance", String.valueOf(distance));
+        }
+    }
+
+    public static class MainViewCache {
+        public final ScoreCounting scoreCounting;
+        public final long timeInterval;
+        public final double testDistance;
+
+        private MainViewCache(ScoreCounting scoreCounting, long timeInterval, double testDistance) {
+            this.scoreCounting = scoreCounting;
+            this.timeInterval = timeInterval;
+            this.testDistance = testDistance;
         }
     }
 }

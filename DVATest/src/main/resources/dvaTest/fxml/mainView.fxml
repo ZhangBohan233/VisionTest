@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.Double?>
 <GridPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaTest.gui.MainView" vgap="10.0" hgap="5.0">
 
@@ -28,13 +30,29 @@
     <TitledPane fx:id="distVisionPane"
                 disable="true" expanded="false"
                 text="%distVision" GridPane.rowIndex="1">
-        <HBox spacing="5.0">
-            <Button text="%snellenChart" onAction="#snellenChartClicked"/>
-            <Button text="%eChart" onAction="#eChartClicked"/>
-            <Button text="%cChart" onAction="#cChartClicked"/>
-            <Button text="%stdLogChart" onAction="#stdLogChartClicked"/>
-            <Button text="%etdrsChart" onAction="#etdrsCharClicked"/>
-        </HBox>
+        <VBox spacing="10.0">
+            <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <Label text="%testDistance"/>
+                <ComboBox fx:id="distanceBox" value="5.0">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <Double fx:value="2.5"/>
+                            <Double fx:value="5.0"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Label text="%unitMeters"/>
+            </HBox>
+            <HBox spacing="5.0">
+                <Button text="%snellenChart" onAction="#snellenChartClicked"/>
+                <Button text="%eChart" onAction="#eChartClicked"/>
+                <Button text="%cChart" onAction="#cChartClicked"/>
+            </HBox>
+            <HBox spacing="5.0">
+                <Button text="%stdLogChart" onAction="#stdLogChartClicked"/>
+                <Button text="%etdrsChart" onAction="#etdrsCharClicked"/>
+            </HBox>
+        </VBox>
     </TitledPane>
 
     <Separator GridPane.rowIndex="2"/>

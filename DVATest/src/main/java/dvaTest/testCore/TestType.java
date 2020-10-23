@@ -11,28 +11,28 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public enum TestType {
-    SNELLEN_CHART("snellenChart", Signals.SHOW_SNELLEN, null),
-    C_CHART("cChart", Signals.SHOW_C, CTest.ITEMS),
-    E_CHART("eChart", Signals.SHOW_E, null),
-    STD_LOG_CHART("stdLogChart", Signals.SHOW_STD_LOG, null);
+    SNELLEN_CHART("snellenChart", Signals.SHOW_SNELLEN),
+    C_CHART("cChart", Signals.SHOW_C),
+    E_CHART("eChart", Signals.SHOW_E),
+    STD_LOG_CHART("stdLogChart", Signals.SHOW_STD_LOG);
 
     private final String bundleKey;
     private final byte signal;
-    private final Map<String, TestImage> testItems;
+//    private final Map<String, TestImage> testItems;
 
-    TestType(String bundleKey, byte signal, Map<String, TestImage> testItems) {
+    TestType(String bundleKey, byte signal) {
         this.bundleKey = bundleKey;
         this.signal = signal;
-        this.testItems = testItems;
+//        this.testItems = testItems;
     }
 
     public static TestType fromByte(byte b) {
         return values()[b & 0xff];
     }
 
-    public Map<String, TestImage> getTestItems() {
-        return testItems;
-    }
+//    public Map<String, TestImage> getTestItems() {
+//        return testItems;
+//    }
 
     public byte toByte() {
         return (byte) ordinal();

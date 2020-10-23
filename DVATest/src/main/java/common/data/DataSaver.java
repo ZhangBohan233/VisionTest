@@ -31,8 +31,10 @@ public class DataSaver {
         JSONObject base = new JSONObject();
         base.put("name", subjectName);
         base.put("time", dateStr);
-        base.put("type", resultRecord.testType.toString());
-        base.put("interval", resultRecord.intervalMills);
+        base.put("type", resultRecord.testPref.getTestType().toString());
+        base.put("distance", resultRecord.testPref.getDistance());
+        base.put("scoreCounting", resultRecord.testPref.getScoreCounting().name());
+        base.put("interval", resultRecord.testPref.getIntervalMills());
         base.put("note", note);
 
         JSONArray resultArray = new JSONArray();

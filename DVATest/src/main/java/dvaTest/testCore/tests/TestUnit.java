@@ -9,19 +9,21 @@ public class TestUnit {
 
     private final double visionLevel;
     private final double graphScale;
+    private final double distance;
 
     private final Test test;
-    private final TestImage testItem;
+    private final TestImage testImage;
 
-    TestUnit(double visionLevel, double graphScale, TestImage testItem, Test test) {
+    TestUnit(double visionLevel, double graphScale, double distance, TestImage testImage, Test test) {
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
-        this.testItem = testItem;
+        this.distance = distance;
+        this.testImage = testImage;
         this.test = test;
     }
 
-    public TestImage getTestItem() {
-        return testItem;
+    public TestImage getTestImage() {
+        return testImage;
     }
 
     public double getGraphScale() {
@@ -32,25 +34,30 @@ public class TestUnit {
         return visionLevel;
     }
 
+    public double getDistance() {
+        return distance;
+    }
+
     @Override
     public String toString() {
         return "TestUnit{" +
                 "visionLevel=" + visionLevel +
-                ", testItem=" + testItem +
+                ", testItem=" + testImage +
                 '}';
     }
 
     public byte[] toByteArray() {
-        String name = testItem.getName();
-        byte[] array = new byte[19 + name.length()];
+        String name = testImage.getName();
+        byte[] array = new byte[27 + name.length()];
         array[0] = Signals.NEXT_TEST_UNIT;
-        array[1] = testItem.getTestType().toByte();
+        array[1] = testImage.getTestType().toByte();
         Utility.doubleToBytes(visionLevel, array, 2);
         Utility.doubleToBytes(graphScale, array, 10);
+        Utility.doubleToBytes(distance, array, 18);
 
         byte[] nameBytes = name.getBytes();
-        array[18] = (byte) nameBytes.length;  // 没有检查 nameBytes.length() < 256
-        System.arraycopy(nameBytes, 0, array, 19, nameBytes.length);
+        array[26] = (byte) nameBytes.length;  // 没有检查 nameBytes.length() < 256
+        System.arraycopy(nameBytes, 0, array, 27, nameBytes.length);
 
         return array;
     }
@@ -59,12 +66,13 @@ public class TestUnit {
         TestType testType = TestType.fromByte(array[1]);
         double visionLevel = Utility.bytesToDouble(array, 2);
         double graphScale = Utility.bytesToDouble(array, 10);
-        int strLen = array[18] & 0xff;
+        double distance = Utility.bytesToDouble(array, 18);
+        int strLen = array[26] & 0xff;
         byte[] strBytes = new byte[strLen];
-        System.arraycopy(array, 19, strBytes, 0, strLen);
+        System.arraycopy(array, 27, strBytes, 0, strLen);
         String name = new String(strBytes);
         TestImage testItem = TestImage.getByName(testType, name);
-        return new TestUnit(visionLevel, graphScale, testItem, testType.getStaticTest());
+        return new TestUnit(visionLevel, graphScale, distance, testItem, testType.getStaticTest());
     }
 
     public Test getTest() {
