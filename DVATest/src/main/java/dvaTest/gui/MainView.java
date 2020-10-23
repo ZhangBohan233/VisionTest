@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class MainView implements Initializable {
     ComboBox<Double> distanceBox;
 
     private ResourceBundle bundle;
+    private Stage thisStage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,6 +109,10 @@ public class MainView implements Initializable {
 
     }
 
+    public void setStage(Stage stage) {
+        this.thisStage = stage;
+    }
+
     void setConnected() {
         needDisplayDeviceBox.setManaged(false);
         needDisplayDeviceBox.setVisible(false);
@@ -145,6 +151,8 @@ public class MainView implements Initializable {
         storeCache();
         try {
             Stage stage = new Stage();
+            stage.initOwner(thisStage);
+            stage.initModality(Modality.WINDOW_MODAL);
 
             FXMLLoader loader =
                     new FXMLLoader(getClass().getResource("/dvaTest/fxml/testPrepView.fxml"),

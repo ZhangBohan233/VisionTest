@@ -70,6 +70,10 @@ public class ScreenMainView implements Initializable {
         this.stage = stage;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
     public void askConnectionIfNone() {
         thisIpLabel.setText(ServerManager.getThisAddress().getHostAddress());
         portLabel.setText(String.valueOf(ServerManager.getPort()));

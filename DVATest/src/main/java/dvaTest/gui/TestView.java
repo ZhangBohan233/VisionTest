@@ -70,6 +70,10 @@ public class TestView implements Initializable {
         inputContainer.getChildren().add(testInput);
 
         setAllOnKeyPressed(rootPane);
+
+        thisStage.setOnCloseRequest(e -> {
+            testController.stop();
+        });
     }
 
     public void start() {
@@ -114,6 +118,7 @@ public class TestView implements Initializable {
     @FXML
     void stopTest() {
         testController.stop();
+        thisStage.close();
     }
 
     @FXML

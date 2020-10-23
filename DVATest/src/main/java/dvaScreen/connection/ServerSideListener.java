@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -104,6 +105,8 @@ public class ServerSideListener extends Thread {
                 Parent root = loader.load();
 
                 screenTestStage = new Stage();
+                screenTestStage.initOwner(mainView.getStage());
+                screenTestStage.initModality(Modality.APPLICATION_MODAL);
                 screenTestStage.setMaximized(true);
                 screenTestStage.setOnCloseRequest(e -> {
                     try {

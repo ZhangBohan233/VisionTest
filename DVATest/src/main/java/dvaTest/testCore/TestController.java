@@ -47,7 +47,6 @@ public class TestController {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-
                 if (interrupted) {
                     cancel();
                     return;
@@ -61,6 +60,7 @@ public class TestController {
                 if (levelAllocator.hasNext()) {
                     userInput("", "");  // 重置为无输入
                     curTrueUnit = test.generate(levelAllocator.next(), testPref);
+                    System.out.println("generated: " + curTrueUnit);
 
                     try {
                         ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
