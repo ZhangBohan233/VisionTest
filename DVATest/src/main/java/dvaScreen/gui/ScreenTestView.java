@@ -65,17 +65,6 @@ public class ScreenTestView implements Initializable {
         final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / systemZoom);
 
         Platform.runLater(() -> {
-            imageView.setImage(blankImage);
-            System.out.println("Blank");
-        });
-
-        try {
-            Thread.sleep(TestController.BLANK_WAIT_TIME);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Platform.runLater(() -> {
             imageView.setFitHeight(graphHeightPixels);
             imageView.setImage(image);
             System.out.println("Shown " + testUnit.getTestImage().getImagePath() + " " + testUnit.getVisionLevel());
@@ -86,5 +75,16 @@ public class ScreenTestView implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        try {
+            Thread.sleep(testUnit.getTimeInterval());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Platform.runLater(() -> {
+            imageView.setImage(blankImage);
+            System.out.println("Blank");
+        });
     }
 }

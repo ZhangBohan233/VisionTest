@@ -29,6 +29,7 @@ public abstract class Test {
                 getVisionLevels(testPref.getScoreCounting())[levelIndex],
                 getScale(levelIndex),
                 testPref.getDistance(),
+                testPref.getIntervalMills(),
                 testImages[directionIndex],
                 this);
     }

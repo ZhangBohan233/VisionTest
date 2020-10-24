@@ -19,7 +19,7 @@ public class TestController {
      * 切换图片的等待时间
      * 在此期间将不会显示任何图片
      */
-    public static final long BLANK_WAIT_TIME = 500;
+    public static final long BLANK_WAIT_TIME = 1000;
 
     private final TestPref testPref;
     private final TestView testView;

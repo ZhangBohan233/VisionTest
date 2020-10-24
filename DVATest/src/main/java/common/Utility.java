@@ -19,6 +19,20 @@ public class Utility {
         return Double.longBitsToDouble(v);
     }
 
+    public static void longToBytes(long value, byte[] array, int index) {
+        for (int i = 0; i < 8; i++) {
+            array[index + i] = (byte) ((value >> 8 * i) & 0xff);
+        }
+    }
+
+    public static long bytesToLong(byte[] array, int index) {
+        long v = 0;
+        for (int i = 0; i < 8; i++) {
+            v |= ((long) (array[index + i] & 0xff)) << (8 * i);
+        }
+        return v;
+    }
+
     private static int digitMultiplier(int digit) {
         int multiplier = 1;
         for (int i = 0; i < digit; i++) {
