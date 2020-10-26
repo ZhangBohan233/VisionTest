@@ -57,9 +57,9 @@ public class ResultView implements Initializable {
 
         setOnClose();
 
-        Map<Double, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
+        Map<String, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
 
-        for (Map.Entry<Double, int[]> entry : sucFailMap.entrySet()) {
+        for (Map.Entry<String, int[]> entry : sucFailMap.entrySet()) {
             resultTable.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
         }
 

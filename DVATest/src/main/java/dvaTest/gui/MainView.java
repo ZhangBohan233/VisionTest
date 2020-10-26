@@ -55,7 +55,11 @@ public class MainView implements Initializable {
         setFrameTimeSliderListener();
         refreshFrameTimeLabel(timeIntervalSlider.getValue());
 
-        scoreCountingBox.getItems().addAll(ScoreCounting.FIVE, ScoreCounting.FRAC, ScoreCounting.LOG_MAR);
+        scoreCountingBox.getItems().addAll(
+                ScoreCounting.FIVE,
+                ScoreCounting.DEC,
+                ScoreCounting.LOG_MAR,
+                ScoreCounting.FRAC_METER);
 
         restoreFromCache();
     }

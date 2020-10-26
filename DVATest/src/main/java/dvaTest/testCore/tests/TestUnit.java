@@ -7,7 +7,7 @@ import dvaTest.testCore.testItems.TestImage;
 
 public class TestUnit {
 
-    private final double visionLevel;
+    private final String visionLevel;
     private final double graphScale;
     private final double distance;
     private final long timeInterval;
@@ -15,7 +15,7 @@ public class TestUnit {
     private final Test test;
     private final TestImage testImage;
 
-    TestUnit(double visionLevel, double graphScale, double distance, long timeInterval,
+    TestUnit(String visionLevel, double graphScale, double distance, long timeInterval,
              TestImage testImage, Test test) {
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
@@ -33,7 +33,7 @@ public class TestUnit {
         return graphScale;
     }
 
-    public double getVisionLevel() {
+    public String getVisionLevel() {
         return visionLevel;
     }
 
@@ -53,34 +53,59 @@ public class TestUnit {
                 '}';
     }
 
+    /**
+     * 数组结构：
+     * 0: signal
+     * 1: testType
+     * 2~9: graphScale
+     * 10~17: distance
+     * 18~25: time interval
+     * 26: length of name (nameLen)
+     * 27~27+nameLen-1: name
+     * 27+nameLen: length of level (levelLen)
+     * 28+nameLen~28+nameLen+levelLen-1: level
+     *
+     * @return byte representation of this TestUnit
+     */
     public byte[] toByteArray() {
         String name = testImage.getName();
-        byte[] array = new byte[35 + name.length()];
+        byte[] nameBytes = name.getBytes();
+        byte[] levelBytes = visionLevel.getBytes();
+
+        byte[] array = new byte[28 + nameBytes.length + levelBytes.length];
         array[0] = Signals.NEXT_TEST_UNIT;
         array[1] = testImage.getTestType().toByte();
-        Utility.doubleToBytes(visionLevel, array, 2);
-        Utility.doubleToBytes(graphScale, array, 10);
-        Utility.doubleToBytes(distance, array, 18);
-        Utility.longToBytes(timeInterval, array, 26);
+        Utility.doubleToBytes(graphScale, array, 2);
+        Utility.doubleToBytes(distance, array, 10);
+        Utility.longToBytes(timeInterval, array, 18);
 
-        byte[] nameBytes = name.getBytes();
-        array[34] = (byte) nameBytes.length;  // 没有检查 nameBytes.length() < 256
-        System.arraycopy(nameBytes, 0, array, 35, nameBytes.length);
+        array[26] = (byte) nameBytes.length;  // 没有检查 nameBytes.length() < 256
+        System.arraycopy(nameBytes, 0, array, 27, nameBytes.length);
+
+        array[27 + nameBytes.length] = (byte) levelBytes.length;
+        System.arraycopy(levelBytes,
+                0,
+                array,
+                28 + nameBytes.length,
+                levelBytes.length);
 
         return array;
     }
 
     public static TestUnit fromByteArray(byte[] array) {
         TestType testType = TestType.fromByte(array[1]);
-        double visionLevel = Utility.bytesToDouble(array, 2);
-        double graphScale = Utility.bytesToDouble(array, 10);
-        double distance = Utility.bytesToDouble(array, 18);
-        long timeInterval = Utility.bytesToLong(array, 26);
-        int strLen = array[34] & 0xff;
+        double graphScale = Utility.bytesToDouble(array, 2);
+        double distance = Utility.bytesToDouble(array, 10);
+        long timeInterval = Utility.bytesToLong(array, 18);
+        int strLen = array[26] & 0xff;
         byte[] strBytes = new byte[strLen];
-        System.arraycopy(array, 35, strBytes, 0, strLen);
+        System.arraycopy(array, 27, strBytes, 0, strLen);
         String name = new String(strBytes);
         TestImage testItem = TestImage.getByName(testType, name);
+        int levelLen = array[27 + strLen] & 0xff;
+        byte[] levelBytes = new byte[levelLen];
+        System.arraycopy(array, 28 + strLen, levelBytes, 0, levelLen);
+        String visionLevel = new String(levelBytes);
         return new TestUnit(visionLevel, graphScale, distance, timeInterval, testItem, testType.getStaticTest());
     }
 

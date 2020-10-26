@@ -72,6 +72,24 @@ public class Utility {
         }
     }
 
+    public static double parseDoubleWithFrac(String str) {
+        int fracIndex = str.indexOf('/');
+        if (fracIndex == -1) return Double.parseDouble(str);
+        else {
+            String numerator = str.substring(0, fracIndex);
+            String denominator = str.substring(fracIndex + 1);
+            return Double.parseDouble(numerator) / Double.parseDouble(denominator);
+        }
+    }
+
+    public static String[] doubleArrayToStrArray(double[] array) {
+        String[] res = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            res[i] = String.valueOf(array[i]);
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         byte[] arr = new byte[8];
         doubleToBytes(1.0, arr, 0);

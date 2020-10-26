@@ -2,6 +2,7 @@ package dvaTest.testCore.testItems;
 
 import dvaTest.testCore.TestType;
 import dvaTest.testCore.tests.CTest;
+import dvaTest.testCore.tests.SnellenTest;
 import dvaTest.testCore.tests.StdLogTest;
 
 import java.util.Map;
@@ -24,7 +25,7 @@ public class TestImage {
         Map<String, TestImage> testItems;
         // TODO: test type
         if (testType == TestType.SNELLEN_CHART) {
-            testItems = null;
+            testItems = SnellenTest.ITEMS;
         } else if (testType == TestType.C_CHART) {
             testItems = CTest.ITEMS;
         } else if (testType == TestType.E_CHART) {

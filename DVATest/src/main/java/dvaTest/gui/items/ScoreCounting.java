@@ -4,8 +4,9 @@ import dvaTest.TestApp;
 
 public enum ScoreCounting {
     FIVE(TestApp.getBundle().getString("fiveScore")),
-    FRAC(TestApp.getBundle().getString("fracScore")),
-    LOG_MAR(TestApp.getBundle().getString("logMarScore"));
+    DEC(TestApp.getBundle().getString("decScore")),
+    LOG_MAR(TestApp.getBundle().getString("logMarScore")),
+    FRAC_METER(TestApp.getBundle().getString("fracMeterScore"));
 
     private final String showing;
 

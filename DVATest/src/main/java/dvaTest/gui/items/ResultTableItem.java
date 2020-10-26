@@ -5,11 +5,11 @@ import javafx.fxml.FXML;
 
 public class ResultTableItem implements Comparable<ResultTableItem> {
 
-    private final double visionLevel;
+    private final String visionLevel;
     private final int correctCount;
     private final int incorrectCount;
 
-    public ResultTableItem(double visionLevel, int correctCount, int incorrectCount) {
+    public ResultTableItem(String visionLevel, int correctCount, int incorrectCount) {
         this.visionLevel = visionLevel;
         this.correctCount = correctCount;
         this.incorrectCount = incorrectCount;
@@ -17,11 +17,11 @@ public class ResultTableItem implements Comparable<ResultTableItem> {
 
     @Override
     public int compareTo(ResultTableItem o) {
-        return Double.compare(visionLevel, visionLevel);
+        return Double.compare(Utility.parseDoubleWithFrac(visionLevel), Utility.parseDoubleWithFrac(o.visionLevel));
     }
 
     @FXML
-    public double getVisionLevel() {
+    public String getVisionLevel() {
         return visionLevel;
     }
 

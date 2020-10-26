@@ -20,12 +20,12 @@ public class ResultRecord {
 
     public static class RecordUnit {
 
-        private final double visionLevel;
+        private final String visionLevel;
         private final String shown;
         private final String userInput;
         private final boolean correct;
 
-        private RecordUnit(double visionLevel, String shown, String userInput, boolean correct) {
+        private RecordUnit(String visionLevel, String shown, String userInput, boolean correct) {
             this.visionLevel = visionLevel;
             this.shown = shown;
             this.userInput = userInput;
@@ -46,8 +46,8 @@ public class ResultRecord {
          *
          * @return map of {level: [correct, incorrect]}
          */
-        public static Map<Double, int[]> recordListToLevelMap(List<RecordUnit> resultUnitList) {
-            Map<Double, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
+        public static Map<String, int[]> recordListToLevelMap(List<RecordUnit> resultUnitList) {
+            Map<String, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
             for (RecordUnit ru: resultUnitList) {
                 int[] res = sucFailMap.computeIfAbsent(ru.getVisionLevel(), k -> new int[2]);
                 if (ru.isCorrect()) res[0]++;
@@ -56,7 +56,7 @@ public class ResultRecord {
             return sucFailMap;
         }
 
-        public double getVisionLevel() {
+        public String getVisionLevel() {
             return visionLevel;
         }
 

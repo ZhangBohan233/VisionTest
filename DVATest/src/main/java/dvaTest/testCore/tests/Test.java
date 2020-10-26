@@ -34,7 +34,7 @@ public abstract class Test {
                 this);
     }
 
-    protected abstract double[] getVisionLevels(ScoreCounting scoreCounting);
+    protected abstract String[] getVisionLevels(ScoreCounting scoreCounting);
 
     /**
      * 当前视标边长相对于标准视标边长的倍数。

@@ -3,6 +3,7 @@ package dvaTest.testCore;
 import common.Signals;
 import dvaTest.testCore.testItems.TestImage;
 import dvaTest.testCore.tests.CTest;
+import dvaTest.testCore.tests.SnellenTest;
 import dvaTest.testCore.tests.StdLogTest;
 import dvaTest.testCore.tests.Test;
 
@@ -50,7 +51,7 @@ public enum TestType {
         Test test;
         // TODO: test type
         if (this == SNELLEN_CHART) {
-            test = null;
+            test = SnellenTest.SNELLEN_TEST;
         } else if (this == C_CHART) {
             test = CTest.CTEST;
         } else if (this == E_CHART) {

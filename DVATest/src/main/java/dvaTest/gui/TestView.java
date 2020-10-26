@@ -1,6 +1,7 @@
 package dvaTest.gui;
 
 import dvaTest.gui.widgets.inputs.CTestInput;
+import dvaTest.gui.widgets.inputs.SnellenTestInput;
 import dvaTest.gui.widgets.inputs.StdLogTestInput;
 import dvaTest.gui.widgets.inputs.TestInput;
 import dvaTest.testCore.*;
@@ -49,7 +50,9 @@ public class TestView implements Initializable {
             testInput = new CTestInput();
         } else if (testPref.getTestType() == TestType.STD_LOG_CHART) {
             testInput = new StdLogTestInput();
-        } else {
+        } else if (testPref.getTestType() == TestType.SNELLEN_CHART) {
+            testInput = new SnellenTestInput();
+        }  else {
             throw new TestTypeException("No such test type");
         }
         testInput.setTestController(testController);
@@ -82,7 +85,7 @@ public class TestView implements Initializable {
 
     public void updateGui(TestUnit testUnit) {
         Platform.runLater(() -> {
-            levelLabel.setText(String.valueOf(testUnit.getVisionLevel()));
+            levelLabel.setText(testUnit.getVisionLevel());
         });
     }
 
