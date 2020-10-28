@@ -13,10 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,6 +37,9 @@ public class MainView implements Initializable {
     Slider timeIntervalSlider;
 
     @FXML
+    Button snellenButton, cButton, stdLogButton, etdrsButton;
+
+    @FXML
     ComboBox<ScoreCounting> scoreCountingBox;
 
     @FXML
@@ -60,6 +60,8 @@ public class MainView implements Initializable {
                 ScoreCounting.DEC,
                 ScoreCounting.LOG_MAR,
                 ScoreCounting.FRAC_METER);
+
+        setScoreCountingListener();
 
         restoreFromCache();
     }
@@ -181,6 +183,24 @@ public class MainView implements Initializable {
     private void setFrameTimeSliderListener() {
         timeIntervalSlider.valueProperty().addListener(((observableValue, number, t1) ->
                 refreshFrameTimeLabel(t1.doubleValue())));
+    }
+
+    private void setScoreCountingListener() {
+        scoreCountingBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue.isLogMar) {
+                snellenButton.setDisable(true);
+
+                cButton.setDisable(false);
+                stdLogButton.setDisable(false);
+                etdrsButton.setDisable(false);
+            } else {
+                snellenButton.setDisable(false);
+
+                cButton.setDisable(true);
+                stdLogButton.setDisable(true);
+                etdrsButton.setDisable(true);
+            }
+        }));
     }
 
     private void refreshFrameTimeLabel(double value) {

@@ -1,17 +1,20 @@
 package dvaScreen.connection;
 
+import common.EventLogger;
 import common.Signals;
+import common.data.PrefSaver;
 import dvaScreen.gui.ScreenMainView;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
 public class Server extends Thread {
 
-    private int port;
-    private ScreenMainView mainView;
+    private final int port;
+    private final ScreenMainView mainView;
     private ServerSocket serverSocket;
     private Socket clientSocket;
 
@@ -25,9 +28,16 @@ public class Server extends Thread {
         try {
             serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
             startListening();
+        } catch (BindException e) {
+            EventLogger.log(e);
+            mainView.showCannotConnect(mainView.getBundle().getString("portOccupied"),
+                    mainView.getBundle().getString("changePortInPref1") +
+                            PrefSaver.SCREEN_PREF +
+                            mainView.getBundle().getString("changePortInPref2"));
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new ServerException();
+            EventLogger.log(e);
+            mainView.showCannotConnect(mainView.getBundle().getString("cannotConnectToNet"),
+                    "");
         }
     }
 
@@ -49,7 +59,8 @@ public class Server extends Thread {
 
     public void stopServer() throws IOException {
         if (serverSocket == null) {
-            throw new IOException("Server not started.");
+            return;
+//            throw new IOException("Server not started.");
         }
         if (clientSocket != null && !clientSocket.isClosed()) {
             sendMessage(Signals.DISCONNECT_BY_SERVER);

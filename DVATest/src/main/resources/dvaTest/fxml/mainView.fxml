@@ -44,13 +44,13 @@
                 <Label text="%unitMeters"/>
             </HBox>
             <HBox spacing="5.0">
-                <Button text="%snellenChart" onAction="#snellenChartClicked"/>
-                <Button text="%eChart" onAction="#eChartClicked"/>
-                <Button text="%cChart" onAction="#cChartClicked"/>
+                <Button fx:id="cButton" text="%cChart" onAction="#cChartClicked"/>
+                <Button fx:id="stdLogButton" text="%stdLogChart" onAction="#stdLogChartClicked"/>
+                <Button fx:id="etdrsButton" text="%etdrsChart" onAction="#etdrsCharClicked"/>
             </HBox>
             <HBox spacing="5.0">
-                <Button text="%stdLogChart" onAction="#stdLogChartClicked"/>
-                <Button text="%etdrsChart" onAction="#etdrsCharClicked"/>
+                <Button fx:id="snellenButton" text="%snellenChart" onAction="#snellenChartClicked"/>
+<!--                <Button text="%eChart" onAction="#eChartClicked"/>-->
             </HBox>
         </VBox>
     </TitledPane>

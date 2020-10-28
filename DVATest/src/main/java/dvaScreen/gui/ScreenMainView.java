@@ -5,6 +5,7 @@ import common.data.CacheSaver;
 import dvaScreen.connection.ServerManager;
 import dvaScreen.gui.items.ResolutionItem;
 import dvaScreen.gui.items.WindowsScaleItem;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,9 +14,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,7 +50,7 @@ public class ScreenMainView implements Initializable {
 
     SpinnerValueFactory<Integer> intFactory;
 
-    private Stage stage, connectionStage;
+    private Stage stage;
     private ResourceBundle bundle;
 
     private static double calculatePpiRounded(int width, int height, double screenSize) {
@@ -72,6 +75,23 @@ public class ScreenMainView implements Initializable {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public void showCannotConnect(String header, String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            alert.setTitle(bundle.getString("error"));
+            alert.setHeaderText(header);
+            alert.setContentText(message);
+            alert.initOwner(stage);
+            alert.initModality(Modality.WINDOW_MODAL);
+            alert.show();
+
+            alert.setOnCloseRequest(e -> {
+                stage.close();
+            });
+        });
     }
 
     public void askConnectionIfNone() {

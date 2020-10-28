@@ -1,5 +1,6 @@
 package dvaScreen.connection;
 
+import common.data.AutoSavers;
 import dvaScreen.gui.ScreenMainView;
 
 import java.io.IOException;
@@ -9,11 +10,13 @@ public class ServerManager {
     public static final int DEFAULT_PORT = 3456;
 
     private static InetAddress thisAddress;
-    private static int port = DEFAULT_PORT;
+    private static int port;
 
     private static Server currentServer;
 
     public static boolean startServer(ScreenMainView mainView) {
+        port = AutoSavers.getPrefSaver().getInt("port");
+        if (port == -1) port = DEFAULT_PORT;
         try {
             generateIpAddress();
             if (currentServer == null) {
@@ -23,7 +26,7 @@ public class ServerManager {
                 return false;
             }
             return true;
-        } catch (IOException e) {
+        } catch (IOException | ServerException e) {
             return false;
         }
     }

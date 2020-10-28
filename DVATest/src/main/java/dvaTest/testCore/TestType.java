@@ -55,7 +55,7 @@ public enum TestType {
         } else if (this == C_CHART) {
             test = CTest.CTEST;
         } else if (this == E_CHART) {
-            test = null;
+            throw new RuntimeException();
         } else if (this == STD_LOG_CHART) {
             test = StdLogTest.STD_LOG_TEST;
         } else {

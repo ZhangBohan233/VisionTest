@@ -1,6 +1,7 @@
 package dvaTest;
 
 import common.EventLogger;
+import common.data.AutoSavers;
 import dvaTest.connection.ClientManager;
 import dvaTest.gui.MainView;
 import javafx.application.Application;
@@ -28,6 +29,8 @@ public class TestApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        AutoSavers.startTestSavers();
+
         bundle = ResourceBundle.getBundle("common.bundles.Languages",
                 new Locale("zh", "CN"));
 
@@ -41,8 +44,9 @@ public class TestApp extends Application {
         MainView mainView = loader.getController();
         mainView.setStage(primaryStage);
 
-        primaryStage.setOnCloseRequest(e -> {
+        primaryStage.setOnHidden(e -> {
             try {
+                AutoSavers.stopAllSavers();
                 ClientManager.closeCurrentClient();
             } catch (IOException ioException) {
                 ioException.printStackTrace();

@@ -1,6 +1,7 @@
 package dvaScreen;
 
 import common.EventLogger;
+import common.data.AutoSavers;
 import dvaScreen.connection.ServerManager;
 import dvaScreen.gui.ScreenMainView;
 import javafx.application.Application;
@@ -32,6 +33,8 @@ public class ScreenApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        AutoSavers.startScreenSavers();
+
         bundle = ResourceBundle.getBundle("common.bundles.Languages",
                 new Locale("zh", "CN"));
 
@@ -45,8 +48,6 @@ public class ScreenApp extends Application {
         primaryStage.setTitle(bundle.getString("appNameScreen"));
         primaryStage.setScene(new Scene(root));
 
-        primaryStage.show();
-
         if (!ServerManager.startServer(controller)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error"));
@@ -54,14 +55,16 @@ public class ScreenApp extends Application {
             return;
         }
 
-        primaryStage.setOnCloseRequest(e -> {
+        primaryStage.setOnHidden(e -> {
             try {
+                AutoSavers.stopAllSavers();
                 ServerManager.stopServer();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
         });
 
+        primaryStage.show();
         controller.askConnectionIfNone();
     }
 }

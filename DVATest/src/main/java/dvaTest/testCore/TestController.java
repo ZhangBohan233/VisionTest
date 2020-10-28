@@ -25,7 +25,8 @@ public class TestController {
     private final TestView testView;
     private final Test test;
     private final TestLevelAllocator levelAllocator;
-    private boolean interrupted = false;
+//    private boolean interrupted = false;
+    private Timer baseTimer;
 
     private TestUnit curTrueUnit;
     private String userInputName;
@@ -43,44 +44,13 @@ public class TestController {
     }
 
     public void start() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (interrupted) {
-                    cancel();
-                    return;
-                }
-
-                // 处理上一次测试
-                if (curTrueUnit != null) {
-                    proceedOne();
-                }
-
-                if (levelAllocator.hasNext()) {
-                    userInput("", "");  // 重置为无输入
-                    curTrueUnit = test.generate(levelAllocator.next(), testPref);
-                    System.out.println("generated: " + curTrueUnit);
-
-                    try {
-                        ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
-                    } catch (IOException e) {
-                        cancel();
-                        EventLogger.log(e);
-                        throw new RuntimeException(e);
-                    }
-
-                    testView.updateGui(curTrueUnit);
-                } else {
-                    finishTest();
-                    cancel();
-                }
-            }
-        }, 0, testPref.getIntervalMills() + BLANK_WAIT_TIME);
+        baseTimer = new Timer();
+        baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + BLANK_WAIT_TIME);
     }
 
     public void stop() {
-        interrupted = true;
+//        interrupted = true;
+        baseTimer.cancel();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
@@ -152,6 +122,35 @@ public class TestController {
         @Override
         public String toString() {
             return String.format("Given: %s, input: %s", testUnit, userInput);
+        }
+    }
+
+    class TestTask extends TimerTask {
+        @Override
+        public void run() {
+            // 处理上一次测试
+            if (curTrueUnit != null) {
+                proceedOne();
+            }
+
+            if (levelAllocator.hasNext()) {
+                userInput("", "");  // 重置为无输入
+                curTrueUnit = test.generate(levelAllocator.next(), testPref);
+                System.out.println("generated: " + curTrueUnit);
+
+                try {
+                    ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
+                } catch (IOException e) {
+                    cancel();
+                    EventLogger.log(e);
+                    throw new RuntimeException(e);
+                }
+
+                testView.updateGui(curTrueUnit);
+            } else {
+                finishTest();
+                cancel();
+            }
         }
     }
 }

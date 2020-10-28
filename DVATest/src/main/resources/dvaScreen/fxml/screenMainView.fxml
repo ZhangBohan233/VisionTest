@@ -4,8 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <VBox prefHeight="400.0" prefWidth="300.0" spacing="10.0" xmlns="http://javafx.com/javafx/11.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaScreen.gui.ScreenMainView">
 
@@ -38,7 +36,7 @@
             <TextField fx:id="fracField" prefWidth="50.0"/>
             <Label text="%inches"/>
         </HBox>
-<!--        <TextField fx:id="screenSizeField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>-->
+        <!--        <TextField fx:id="screenSizeField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>-->
 
         <Label text="%systemZoom" GridPane.rowIndex="3"/>
         <HBox spacing="5.0" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">

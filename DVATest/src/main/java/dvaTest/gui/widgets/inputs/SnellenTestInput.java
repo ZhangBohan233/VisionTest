@@ -38,7 +38,7 @@ public class SnellenTestInput extends TestInput {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-
+        textButtonClicked(keyEvent.getText().toUpperCase());
     }
 
     private void textButtonClicked(String buttonText) {
