@@ -4,6 +4,7 @@ import common.Utility;
 import common.data.DataSaver;
 import dvaScreen.gui.items.ResolutionItem;
 import dvaTest.gui.items.ResultTableItem;
+import dvaTest.gui.widgets.ResultPane;
 import dvaTest.testCore.ResultRecord;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.stage.Modality;
@@ -26,44 +28,51 @@ import java.util.ResourceBundle;
 
 public class ResultView implements Initializable {
 
+//    @FXML
+//    TableView<ResultTableItem> resultTable;
+//
+//    @FXML
+//    TableColumn<ResultTableItem, Double> visionLevelCol;
+//
+//    @FXML
+//    TableColumn<ResolutionItem, Integer> correctCountCol, incorrectCountCol;
+//
+//    @FXML
+//    TableColumn<ResolutionItem, String> correctRatioCol;
     @FXML
-    TableView<ResultTableItem> resultTable;
-
-    @FXML
-    TableColumn<ResultTableItem, Double> visionLevelCol;
-
-    @FXML
-    TableColumn<ResolutionItem, Integer> correctCountCol, incorrectCountCol;
-
-    @FXML
-    TableColumn<ResolutionItem, String> correctRatioCol;
+    Pane resultContainer;
 
     private ResourceBundle bundle;
     private Stage thisStage;
     private boolean saved = false;
 
-    private ResultRecord resultRecord;
+    private ResultPane resultPane;
+
+//    private ResultRecord resultRecord;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
 
-        setTableFactory();
+//        setTableFactory();
     }
 
     public void setup(Stage stage, ResultRecord resultRecord) {
         this.thisStage = stage;
-        this.resultRecord = resultRecord;
-
-        setOnClose();
-
-        Map<String, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
-
-        for (Map.Entry<String, int[]> entry : sucFailMap.entrySet()) {
-            resultTable.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
-        }
-
-        Collections.sort(resultTable.getItems());
+        resultPane = new ResultPane();
+        resultPane.setup(resultRecord);
+        resultContainer.getChildren().add(resultPane);
+//        this.resultRecord = resultRecord;
+//
+//        setOnClose();
+//
+//        Map<String, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
+//
+//        for (Map.Entry<String, int[]> entry : sucFailMap.entrySet()) {
+//            resultTable.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
+//        }
+//
+//        Collections.sort(resultTable.getItems());
     }
 
     @FXML
@@ -71,12 +80,12 @@ public class ResultView implements Initializable {
         save(false);
     }
 
-    private void setTableFactory() {
-        visionLevelCol.setCellValueFactory(new PropertyValueFactory<>("visionLevel"));
-        correctCountCol.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
-        incorrectCountCol.setCellValueFactory(new PropertyValueFactory<>("incorrectCount"));
-        correctRatioCol.setCellValueFactory(new PropertyValueFactory<>("correctRatio"));
-    }
+//    private void setTableFactory() {
+//        visionLevelCol.setCellValueFactory(new PropertyValueFactory<>("visionLevel"));
+//        correctCountCol.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
+//        incorrectCountCol.setCellValueFactory(new PropertyValueFactory<>("incorrectCount"));
+//        correctRatioCol.setCellValueFactory(new PropertyValueFactory<>("correctRatio"));
+//    }
 
     private void save(boolean closeAfterSave) {
         Stage dialogStage = new Stage();
@@ -99,7 +108,10 @@ public class ResultView implements Initializable {
         saveButton.setOnAction(e -> {
             String subjectName = nameField.getText();
             if (Utility.isValidFileName(subjectName)) {
-                DataSaver.saveTestResult(subjectName, resultRecord, noteArea.getText());
+                DataSaver.saveTestResult(new ResultRecord.NamedRecord(
+                        resultPane.getResultRecord(),
+                        subjectName,
+                        noteArea.getText()));
                 saved = true;
                 dialogStage.close();
                 if (closeAfterSave) {

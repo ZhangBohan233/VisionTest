@@ -96,7 +96,7 @@ public class ServerSideListener extends Thread {
     }
 
     private void showTestScreen(TestType testType) {
-        mainView.storeToCache();
+//        mainView.storeToCache();
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader =

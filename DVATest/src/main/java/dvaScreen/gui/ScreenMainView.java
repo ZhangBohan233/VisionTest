@@ -1,6 +1,7 @@
 package dvaScreen.gui;
 
 import common.Utility;
+import common.data.AutoSavers;
 import common.data.CacheSaver;
 import dvaScreen.connection.ServerManager;
 import dvaScreen.gui.items.ResolutionItem;
@@ -120,10 +121,6 @@ public class ScreenMainView implements Initializable {
         return systemZoomBox.getValue().getScale();
     }
 
-    public void storeToCache() {
-        CacheSaver.ScreenCache.writeScreenSize(getScreenSize());
-    }
-
     private void fillBoxes() {
         resolutionBox.getItems().addAll(ResolutionItem.RESOLUTION_ITEMS);
         resolutionBox.getSelectionModel().select(0);
@@ -149,6 +146,10 @@ public class ScreenMainView implements Initializable {
 
         intSpinner.setValueFactory(intFactory);
         intFactory.setValue(24);
+
+        intSpinner.valueProperty().addListener(((observable, oldValue, newValue) -> {
+            AutoSavers.getCacheSaver().putCache(CacheSaver.SCREEN_SIZE, getScreenSize());
+        }));
     }
 
     private void setAutoDetected() {
@@ -203,6 +204,7 @@ public class ScreenMainView implements Initializable {
                 try {
                     Integer.parseInt(t1);
                     fracField.setText(t1);
+                    AutoSavers.getCacheSaver().putCache(CacheSaver.SCREEN_SIZE, getScreenSize());
                 } catch (NumberFormatException nfe) {
                     fracField.setText(s);
                 }
@@ -253,6 +255,12 @@ public class ScreenMainView implements Initializable {
     }
 
     private void restoreFromCache() {
-        setScreenSize(CacheSaver.ScreenCache.getLastScreenSize());
+        double screenSize = AutoSavers.getCacheSaver().getDouble(CacheSaver.SCREEN_SIZE);
+        setScreenSize(Double.isNaN(screenSize) ? 15.6 : screenSize);
     }
+
+//    public void storeToCache() {
+////        CacheSaver.ScreenCache.writeScreenSize(getScreenSize());
+//        AutoSavers.getCacheSaver().putCache(CacheSaver.SCREEN_SIZE, getScreenSize());
+//    }
 }

@@ -15,7 +15,7 @@ public class PrefSaver {
     private final Map<String, String> map;
     private final Timer timer;
 
-    public PrefSaver(String prefFile) {
+    PrefSaver(String prefFile) {
         this.fileName = prefFile;
         map = loadMap(prefFile);
 

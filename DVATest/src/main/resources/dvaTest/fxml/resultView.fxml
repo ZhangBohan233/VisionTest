@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Pane?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="dvaTest.gui.ResultView"
@@ -12,14 +13,7 @@
         <Insets topRightBottomLeft="5.0"/>
     </padding>
 
-    <TableView fx:id="resultTable">
-        <columns>
-            <TableColumn text="%visionLevel" fx:id="visionLevelCol"/>
-            <TableColumn text="%correctCount" fx:id="correctCountCol"/>
-            <TableColumn text="%incorrectCount" fx:id="incorrectCountCol"/>
-            <TableColumn text="%correctRatio" fx:id="correctRatioCol"/>
-        </columns>
-    </TableView>
+    <Pane fx:id="resultContainer"/>
 
     <Button text="%save" onAction="#saveClicked"/>
 

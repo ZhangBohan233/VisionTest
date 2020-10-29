@@ -48,7 +48,7 @@ public class TestController {
         baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + BLANK_WAIT_TIME);
     }
 
-    public void stop() {
+    public void normalStop() {
 //        interrupted = true;
         baseTimer.cancel();
         try {
@@ -58,9 +58,17 @@ public class TestController {
         }
     }
 
+    public void interrupt() {
+        baseTimer.cancel();
+    }
+
     public void userInput(String name, String buttonText) {
         userInputName = name;
         testView.updateInput(buttonText);
+    }
+
+    public TestView getTestView() {
+        return testView;
     }
 
     private void proceedOne() {

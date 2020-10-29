@@ -1,5 +1,7 @@
 package dvaTest.gui;
 
+import common.data.AutoSavers;
+import dvaScreen.connection.ServerManager;
 import dvaTest.connection.ClientManager;
 import common.data.CacheSaver;
 import javafx.application.Platform;
@@ -49,7 +51,7 @@ public class ConnectionView implements Initializable {
             return;
         }
         String ipAddress = ipField.getText();
-        CacheSaver.TestCache.writePortAndIp(portText, ipAddress);
+//        CacheSaver.TestCache.writePortAndIp(portText, ipAddress);
         try {
             ClientManager.startClient(ipAddress, port, parent);
 
@@ -85,10 +87,12 @@ public class ConnectionView implements Initializable {
                 char newChar = t1.charAt(i);
                 if ((newChar < '0' || newChar > '9') && newChar != '.') {
                     ipField.setText(s);
+                    // 这里不用保存至cache
                     return;
                 }
             }
             ipField.setText(t1);
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_IP, t1);
         }));
     }
 
@@ -98,16 +102,22 @@ public class ConnectionView implements Initializable {
                 char newChar = t1.charAt(i);
                 if (newChar < '0' || newChar > '9') {
                     portField.setText(s);
+                    // 这里不用保存至cache
                     return;
                 }
             }
             portField.setText(t1);
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_PORT, t1);
         }));
     }
 
     private void restoreFromCache() {
-        String[] portIp = CacheSaver.TestCache.getLastUsedPortAndIp();
-        portField.setText(portIp[0]);
-        ipField.setText(portIp[1]);
+        String port = AutoSavers.getCacheSaver().getCache(CacheSaver.TEST_PORT);
+        String ip = AutoSavers.getCacheSaver().getCache(CacheSaver.TEST_IP);
+        portField.setText(port == null ? String.valueOf(ServerManager.DEFAULT_PORT) : port);
+        ipField.setText(ip == null ? ClientManager.DEFAULT_IP : ip);
+//        String[] portIp = CacheSaver.TestCache.getLastUsedPortAndIp();
+//        portField.setText(portIp[0]);
+//        ipField.setText(portIp[1]);
     }
 }

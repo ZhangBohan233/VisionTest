@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="dvaTest.gui.HistoryView"
+          prefHeight="400.0" hgap="10.0">
+
+    <padding>
+        <Insets topRightBottomLeft="5.0"/>
+    </padding>
+
+    <columnConstraints>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+    </columnConstraints>
+
+    <TreeTableView fx:id="historyTable">
+        <columns>
+            <TreeTableColumn fx:id="subjectCol" prefWidth="250.0"/>
+            <TreeTableColumn fx:id="timeCol" prefWidth="150.0" text="%testTime"/>
+        </columns>
+        <placeholder>
+            <Label text="%noTestHistory"/>
+        </placeholder>
+    </TreeTableView>
+
+    <Pane fx:id="rightPane" GridPane.columnIndex="1" visible="false" managed="false"/>
+
+</GridPane>

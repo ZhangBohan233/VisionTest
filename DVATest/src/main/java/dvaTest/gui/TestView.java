@@ -1,5 +1,6 @@
 package dvaTest.gui;
 
+import dvaTest.connection.ClientManager;
 import dvaTest.gui.widgets.inputs.CTestInput;
 import dvaTest.gui.widgets.inputs.SnellenTestInput;
 import dvaTest.gui.widgets.inputs.StdLogTestInput;
@@ -69,13 +70,15 @@ public class TestView implements Initializable {
         this.thisStage = stage;
         testController = new TestController(testPref, this);
 
+        ClientManager.getCurrentClient().setTestController(testController);
+
         testInput = makeTestInput(testPref, testController);
         inputContainer.getChildren().add(testInput);
 
         setAllOnKeyPressed(rootPane);
 
         thisStage.setOnCloseRequest(e -> {
-            testController.stop();
+            testController.normalStop();
         });
     }
 
@@ -120,7 +123,7 @@ public class TestView implements Initializable {
 
     @FXML
     void stopTest() {
-        testController.stop();
+        testController.normalStop();
         thisStage.close();
     }
 

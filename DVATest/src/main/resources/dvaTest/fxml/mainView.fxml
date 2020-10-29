@@ -23,8 +23,12 @@
     </columnConstraints>
 
     <MenuBar GridPane.columnSpan="2">
-        <Menu text="%fileMenu"/>
-        <Menu text="%aboutMenu"/>
+        <Menu text="%fileMenu">
+            <MenuItem text="%testHistory" onAction="#showHistory"/>
+        </Menu>
+        <Menu text="%helpMenu">
+            <MenuItem text="%about"/>
+        </Menu>
     </MenuBar>
 
     <TitledPane fx:id="distVisionPane"

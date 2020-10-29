@@ -1,5 +1,6 @@
 package dvaTest.testCore;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -7,15 +8,11 @@ import java.util.TreeMap;
 public class ResultRecord {
 
     public final List<RecordUnit> recordUnits;
-//    public final TestType testType;
-//    public final long intervalMills;
     public final TestPref testPref;
 
     public ResultRecord(List<RecordUnit> recordUnits, TestPref testPref) {
         this.recordUnits = recordUnits;
         this.testPref = testPref;
-//        this.testType = testPref.getTestType();
-//        this.intervalMills = testPref.getFrameTimeMills();
     }
 
     public static class RecordUnit {
@@ -25,7 +22,7 @@ public class ResultRecord {
         private final String userInput;
         private final boolean correct;
 
-        private RecordUnit(String visionLevel, String shown, String userInput, boolean correct) {
+        public RecordUnit(String visionLevel, String shown, String userInput, boolean correct) {
             this.visionLevel = visionLevel;
             this.shown = shown;
             this.userInput = userInput;
@@ -70,6 +67,28 @@ public class ResultRecord {
 
         public String getUserInput() {
             return userInput;
+        }
+    }
+
+    public static class NamedRecord {
+
+        public final ResultRecord resultRecord;
+        public final String name;
+        public final String note;
+        public final Date creationTime;
+
+        public NamedRecord(ResultRecord resultRecord, String name, String note) {
+            this.resultRecord = resultRecord;
+            this.name = name;
+            this.note = note;
+            this.creationTime = new Date(System.currentTimeMillis());
+        }
+
+        public NamedRecord(ResultRecord resultRecord, String name, String note, Date creationTime) {
+            this.resultRecord = resultRecord;
+            this.name = name;
+            this.note = note;
+            this.creationTime = creationTime;
         }
     }
 }

@@ -2,6 +2,7 @@ package dvaTest.connection;
 
 import common.Signals;
 import dvaTest.gui.MainView;
+import dvaTest.testCore.TestController;
 import dvaTest.testCore.tests.TestUnit;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ public class Client extends Thread {
     private final MainView mainView;
     private final Socket clientSocket;
     private boolean disconnected;
+    private TestController testController;
 
     Client(String address, int port, MainView mainView) throws IOException {
         this.mainView = mainView;
@@ -50,6 +52,10 @@ public class Client extends Thread {
         clientSocket.close();
     }
 
+    public void setTestController(TestController testController) {
+        this.testController = testController;
+    }
+
     class Listener extends Thread {
 
         Listener() {
@@ -84,6 +90,12 @@ public class Client extends Thread {
                     shutdown();
                     ClientManager.discardCurrentClient();
                     mainView.setDisconnected();
+                    break;
+                case Signals.SCREEN_INTERRUPT:
+                    if (testController != null) {
+                        testController.interrupt();
+                        testController.getTestView().closeWindow();
+                    }
                     break;
                 default:
                     throw new IOException("Unknown signal " + b);

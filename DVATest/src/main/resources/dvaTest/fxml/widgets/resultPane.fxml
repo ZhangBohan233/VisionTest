@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import dvaTest.gui.widgets.ResultPane?>
+<?import javafx.scene.control.*?>
+<fx:root type="dvaTest.gui.widgets.ResultPane" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml"
+         prefHeight="400.0" prefWidth="300.0">
+
+    <TableView fx:id="resultTable">
+        <columns>
+            <TableColumn text="%visionLevel" fx:id="visionLevelCol"/>
+            <TableColumn text="%correctCount" fx:id="correctCountCol"/>
+            <TableColumn text="%incorrectCount" fx:id="incorrectCountCol"/>
+            <TableColumn text="%correctRatio" fx:id="correctRatioCol"/>
+        </columns>
+    </TableView>
+
+</fx:root>

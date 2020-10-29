@@ -1,6 +1,7 @@
 package dvaTest.gui;
 
 import common.EventLogger;
+import common.data.AutoSavers;
 import common.data.CacheSaver;
 import dvaTest.TestApp;
 import dvaTest.connection.ClientManager;
@@ -62,8 +63,11 @@ public class MainView implements Initializable {
                 ScoreCounting.FRAC_METER);
 
         setScoreCountingListener();
-
         restoreFromCache();
+
+        distanceBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_DISTANCE, newValue);
+        }));
     }
 
     @FXML
@@ -115,6 +119,31 @@ public class MainView implements Initializable {
 
     }
 
+    @FXML
+    void showHistory() {
+        try {
+            Stage stage = new Stage();
+            stage.initOwner(thisStage);
+            stage.initModality(Modality.WINDOW_MODAL);
+
+            FXMLLoader loader =
+                    new FXMLLoader(getClass().getResource("/dvaTest/fxml/historyView.fxml"),
+                            bundle);
+            Parent root = loader.load();
+
+            stage.setTitle(bundle.getString("testHistory"));
+            stage.setScene(new Scene(root));
+
+            HistoryView historyView = loader.getController();
+            historyView.setStage(stage);
+
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            EventLogger.log(e);
+        }
+    }
+
     public void setStage(Stage stage) {
         this.thisStage = stage;
     }
@@ -154,7 +183,7 @@ public class MainView implements Initializable {
                 .distance(distanceBox.getValue())
                 .frameTimeMills(getTimeInterval())
                 .build();
-        storeCache();
+//        storeCache();
         try {
             Stage stage = new Stage();
             stage.initOwner(thisStage);
@@ -181,8 +210,11 @@ public class MainView implements Initializable {
     }
 
     private void setFrameTimeSliderListener() {
-        timeIntervalSlider.valueProperty().addListener(((observableValue, number, t1) ->
-                refreshFrameTimeLabel(t1.doubleValue())));
+        timeIntervalSlider.valueProperty().addListener(((observableValue, number, t1) -> {
+            refreshFrameTimeLabel(t1.doubleValue());
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_INTERVAL,
+                    (long) (t1.doubleValue() * 1000));
+        }));
     }
 
     private void setScoreCountingListener() {
@@ -200,6 +232,7 @@ public class MainView implements Initializable {
                 stdLogButton.setDisable(true);
                 etdrsButton.setDisable(true);
             }
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_SCORE_COUNTING, newValue.name());
         }));
     }
 
@@ -213,15 +246,16 @@ public class MainView implements Initializable {
     }
 
     private void restoreFromCache() {
-        CacheSaver.MainViewCache mvc = CacheSaver.TestCache.getMainViewCache();
+        CacheSaver cacheSaver = AutoSavers.getCacheSaver();
+        CacheSaver.MainViewCache mvc = cacheSaver.getMainViewCache();
         scoreCountingBox.getSelectionModel().select(mvc.scoreCounting);
         timeIntervalSlider.setValue((double) mvc.timeInterval / 1000);
         distanceBox.getSelectionModel().select(mvc.testDistance);
     }
 
-    private void storeCache() {
-        CacheSaver.TestCache.writeMainViewCache(scoreCountingBox.getValue(),
-                getTimeInterval(),
-                distanceBox.getValue());
-    }
+//    private void storeCache() {
+//        AutoSavers.getCacheSaver().writeMainViewCache(scoreCountingBox.getValue(),
+//                getTimeInterval(),
+//                distanceBox.getValue());
+//    }
 }

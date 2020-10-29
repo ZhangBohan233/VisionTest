@@ -11,12 +11,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class TestApp extends Application {
 
     private static ResourceBundle bundle;
+    private static SimpleDateFormat dateFormat;
 
     public static void run(String[] args) {
         try {
@@ -33,6 +35,7 @@ public class TestApp extends Application {
 
         bundle = ResourceBundle.getBundle("common.bundles.Languages",
                 new Locale("zh", "CN"));
+        dateFormat = new SimpleDateFormat(bundle.getString("dateFormat"));
 
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/dvaTest/fxml/mainView.fxml"), bundle);
@@ -58,5 +61,9 @@ public class TestApp extends Application {
 
     public static ResourceBundle getBundle() {
         return bundle;
+    }
+
+    public static SimpleDateFormat getDateFormat() {
+        return dateFormat;
     }
 }
