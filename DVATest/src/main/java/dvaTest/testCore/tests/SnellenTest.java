@@ -10,15 +10,15 @@ import java.util.Map;
 public class SnellenTest extends Test {
 
     public static final Map<String, TestImage> ITEMS = Map.of(
-            "C", new TestImage("C", "snellen/C2.jpg", TestType.SNELLEN_CHART),
-            "D", new TestImage("D", "snellen/D2.jpg", TestType.SNELLEN_CHART),
-            "E", new TestImage("E", "snellen/E.jpg", TestType.SNELLEN_CHART),
-            "F", new TestImage("F", "snellen/F.jpg", TestType.SNELLEN_CHART),
-            "L", new TestImage("L", "snellen/L.jpg", TestType.SNELLEN_CHART),
-            "O", new TestImage("O", "snellen/O.jpg", TestType.SNELLEN_CHART),
-            "P", new TestImage("P", "snellen/P2.jpg", TestType.SNELLEN_CHART),
-            "T", new TestImage("T", "snellen/T.jpg", TestType.SNELLEN_CHART),
-            "Z", new TestImage("Z", "snellen/Z.jpg", TestType.SNELLEN_CHART)
+            "C", new TestImage("C", "snellen/C2.jpg", TestType.SNELLEN),
+            "D", new TestImage("D", "snellen/D2.jpg", TestType.SNELLEN),
+            "E", new TestImage("E", "snellen/E.jpg", TestType.SNELLEN),
+            "F", new TestImage("F", "snellen/F.jpg", TestType.SNELLEN),
+            "L", new TestImage("L", "snellen/L.jpg", TestType.SNELLEN),
+            "O", new TestImage("O", "snellen/O.jpg", TestType.SNELLEN),
+            "P", new TestImage("P", "snellen/P2.jpg", TestType.SNELLEN),
+            "T", new TestImage("T", "snellen/T.jpg", TestType.SNELLEN),
+            "Z", new TestImage("Z", "snellen/Z.jpg", TestType.SNELLEN)
     );
 
     private static final double[] SCALES =

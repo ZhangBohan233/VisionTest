@@ -1,10 +1,7 @@
 package dvaTest.gui;
 
 import dvaTest.connection.ClientManager;
-import dvaTest.gui.widgets.inputs.CTestInput;
-import dvaTest.gui.widgets.inputs.SnellenTestInput;
-import dvaTest.gui.widgets.inputs.StdLogTestInput;
-import dvaTest.gui.widgets.inputs.TestInput;
+import dvaTest.gui.widgets.inputs.*;
 import dvaTest.testCore.*;
 import dvaTest.testCore.tests.TestUnit;
 import javafx.application.Platform;
@@ -47,13 +44,15 @@ public class TestView implements Initializable {
     static TestInput makeTestInput(TestPref testPref, TestController testController) {
         TestInput testInput;
         // TODO: test type
-        if (testPref.getTestType() == TestType.C_CHART) {
+        if (testPref.getTestType() == TestType.LANDOLT) {
             testInput = new CTestInput();
-        } else if (testPref.getTestType() == TestType.STD_LOG_CHART) {
+        } else if (testPref.getTestType() == TestType.STD_LOG) {
             testInput = new StdLogTestInput();
-        } else if (testPref.getTestType() == TestType.SNELLEN_CHART) {
+        } else if (testPref.getTestType() == TestType.SNELLEN) {
             testInput = new SnellenTestInput();
-        }  else {
+        } else if (testPref.getTestType() == TestType.ETDRS) {
+            testInput = new EtdrsTestInput();
+        } else {
             throw new TestTypeException("No such test type");
         }
         testInput.setTestController(testController);

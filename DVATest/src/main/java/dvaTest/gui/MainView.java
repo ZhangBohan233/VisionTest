@@ -96,12 +96,12 @@ public class MainView implements Initializable {
 
     @FXML
     void snellenChartClicked() {
-        showTestView(TestType.SNELLEN_CHART);
+        showTestView(TestType.SNELLEN);
     }
 
     @FXML
     void cChartClicked() {
-        showTestView(TestType.C_CHART);
+        showTestView(TestType.LANDOLT);
     }
 
     @FXML
@@ -111,12 +111,12 @@ public class MainView implements Initializable {
 
     @FXML
     void stdLogChartClicked() {
-        showTestView(TestType.STD_LOG_CHART);
+        showTestView(TestType.STD_LOG);
     }
 
     @FXML
     void etdrsCharClicked() {
-
+        showTestView(TestType.ETDRS);
     }
 
     @FXML

@@ -25,7 +25,7 @@ public class DataSaver {
     public static void saveTestResult(ResultRecord.NamedRecord record) {
         createDirsIfNone();
 
-        File subjectDir = new File(DATA_DIR + File.separator + record.name + ".json");
+        File subjectDir = new File(DATA_DIR + File.separator + record.name);
         if (!subjectDir.exists()) {
             if (!subjectDir.mkdirs()) throw new RuntimeException("Failed to create dir " + subjectDir);
         }
@@ -37,7 +37,7 @@ public class DataSaver {
         JSONObject base = new JSONObject();
         base.put("name", record.name);
         base.put("time", dateStr);
-        base.put("type", record.resultRecord.testPref.getTestType().toString());
+        base.put("type", record.resultRecord.testPref.getTestType().name());
         base.put("distance", record.resultRecord.testPref.getDistance());
         base.put("scoreCounting", record.resultRecord.testPref.getScoreCounting().name());
         base.put("interval", record.resultRecord.testPref.getIntervalMills());
@@ -56,7 +56,7 @@ public class DataSaver {
         base.put("results", resultArray);
 
         String jsonString = base.toString(2);
-        String fileName = subjectDir.getAbsolutePath() + File.separator + "test-" + nameDateStr;
+        String fileName = subjectDir.getAbsolutePath() + File.separator + "test-" + nameDateStr + ".json";
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
@@ -103,7 +103,7 @@ public class DataSaver {
                 recordUnits.add(new ResultRecord.RecordUnit(vision, shown, input, correct));
             }
             TestPref testPref = new TestPref.TestPrefBuilder()
-                    .testType(TestType.fromString(typeStr))
+                    .testType(TestType.valueOf(typeStr))
                     .scoreCounting(ScoreCounting.valueOf(scoreCountingStr))
                     .distance(distance)
                     .frameTimeMills(interval)

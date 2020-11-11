@@ -3,16 +3,15 @@ package dvaTest.testCore.tests;
 import dvaTest.testCore.TestType;
 import dvaTest.testCore.testItems.TestImage;
 
-import java.util.List;
 import java.util.Map;
 
 public class StdLogTest extends LogBasedText {
 
     public static final Map<String, TestImage> ITEMS = Map.of(
-            "left", new TestImage("left", "stdLog/left.jpg", TestType.STD_LOG_CHART),
-            "up", new TestImage("up", "stdLog/up.jpg", TestType.STD_LOG_CHART),
-            "right", new TestImage("right", "stdLog/right.jpg", TestType.STD_LOG_CHART),
-            "down", new TestImage("down", "stdLog/down.jpg", TestType.STD_LOG_CHART)
+            "left", new TestImage("left", "stdLog/left.jpg", TestType.STD_LOG),
+            "up", new TestImage("up", "stdLog/up.jpg", TestType.STD_LOG),
+            "right", new TestImage("right", "stdLog/right.jpg", TestType.STD_LOG),
+            "down", new TestImage("down", "stdLog/down.jpg", TestType.STD_LOG)
     );
 
 //    /**

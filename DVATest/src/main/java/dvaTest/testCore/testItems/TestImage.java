@@ -2,6 +2,7 @@ package dvaTest.testCore.testItems;
 
 import dvaTest.testCore.TestType;
 import dvaTest.testCore.tests.CTest;
+import dvaTest.testCore.tests.EtdrsTest;
 import dvaTest.testCore.tests.SnellenTest;
 import dvaTest.testCore.tests.StdLogTest;
 
@@ -24,14 +25,16 @@ public class TestImage {
     public static TestImage getByName(TestType testType, String name) {
         Map<String, TestImage> testItems;
         // TODO: test type
-        if (testType == TestType.SNELLEN_CHART) {
+        if (testType == TestType.SNELLEN) {
             testItems = SnellenTest.ITEMS;
-        } else if (testType == TestType.C_CHART) {
+        } else if (testType == TestType.LANDOLT) {
             testItems = CTest.ITEMS;
         } else if (testType == TestType.E_CHART) {
-            testItems = null;
-        } else if (testType == TestType.STD_LOG_CHART) {
+            throw new RuntimeException();
+        } else if (testType == TestType.STD_LOG) {
             testItems = StdLogTest.ITEMS;
+        } else if (testType == TestType.ETDRS) {
+            testItems = EtdrsTest.ITEMS;
         } else {
             throw new RuntimeException("No such test type. ");
         }

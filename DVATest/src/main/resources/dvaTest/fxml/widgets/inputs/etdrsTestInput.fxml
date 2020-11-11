@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import dvaTest.gui.widgets.inputs.EtdrsTestInput?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root type="dvaTest.gui.widgets.inputs.EtdrsTestInput" xmlns="http://javafx.com/javafx"
+         xmlns:fx="http://javafx.com/fxml">
+
+    <GridPane hgap="5.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+
+        <Button text="C" onAction="#buttonClicked" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="D" onAction="#buttonClicked" GridPane.columnIndex="1" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="H" onAction="#buttonClicked" GridPane.columnIndex="2" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="K" onAction="#buttonClicked" GridPane.columnIndex="3" prefWidth="60.0" prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+
+        <Button text="N" onAction="#buttonClicked" GridPane.rowIndex="1" GridPane.columnIndex="0" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="O" onAction="#buttonClicked" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="R" onAction="#buttonClicked" GridPane.rowIndex="1" GridPane.columnIndex="2" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="S" onAction="#buttonClicked" GridPane.rowIndex="1" GridPane.columnIndex="3" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+
+        <Button text="V" onAction="#buttonClicked" GridPane.rowIndex="2" GridPane.columnIndex="1" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+        <Button text="Z" onAction="#buttonClicked" GridPane.rowIndex="2" GridPane.columnIndex="2" prefWidth="60.0"
+                prefHeight="60.0">
+            <font>
+                <Font name="System Bold" size="24.0"/>
+            </font>
+        </Button>
+    </GridPane>
+
+</fx:root>

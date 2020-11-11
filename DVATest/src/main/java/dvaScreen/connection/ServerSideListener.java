@@ -60,16 +60,19 @@ public class ServerSideListener extends Thread {
                 mainView.setConnectedUi();
                 break;
             case Signals.SHOW_SNELLEN:
-                showTestScreen(TestType.SNELLEN_CHART);
+                showTestScreen(TestType.SNELLEN);
                 break;
             case Signals.SHOW_E:
                 showTestScreen(TestType.E_CHART);
                 break;
             case Signals.SHOW_C:
-                showTestScreen(TestType.C_CHART);
+                showTestScreen(TestType.LANDOLT);
                 break;
             case Signals.SHOW_STD_LOG:
-                showTestScreen(TestType.STD_LOG_CHART);
+                showTestScreen(TestType.STD_LOG);
+                break;
+            case Signals.SHOW_ETDRS:
+                showTestScreen(TestType.ETDRS);
                 break;
 
             case Signals.STOP_TEST:
@@ -81,6 +84,7 @@ public class ServerSideListener extends Thread {
                 break;
             default:
                 System.err.println("Unknown signal received by server: " + signal);
+                break;
         }
     }
 
