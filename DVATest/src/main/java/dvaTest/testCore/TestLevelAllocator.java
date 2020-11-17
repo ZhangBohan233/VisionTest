@@ -9,7 +9,7 @@ public class TestLevelAllocator {
     /**
      * 每个等级进行的测试次数
      */
-    private int[] levelTestsCount;
+    private final int[] levelTestsCount;
 
     /**
      * 在用户第一次错误之前，该值为{@code true}

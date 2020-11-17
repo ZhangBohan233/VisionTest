@@ -105,11 +105,6 @@ public class MainView implements Initializable {
     }
 
     @FXML
-    void eChartClicked() {
-        showTestView(TestType.E_CHART);
-    }
-
-    @FXML
     void stdLogChartClicked() {
         showTestView(TestType.STD_LOG);
     }

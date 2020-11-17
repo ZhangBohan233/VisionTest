@@ -8,22 +8,20 @@ import java.util.Map;
 public class EtdrsTest extends LogBasedText {
 
     public final static Map<String, TestImage> ITEMS = Map.of(
-            "C", new TestImage("C", "etdrs/C.bmp", TestType.ETDRS),
-            "D", new TestImage("D", "etdrs/D.bmp", TestType.ETDRS),
-            "H", new TestImage("H", "etdrs/H.bmp", TestType.ETDRS),
-            "K", new TestImage("K", "etdrs/K.bmp", TestType.ETDRS),
-            "N", new TestImage("N", "etdrs/N.bmp", TestType.ETDRS),
-            "O", new TestImage("O", "etdrs/O.bmp", TestType.ETDRS),
-            "R", new TestImage("R", "etdrs/R.bmp", TestType.ETDRS),
-            "S", new TestImage("S", "etdrs/S.bmp", TestType.ETDRS),
-            "V", new TestImage("V", "etdrs/V.bmp", TestType.ETDRS),
-            "Z", new TestImage("Z", "etdrs/Z.bmp", TestType.ETDRS)
+            "C", new TestImage("C", "etdrs/C.bmp"),
+            "D", new TestImage("D", "etdrs/D.bmp"),
+            "H", new TestImage("H", "etdrs/H.bmp"),
+            "K", new TestImage("K", "etdrs/K.bmp"),
+            "N", new TestImage("N", "etdrs/N.bmp"),
+            "O", new TestImage("O", "etdrs/O.bmp"),
+            "R", new TestImage("R", "etdrs/R.bmp"),
+            "S", new TestImage("S", "etdrs/S.bmp"),
+            "V", new TestImage("V", "etdrs/V.bmp"),
+            "Z", new TestImage("Z", "etdrs/Z.bmp")
     );
 
-    public static final EtdrsTest ETDRS_TEST = new EtdrsTest(ITEMS);
-
-    public EtdrsTest(Map<String, TestImage> testImageMap) {
-        super(testImageMap);
+    public EtdrsTest() {
+        super(ITEMS);
     }
 
     @Override

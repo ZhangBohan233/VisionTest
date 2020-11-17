@@ -37,29 +37,6 @@ public class TestView implements Initializable {
     private Stage thisStage;
     private TestController testController;
 
-    static TestInput makeTestInput(TestPref testPref) {
-        return makeTestInput(testPref, null);
-    }
-
-    static TestInput makeTestInput(TestPref testPref, TestController testController) {
-        TestInput testInput;
-        // TODO: test type
-        if (testPref.getTestType() == TestType.LANDOLT) {
-            testInput = new CTestInput();
-        } else if (testPref.getTestType() == TestType.STD_LOG) {
-            testInput = new StdLogTestInput();
-        } else if (testPref.getTestType() == TestType.SNELLEN) {
-            testInput = new SnellenTestInput();
-        } else if (testPref.getTestType() == TestType.ETDRS) {
-            testInput = new EtdrsTestInput();
-        } else {
-            throw new TestTypeException("No such test type");
-        }
-        testInput.setTestController(testController);
-
-        return testInput;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
@@ -71,7 +48,7 @@ public class TestView implements Initializable {
 
         ClientManager.getCurrentClient().setTestController(testController);
 
-        testInput = makeTestInput(testPref, testController);
+        testInput = testPref.getTestType().generateTestInput(testController);
         inputContainer.getChildren().add(testInput);
 
         setAllOnKeyPressed(rootPane);

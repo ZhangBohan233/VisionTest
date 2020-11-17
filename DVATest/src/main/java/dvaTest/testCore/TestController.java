@@ -37,7 +37,7 @@ public class TestController {
         this.testPref = testPref;
         this.testView = testView;
 
-        test = testPref.getTestType().getStaticTest();
+        test = testPref.getTestType().getTest();
 
         this.levelAllocator =
                 new TestLevelAllocator(test.visionLevelCount(), test.visionLevelCount() / 2);

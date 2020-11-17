@@ -12,17 +12,17 @@ public class TestUnit {
     private final double distance;
     private final long timeInterval;
 
-    private final Test test;
+    private final TestType testType;
     private final TestImage testImage;
 
     TestUnit(String visionLevel, double graphScale, double distance, long timeInterval,
-             TestImage testImage, Test test) {
+             TestImage testImage, TestType testType) {
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
         this.distance = distance;
         this.timeInterval = timeInterval;
         this.testImage = testImage;
-        this.test = test;
+        this.testType = testType;
     }
 
     public TestImage getTestImage() {
@@ -74,7 +74,7 @@ public class TestUnit {
 
         byte[] array = new byte[28 + nameBytes.length + levelBytes.length];
         array[0] = Signals.NEXT_TEST_UNIT;
-        array[1] = testImage.getTestType().toByte();
+        array[1] = testType.toByte();
         Utility.doubleToBytes(graphScale, array, 2);
         Utility.doubleToBytes(distance, array, 10);
         Utility.longToBytes(timeInterval, array, 18);
@@ -101,15 +101,16 @@ public class TestUnit {
         byte[] strBytes = new byte[strLen];
         System.arraycopy(array, 27, strBytes, 0, strLen);
         String name = new String(strBytes);
-        TestImage testItem = TestImage.getByName(testType, name);
+//        TestImage testItem = TestImage.getByName(testType, name);
+        TestImage testImage = testType.getTest().getTestImageMap().get(name);
         int levelLen = array[27 + strLen] & 0xff;
         byte[] levelBytes = new byte[levelLen];
         System.arraycopy(array, 28 + strLen, levelBytes, 0, levelLen);
         String visionLevel = new String(levelBytes);
-        return new TestUnit(visionLevel, graphScale, distance, timeInterval, testItem, testType.getStaticTest());
+        return new TestUnit(visionLevel, graphScale, distance, timeInterval, testImage, testType);
     }
 
-    public Test getTest() {
-        return test;
+    public TestType getTestType() {
+        return testType;
     }
 }

@@ -1,6 +1,5 @@
 package dvaScreen.gui;
 
-import dvaTest.testCore.TestController;
 import dvaTest.testCore.tests.TestUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -61,7 +60,7 @@ public class ScreenTestView implements Initializable {
         Image image = new Image(inputStream);
 
         final double graphHeightMm = testUnit.getGraphScale() *
-                testUnit.getTest().standardHeightMm(testUnit.getDistance());
+                testUnit.getTestType().getTest().standardHeightMm(testUnit.getDistance());
         final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / systemZoom);
 
         Platform.runLater(() -> {

@@ -1,34 +1,38 @@
 package dvaTest.testCore;
 
+import common.EventLogger;
 import common.Signals;
+import dvaTest.gui.widgets.inputs.*;
 import dvaTest.testCore.tests.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
 public enum TestType {
-    SNELLEN("snellenChart", Signals.SHOW_SNELLEN),
-    LANDOLT("cChart", Signals.SHOW_C),
-    E_CHART("eChart", Signals.SHOW_E),
-    ETDRS("etdrsChart", Signals.SHOW_ETDRS),
-    STD_LOG("stdLogChart", Signals.SHOW_STD_LOG);
+    SNELLEN("snellenChart", Signals.SHOW_SNELLEN, SnellenTest.class, SnellenTestInput.class),
+    LANDOLT("cChart", Signals.SHOW_C, CTest.class, CTestInput.class),
+    ETDRS("etdrsChart", Signals.SHOW_ETDRS, EtdrsTest.class, EtdrsTestInput.class),
+    STD_LOG("stdLogChart", Signals.SHOW_STD_LOG, StdLogTest.class, StdLogTestInput.class);
 
     private final String bundleKey;
     private final byte signal;
-//    private final Map<String, TestImage> testItems;
+    private final Class<? extends Test> testClass;
+    private final Class<? extends TestInput> inputClass;
+    private Test testInstance;
 
-    TestType(String bundleKey, byte signal) {
+    TestType(String bundleKey,
+             byte signal,
+             Class<? extends Test> testClass,
+             Class<? extends TestInput> inputClass) {
         this.bundleKey = bundleKey;
         this.signal = signal;
-//        this.testItems = testItems;
+        this.testClass = testClass;
+        this.inputClass = inputClass;
     }
 
     public static TestType fromByte(byte b) {
         return values()[b & 0xff];
     }
-
-//    public Map<String, TestImage> getTestItems() {
-//        return testItems;
-//    }
 
     public byte toByte() {
         return (byte) ordinal();
@@ -42,22 +46,30 @@ public enum TestType {
         return bundle.getString(bundleKey);
     }
 
-    public Test getStaticTest() {
-        Test test;
-        // TODO: test type
-        if (this == SNELLEN) {
-            test = SnellenTest.SNELLEN_TEST;
-        } else if (this == LANDOLT) {
-            test = CTest.CTEST;
-        } else if (this == E_CHART) {
-            throw new RuntimeException();
-        } else if (this == STD_LOG) {
-            test = StdLogTest.STD_LOG_TEST;
-        } else if (this == ETDRS) {
-            test = EtdrsTest.ETDRS_TEST;
-        } else {
-            throw new TestTypeException("Unexpected test type. ");
+    public Test getTest() {
+        if (testInstance == null) {
+            try {
+                testInstance = testClass.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException |
+                    IllegalAccessException |
+                    InvocationTargetException |
+                    NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return test;
+        return testInstance;
+    }
+
+    public TestInput generateTestInput(TestController testController) {
+        try {
+            TestInput testInput = inputClass.getDeclaredConstructor().newInstance();
+            testInput.setTestController(testController);
+            return testInput;
+        } catch (InstantiationException |
+                IllegalAccessException |
+                InvocationTargetException |
+                NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

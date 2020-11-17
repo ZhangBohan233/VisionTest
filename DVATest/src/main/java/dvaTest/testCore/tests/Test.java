@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public abstract class Test {
 
-
     protected final Map<String, TestImage> testImageMap;
     protected final TestImage[] testImages;
 
@@ -31,7 +30,7 @@ public abstract class Test {
                 testPref.getDistance(),
                 testPref.getIntervalMills(),
                 testImages[directionIndex],
-                this);
+                testPref.getTestType());
     }
 
     protected abstract String[] getVisionLevels(ScoreCounting scoreCounting);

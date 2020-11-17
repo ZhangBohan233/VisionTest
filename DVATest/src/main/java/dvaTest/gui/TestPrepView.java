@@ -35,7 +35,8 @@ public class TestPrepView implements Initializable {
         this.testPref = testPref;
         this.stage = stage;
 
-        inputContainer.getChildren().add(TestView.makeTestInput(testPref));
+//        inputContainer.getChildren().add(TestView.makeTestInput(testPref));
+        inputContainer.getChildren().add(testPref.getTestType().generateTestInput(null));
     }
 
     @FXML

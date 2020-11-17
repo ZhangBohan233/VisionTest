@@ -48,13 +48,9 @@ public class ResultView implements Initializable {
 
     private ResultPane resultPane;
 
-//    private ResultRecord resultRecord;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
-
-//        setTableFactory();
     }
 
     public void setup(Stage stage, ResultRecord resultRecord) {
@@ -62,30 +58,12 @@ public class ResultView implements Initializable {
         resultPane = new ResultPane();
         resultPane.setup(resultRecord);
         resultContainer.getChildren().add(resultPane);
-//        this.resultRecord = resultRecord;
-//
-//        setOnClose();
-//
-//        Map<String, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
-//
-//        for (Map.Entry<String, int[]> entry : sucFailMap.entrySet()) {
-//            resultTable.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
-//        }
-//
-//        Collections.sort(resultTable.getItems());
     }
 
     @FXML
     void saveClicked() {
         save(false);
     }
-
-//    private void setTableFactory() {
-//        visionLevelCol.setCellValueFactory(new PropertyValueFactory<>("visionLevel"));
-//        correctCountCol.setCellValueFactory(new PropertyValueFactory<>("correctCount"));
-//        incorrectCountCol.setCellValueFactory(new PropertyValueFactory<>("incorrectCount"));
-//        correctRatioCol.setCellValueFactory(new PropertyValueFactory<>("correctRatio"));
-//    }
 
     private void save(boolean closeAfterSave) {
         Stage dialogStage = new Stage();

@@ -10,15 +10,15 @@ import java.util.Map;
 public class SnellenTest extends Test {
 
     public static final Map<String, TestImage> ITEMS = Map.of(
-            "C", new TestImage("C", "snellen/C2.jpg", TestType.SNELLEN),
-            "D", new TestImage("D", "snellen/D2.jpg", TestType.SNELLEN),
-            "E", new TestImage("E", "snellen/E.jpg", TestType.SNELLEN),
-            "F", new TestImage("F", "snellen/F.jpg", TestType.SNELLEN),
-            "L", new TestImage("L", "snellen/L.jpg", TestType.SNELLEN),
-            "O", new TestImage("O", "snellen/O.jpg", TestType.SNELLEN),
-            "P", new TestImage("P", "snellen/P2.jpg", TestType.SNELLEN),
-            "T", new TestImage("T", "snellen/T.jpg", TestType.SNELLEN),
-            "Z", new TestImage("Z", "snellen/Z.jpg", TestType.SNELLEN)
+            "C", new TestImage("C", "snellen/C2.jpg"),
+            "D", new TestImage("D", "snellen/D2.jpg"),
+            "E", new TestImage("E", "snellen/E.jpg"),
+            "F", new TestImage("F", "snellen/F.jpg"),
+            "L", new TestImage("L", "snellen/L.jpg"),
+            "O", new TestImage("O", "snellen/O.jpg"),
+            "P", new TestImage("P", "snellen/P2.jpg"),
+            "T", new TestImage("T", "snellen/T.jpg"),
+            "Z", new TestImage("Z", "snellen/Z.jpg")
     );
 
     private static final double[] SCALES =
@@ -27,10 +27,10 @@ public class SnellenTest extends Test {
     private static final String[] STR_LEVEL_METERS =
             {"6/60", "6/36", "6/24", "6/18", "6/12", "6/9", "6/6", "6/5", "6/4"};
 
-    public static final SnellenTest SNELLEN_TEST = new SnellenTest(ITEMS);
+//    public static final SnellenTest SNELLEN_TEST = new SnellenTest(ITEMS);
 
-    private SnellenTest(Map<String, TestImage> testImageMap) {
-        super(testImageMap);
+    private SnellenTest() {
+        super(ITEMS);
     }
 
     @Override

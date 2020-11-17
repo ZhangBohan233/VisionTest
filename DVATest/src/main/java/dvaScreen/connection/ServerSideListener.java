@@ -62,9 +62,9 @@ public class ServerSideListener extends Thread {
             case Signals.SHOW_SNELLEN:
                 showTestScreen(TestType.SNELLEN);
                 break;
-            case Signals.SHOW_E:
-                showTestScreen(TestType.E_CHART);
-                break;
+//            case Signals.SHOW_E:
+//                showTestScreen(TestType.E_CHART);
+//                break;
             case Signals.SHOW_C:
                 showTestScreen(TestType.LANDOLT);
                 break;

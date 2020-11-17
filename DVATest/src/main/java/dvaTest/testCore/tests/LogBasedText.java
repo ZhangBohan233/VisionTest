@@ -20,24 +20,13 @@ public abstract class LogBasedText extends Test {
     private static final String[] STR_LEVELS_DEC = Utility.doubleArrayToStrArray(VISION_LEVELS_DEC);
     private static final String[] STR_LEVELS_LOG_MAR = Utility.doubleArrayToStrArray(VISION_LEVELS_LOG_MAR);
 
-//    protected final double[] visionLevels5;
-//    protected final double[] visionLevelsFrac;
-//    protected final double[] visionLevelsLogMar;
-
     public LogBasedText(Map<String, TestImage> testImageMap) {
         super(testImageMap);
-
-//        this.visionLevels5 = visionLevels5;
-//        this.visionLevelsFrac = visionLevelsFrac;
-//        this.visionLevelsLogMar = visionLevelsLogMar;
     }
 
     @Override
     public int visionLevelCount() {
         return VISION_LEVELS_LOG_MAR.length;
-//        return visionLevels5 != null ? visionLevels5.length :
-//                (visionLevelsFrac != null ? visionLevelsFrac.length :
-//                        visionLevelsLogMar.length);
     }
 
     @Override
