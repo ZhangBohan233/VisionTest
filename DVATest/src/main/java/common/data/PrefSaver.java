@@ -26,6 +26,7 @@ public class PrefSaver {
     public void saveAndStop() {
         saveMapToFile();
         timer.cancel();
+        System.out.println("pref saver stopped");
     }
 
     public void storePref(String key, String value) {

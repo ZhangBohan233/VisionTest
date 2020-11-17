@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TestController {
+public class TestController implements ITestController {
 
     /**
      * 切换图片的等待时间
@@ -58,6 +58,12 @@ public class TestController {
         }
     }
 
+    @Override
+    public void closeTestView() {
+        getTestView().closeWindow();
+    }
+
+    @Override
     public void interrupt() {
         baseTimer.cancel();
     }
@@ -86,7 +92,6 @@ public class TestController {
     private void finishTest() {
         System.out.println(testResultUnits);
 
-        // todo: 关闭测试窗口，记录数据
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
@@ -159,6 +164,13 @@ public class TestController {
                 finishTest();
                 cancel();
             }
+        }
+
+        @Override
+        public boolean cancel() {
+            boolean res = super.cancel();
+            System.out.println("Cancelled " + res);
+            return res;
         }
     }
 }

@@ -130,6 +130,7 @@ public class CacheSaver {
     public void saveAndStop() {
         writeJson(root);
         timer.cancel();
+        System.out.println("cache saver stopped");
     }
 
     public void putCache(String key, Object value) {

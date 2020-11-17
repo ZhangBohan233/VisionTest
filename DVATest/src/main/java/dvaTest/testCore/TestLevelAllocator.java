@@ -1,6 +1,9 @@
 package dvaTest.testCore;
 
 public class TestLevelAllocator {
+
+    public static final int MAX_COUNT = 5;
+
     private final int totalLevelCount;
     private int curLvIndex;
     private int curLvContCorrCount;  // current level continuous correct count
@@ -25,7 +28,7 @@ public class TestLevelAllocator {
     }
 
     public boolean hasNext() {
-        return levelTestsCount[curLvIndex] < 8;
+        return levelTestsCount[curLvIndex] < MAX_COUNT;
     }
 
     public int next() {

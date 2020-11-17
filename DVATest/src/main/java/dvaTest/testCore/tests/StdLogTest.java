@@ -16,7 +16,7 @@ public class StdLogTest extends LogBasedText {
 
 //    public static final StdLogTest STD_LOG_TEST = new StdLogTest(ITEMS);
 
-    private StdLogTest() {
+    public StdLogTest() {
         super(ITEMS);
     }
 

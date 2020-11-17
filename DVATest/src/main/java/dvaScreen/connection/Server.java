@@ -57,7 +57,7 @@ public class Server extends Thread {
         return clientSocket;
     }
 
-    public void stopServer() throws IOException {
+    public synchronized void stopServer() throws IOException {
         if (serverSocket == null) {
             return;
 //            throw new IOException("Server not started.");
@@ -65,11 +65,6 @@ public class Server extends Thread {
         if (clientSocket != null && !clientSocket.isClosed()) {
             sendMessage(Signals.DISCONNECT_BY_SERVER);
         }
-//        if (clientSocket != null && !clientSocket.isClosed()) {
-//            clientSocket.shutdownInput();
-//            clientSocket.shutdownOutput();
-//            clientSocket.close();
-//        }
         serverSocket.close();
     }
 

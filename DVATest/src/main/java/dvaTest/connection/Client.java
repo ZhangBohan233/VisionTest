@@ -2,6 +2,7 @@ package dvaTest.connection;
 
 import common.Signals;
 import dvaTest.gui.MainView;
+import dvaTest.testCore.ITestController;
 import dvaTest.testCore.TestController;
 import dvaTest.testCore.tests.TestUnit;
 
@@ -14,7 +15,8 @@ public class Client extends Thread {
     private final MainView mainView;
     private final Socket clientSocket;
     private boolean disconnected;
-    private TestController testController;
+    private ITestController testController;
+    private Listener listener;
 
     Client(String address, int port, MainView mainView) throws IOException {
         this.mainView = mainView;
@@ -24,7 +26,8 @@ public class Client extends Thread {
 
         sendMessage(Signals.GREET);
 
-        Listener listener = new Listener();
+        listener = new Listener();
+        listener.setDaemon(true);
         listener.start();
     }
 
@@ -42,17 +45,31 @@ public class Client extends Thread {
 
     synchronized void disconnectFromServer() throws IOException {
         sendMessage(Signals.DISCONNECT_BY_CLIENT);
+        disconnected = true;
         shutdown();
     }
 
     private synchronized void shutdown() throws IOException {
-        disconnected = true;
+//        disconnected = true;
         clientSocket.shutdownInput();
         clientSocket.shutdownOutput();
+
+        do {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (!clientSocket.isInputShutdown() || !clientSocket.isOutputShutdown());
+
+//        clientSocket.getInputStream().close();
         clientSocket.close();
+        System.out.println("client socket closed");
+        listener.interrupt();
+        System.out.println("Listener interrupted");
     }
 
-    public void setTestController(TestController testController) {
+    public void setTestController(ITestController testController) {
         this.testController = testController;
     }
 
@@ -75,7 +92,7 @@ public class Client extends Thread {
                         throw new IOException("Unknown signal size. ");
                     }
                 }
-
+                // inputStream 将会在Client.shutdown() 内关闭
             } catch (SocketException e) {
                 // 从客户端断开了连接
             } catch (IOException e) {
@@ -86,7 +103,7 @@ public class Client extends Thread {
         private synchronized void processSignal(byte b) throws IOException {
             switch (b) {
                 case Signals.DISCONNECT_BY_SERVER:
-                    disconnected = true;
+//                    disconnected = true;
                     shutdown();
                     ClientManager.discardCurrentClient();
                     mainView.setDisconnected();
@@ -94,7 +111,7 @@ public class Client extends Thread {
                 case Signals.SCREEN_INTERRUPT:
                     if (testController != null) {
                         testController.interrupt();
-                        testController.getTestView().closeWindow();
+                        testController.closeTestView();
                     }
                     break;
                 default:

@@ -1,10 +1,13 @@
 package dvaTest.gui;
 
 import common.EventLogger;
+import dvaTest.connection.ClientManager;
 import dvaTest.gui.widgets.inputs.CTestInput;
 import dvaTest.gui.widgets.inputs.TestInput;
+import dvaTest.testCore.IdleTestController;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,7 +38,9 @@ public class TestPrepView implements Initializable {
         this.testPref = testPref;
         this.stage = stage;
 
-//        inputContainer.getChildren().add(TestView.makeTestInput(testPref));
+        // 使client可以关闭这个窗口
+        ClientManager.getCurrentClient().setTestController(new IdleTestController(this));
+
         inputContainer.getChildren().add(testPref.getTestType().generateTestInput(null));
     }
 
@@ -60,5 +65,9 @@ public class TestPrepView implements Initializable {
             e.printStackTrace();
             EventLogger.log(e);
         }
+    }
+
+    public void closeWindow() {
+        Platform.runLater(() -> stage.close());
     }
 }

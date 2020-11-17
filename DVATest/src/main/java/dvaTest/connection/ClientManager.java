@@ -24,7 +24,9 @@ public class ClientManager {
     public static void closeCurrentClient() throws IOException {
         if (currentClient != null) {
             currentClient.disconnectFromServer();
-            currentClient = null;
+//            currentClient = null;
+        } else {
+            System.out.println("No client to close.");
         }
     }
 

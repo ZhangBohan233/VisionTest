@@ -28,17 +28,6 @@ import java.util.ResourceBundle;
 
 public class ResultView implements Initializable {
 
-//    @FXML
-//    TableView<ResultTableItem> resultTable;
-//
-//    @FXML
-//    TableColumn<ResultTableItem, Double> visionLevelCol;
-//
-//    @FXML
-//    TableColumn<ResolutionItem, Integer> correctCountCol, incorrectCountCol;
-//
-//    @FXML
-//    TableColumn<ResolutionItem, String> correctRatioCol;
     @FXML
     Pane resultContainer;
 
@@ -58,6 +47,7 @@ public class ResultView implements Initializable {
         resultPane = new ResultPane();
         resultPane.setup(resultRecord);
         resultContainer.getChildren().add(resultPane);
+        setOnClose();
     }
 
     @FXML

@@ -29,7 +29,7 @@ public class SnellenTest extends Test {
 
 //    public static final SnellenTest SNELLEN_TEST = new SnellenTest(ITEMS);
 
-    private SnellenTest() {
+    public SnellenTest() {
         super(ITEMS);
     }
 
