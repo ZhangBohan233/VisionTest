@@ -22,6 +22,7 @@ public class CacheSaver {
     public static final String TEST_IP = "ip";
     public static final String TEST_SCORE_COUNTING = "scoreCounting";
     public static final String TEST_INTERVAL = "interval";
+    public static final String HIDING_INTERVAL = "hidingInterval";
     public static final String TEST_DISTANCE = "distance";
 
     public static final String SCREEN_SIZE = "screenSize";
@@ -37,51 +38,6 @@ public class CacheSaver {
         timer = new Timer();
         timer.schedule(new AutoSaveTask(), 0, AutoSavers.PERIOD);
     }
-
-//    private static String getTestCacheByKey(String key) {
-//        return getTestCachesByKeys(key)[0];
-//    }
-//
-//    private static String[] getTestCachesByKeys(String... keys) {
-//        return getCacheByKey(TEST_CACHE_FILE, keys);
-//    }
-//
-//    private static String getScreenCacheByKey(String key) {
-//        return getScreenCachesByKeys(key)[0];
-//    }
-//
-//    private static String[] getScreenCachesByKeys(String... keys) {
-//        return getCacheByKey(SCREEN_CACHE_FILE, keys);
-//    }
-//
-//    private static String[] getCacheByKey(String fileName, String... keys) {
-//        JSONObject root = readJson(fileName);
-//        String[] res = new String[keys.length];
-//        for (int i = 0; i < keys.length; i++) {
-//            // nullable
-//            if (root.has(keys[i])) res[i] = root.getString(keys[i]);
-//        }
-//        return res;
-//    }
-//
-//    private static void putTestCache(String... pairs) {
-//        createTestDirsIfNone();
-//        putCache(TEST_CACHE_FILE, pairs);
-//    }
-//
-//    private static void putScreenCaches(String... pairs) {
-//        createScreenDirsIfNone();
-//        putCache(SCREEN_CACHE_FILE, pairs);
-//    }
-//
-//    private static void putCache(String fileName, String... pairs) {
-//        JSONObject root = readJson(fileName);
-//        if (pairs.length % 2 != 0) throw new RuntimeException("Keys and values are not pairs. ");
-//        for (int i = 0; i < pairs.length; i += 2) {
-//            root.put(pairs[i], pairs[i + 1]);
-//        }
-//        writeJson(fileName, root);
-//    }
 
     private static JSONObject readJson(String fileName) {
         File f = new File(fileName);
@@ -112,14 +68,6 @@ public class CacheSaver {
         return root;
     }
 
-//    private static void createScreenDirsIfNone() {
-//        createDir(SCREEN_CACHE_DIR);
-//    }
-//
-//    private static void createTestDirsIfNone() {
-//        createDir(TEST_CACHE_DIR);
-//    }
-
     private static void createDir(String path) {
         File f = new File(path);
         if (!f.exists()) {
@@ -138,6 +86,7 @@ public class CacheSaver {
     }
 
     public String getCache(String key) {
+        if (!root.has(key)) return null;
         Object obj = root.get(key);
         if (obj == null) return null;
         if (obj instanceof String) return (String) obj;
@@ -176,38 +125,6 @@ public class CacheSaver {
         }
     }
 
-    //    public static class ScreenCache {
-//        public static double getLastScreenSize() {
-//            String sizeScreen = getScreenCacheByKey("screenSize");
-//            if (sizeScreen == null) {
-//                return 15.6;
-//            } else {
-//                try {
-//                    return Double.parseDouble(sizeScreen);
-//                } catch (NumberFormatException e) {
-//                    return 15.6;
-//                }
-//            }
-//        }
-//
-//        public static void writeScreenSize(double screenSize) {
-//            putScreenCaches("screenSize", String.valueOf(screenSize));
-//        }
-//    }
-//
-//    public static class TestCache {
-//        public static String[] getLastUsedPortAndIp() {
-//            String[] portIp = getTestCachesByKeys("port", "ip");
-//            if (portIp[0] == null) portIp[0] = String.valueOf(ClientManager.DEFAULT_PORT);
-//            if (portIp[1] == null) portIp[1] = ClientManager.DEFAULT_IP;
-//            return portIp;
-//        }
-//
-//        public static void writePortAndIp(String port, String ipAddress) {
-//            putTestCache("port", port, "ip", ipAddress);
-//        }
-//
-
     /*
     The following two method is only usable for test cache
      */
@@ -215,6 +132,7 @@ public class CacheSaver {
 //        String[] scIntDt = getTestCachesByKeys("scoreCounting", "interval", "distance");
         String scStr = getCache(TEST_SCORE_COUNTING);
         long intervalOri = getLong(TEST_INTERVAL);
+        long hidingOri = getLong(HIDING_INTERVAL);
         double dis = getDouble(TEST_DISTANCE);
 
         ScoreCounting sc;
@@ -225,9 +143,10 @@ public class CacheSaver {
         }
 
         long interval = intervalOri == -1 ? 3000 : intervalOri;
+        long hiding = hidingOri == -1 ? 1000 : hidingOri;
         double distance = Double.isNaN(dis) ? 5.0 : dis;
 
-        return new MainViewCache(sc, interval, distance);
+        return new MainViewCache(sc, interval, hiding, distance);
     }
 
     public void writeMainViewCache(ScoreCounting sc, long timeInterval, double distance) {
@@ -240,11 +159,14 @@ public class CacheSaver {
     public static class MainViewCache {
         public final ScoreCounting scoreCounting;
         public final long timeInterval;
+        public final long hidingInterval;
         public final double testDistance;
 
-        private MainViewCache(ScoreCounting scoreCounting, long timeInterval, double testDistance) {
+        private MainViewCache(ScoreCounting scoreCounting, long timeInterval, long hidingInterval,
+                              double testDistance) {
             this.scoreCounting = scoreCounting;
             this.timeInterval = timeInterval;
+            this.hidingInterval = hidingInterval;
             this.testDistance = testDistance;
         }
     }

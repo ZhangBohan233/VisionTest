@@ -67,6 +67,8 @@ public class ResultView implements Initializable {
         Label messageLabel = new Label();
         messageLabel.setTextFill(Paint.valueOf("red"));
 
+
+
         Label noteLabel = new Label(bundle.getString("note"));
         TextArea noteArea = new TextArea();
 

@@ -34,13 +34,16 @@ public class DataSaver {
         String nameDateStr = NAME_FORMATTER.format(testDate);
         String dateStr = TIME_FORMATTER.format(testDate);
 
+        TestPref testPref = record.resultRecord.testPref;
+
         JSONObject base = new JSONObject();
         base.put("name", record.name);
         base.put("time", dateStr);
-        base.put("type", record.resultRecord.testPref.getTestType().name());
-        base.put("distance", record.resultRecord.testPref.getDistance());
-        base.put("scoreCounting", record.resultRecord.testPref.getScoreCounting().name());
-        base.put("interval", record.resultRecord.testPref.getIntervalMills());
+        base.put("type", testPref.getTestType().name());
+        base.put("distance", testPref.getDistance());
+        base.put("scoreCounting", testPref.getScoreCounting().name());
+        base.put("interval", testPref.getIntervalMills());
+        base.put("hidingTime", testPref.getHidingMills());
         base.put("note", record.note);
 
         JSONArray resultArray = new JSONArray();
@@ -88,6 +91,7 @@ public class DataSaver {
             String scoreCountingStr = root.getString("scoreCounting");
             double distance = root.getDouble("distance");
             long interval = root.getLong("interval");
+            long hidingMills = root.getLong("hidingTime");
             String note = "";
             if (root.has("note")) {
                 note = root.getString("note");
@@ -107,6 +111,7 @@ public class DataSaver {
                     .scoreCounting(ScoreCounting.valueOf(scoreCountingStr))
                     .distance(distance)
                     .frameTimeMills(interval)
+                    .hidingTimeMills(hidingMills)
                     .build();
             ResultRecord rr = new ResultRecord(recordUnits, testPref);
             return new ResultRecord.NamedRecord(rr, name, note, TIME_FORMATTER.parse(timeStr));

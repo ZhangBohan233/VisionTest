@@ -1,12 +1,16 @@
 package dvaTest.gui;
 
 import common.data.DataSaver;
+import dvaTest.TestApp;
 import dvaTest.gui.items.HistoryTreeItem;
 import dvaTest.gui.widgets.ResultPane;
 import dvaTest.testCore.ResultRecord;
+import dvaTest.testCore.TestPref;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
@@ -31,6 +35,9 @@ public class HistoryView implements Initializable {
 
     @FXML
     Pane rightPane;
+
+    @FXML
+    Label testTypeLabel, scoreCountingLabel, distanceLabel, showingTimeLabel, hidingTimeLabel, testTimeLabel;
 
     private ResourceBundle bundle;
 
@@ -100,11 +107,26 @@ public class HistoryView implements Initializable {
     }
 
     private void showRightPane(HistoryTreeItem.Test test) {
+        if (!rightPane.getChildren().isEmpty()) {
+            int indexOfLast = rightPane.getChildren().size() - 1;
+            if (rightPane.getChildren().get(indexOfLast) instanceof ResultPane) {
+                rightPane.getChildren().remove(indexOfLast);
+            }
+        }
+
         ResultPane rp = new ResultPane();
         rp.setup(test.record.resultRecord);
         rightPane.setManaged(true);
         rightPane.setVisible(true);
         rightPane.getChildren().add(rp);
+
+        TestPref testPref = test.record.resultRecord.testPref;
+
+        testTypeLabel.setText(testPref.getTestType().show(bundle));
+        scoreCountingLabel.setText(testPref.getScoreCounting().toString());
+        showingTimeLabel.setText((double) testPref.getIntervalMills() / 1000 + " " + bundle.getString("unitSecond"));
+        distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
+        testTimeLabel.setText(TestApp.getDateFormat().format(test.record.creationTime));
 
         stage.sizeToScene();
     }

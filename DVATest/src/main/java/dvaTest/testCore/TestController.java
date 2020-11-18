@@ -45,7 +45,7 @@ public class TestController implements ITestController {
 
     public void start() {
         baseTimer = new Timer();
-        baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + BLANK_WAIT_TIME);
+        baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + testPref.getHidingMills());
     }
 
     public void normalStop() {
@@ -90,7 +90,7 @@ public class TestController implements ITestController {
     }
 
     private void finishTest() {
-        System.out.println(testResultUnits);
+//        System.out.println(testResultUnits);
 
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);

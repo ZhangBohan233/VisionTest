@@ -54,7 +54,6 @@
             </HBox>
             <HBox spacing="5.0">
                 <Button fx:id="snellenButton" text="%snellenChart" onAction="#snellenChartClicked"/>
-<!--                <Button text="%eChart" onAction="#eChartClicked"/>-->
             </HBox>
         </VBox>
     </TitledPane>
@@ -67,7 +66,7 @@
     </HBox>
 
     <HBox GridPane.rowIndex="4" spacing="5.0">
-        <Label text="%frameTime" GridPane.rowIndex="3"/>
+        <Label text="%showingTime" GridPane.rowIndex="3"/>
         <Label fx:id="timeIntervalLabel"/>
         <Label text="%unitSecond"/>
     </HBox>
@@ -76,12 +75,22 @@
             showTickMarks="true" showTickLabels="true" value="3" snapToTicks="true"
             GridPane.rowIndex="5"/>
 
-    <HBox fx:id="needDisplayDeviceBox" GridPane.rowIndex="6" spacing="10.0" alignment="CENTER_LEFT">
+    <HBox GridPane.rowIndex="6" spacing="5.0">
+        <Label text="%hidingTime" GridPane.rowIndex="3"/>
+        <Label fx:id="hidingTimeLabel"/>
+        <Label text="%unitSecond"/>
+    </HBox>
+
+    <Slider fx:id="hidingTimeSlider" max="5" majorTickUnit="1" minorTickCount="1"
+            showTickMarks="true" showTickLabels="true" value="3" snapToTicks="true"
+            GridPane.rowIndex="7"/>
+
+    <HBox fx:id="needDisplayDeviceBox" GridPane.rowIndex="8" spacing="10.0" alignment="CENTER_LEFT">
         <Label text="%needConnection"/>
         <Button text="%clickToConnect" onAction="#onConnectionClick"/>
     </HBox>
 
-    <HBox fx:id="connectionBox" GridPane.rowIndex="6" spacing="10.0" managed="false" visible="false"
+    <HBox fx:id="connectionBox" GridPane.rowIndex="8" spacing="10.0" managed="false" visible="false"
           alignment="CENTER_LEFT">
         <Label text="%connected"/>
         <Button text="%disconnect" onAction="#onDisconnectClicked"/>

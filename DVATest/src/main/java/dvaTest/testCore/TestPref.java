@@ -7,6 +7,7 @@ public class TestPref {
     private TestType testType;
     private ScoreCounting scoreCounting;
     private long intervalMills;
+    private long hidingMills;
     private double distance;
 
     public static class TestPrefBuilder {
@@ -19,6 +20,11 @@ public class TestPref {
 
         public TestPrefBuilder frameTimeMills(long frameTimeMills) {
             testPref.intervalMills = frameTimeMills;
+            return this;
+        }
+
+        public TestPrefBuilder hidingTimeMills(long hidingTimeMills) {
+            testPref.hidingMills = hidingTimeMills;
             return this;
         }
 
@@ -47,6 +53,10 @@ public class TestPref {
 
     public long getIntervalMills() {
         return intervalMills;
+    }
+
+    public long getHidingMills() {
+        return hidingMills;
     }
 
     public double getDistance() {

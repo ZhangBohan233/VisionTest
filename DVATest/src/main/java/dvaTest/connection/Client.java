@@ -95,6 +95,7 @@ public class Client extends Thread {
                 // inputStream 将会在Client.shutdown() 内关闭
             } catch (SocketException e) {
                 // 从客户端断开了连接
+                System.out.println("socket exception: disconnected from client");
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -32,10 +32,10 @@ public class MainView implements Initializable {
     HBox needDisplayDeviceBox, connectionBox;
 
     @FXML
-    Label timeIntervalLabel;
+    Label timeIntervalLabel, hidingTimeLabel;
 
     @FXML
-    Slider timeIntervalSlider;
+    Slider timeIntervalSlider, hidingTimeSlider;
 
     @FXML
     Button snellenButton, cButton, stdLogButton, etdrsButton;
@@ -54,7 +54,8 @@ public class MainView implements Initializable {
         this.bundle = resourceBundle;
 
         setFrameTimeSliderListener();
-        refreshFrameTimeLabel(timeIntervalSlider.getValue());
+        refreshTimeIntervalLabel(timeIntervalSlider.getValue());
+        refreshHidingTimeLabel(hidingTimeSlider.getValue());
 
         scoreCountingBox.getItems().addAll(
                 ScoreCounting.FIVE,
@@ -171,12 +172,17 @@ public class MainView implements Initializable {
         return (long) (timeIntervalSlider.getValue() * 1000);
     }
 
+    private long getHidingMills() {
+        return (long) (hidingTimeSlider.getValue() * 1000);
+    }
+
     private void showTestView(TestType testType) {
         TestPref testPref = new TestPref.TestPrefBuilder()
                 .testType(testType)
                 .scoreCounting(scoreCountingBox.getValue())
                 .distance(distanceBox.getValue())
                 .frameTimeMills(getTimeInterval())
+                .hidingTimeMills(getHidingMills())
                 .build();
 //        storeCache();
         try {
@@ -206,8 +212,13 @@ public class MainView implements Initializable {
 
     private void setFrameTimeSliderListener() {
         timeIntervalSlider.valueProperty().addListener(((observableValue, number, t1) -> {
-            refreshFrameTimeLabel(t1.doubleValue());
+            refreshTimeIntervalLabel(t1.doubleValue());
             AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_INTERVAL,
+                    (long) (t1.doubleValue() * 1000));
+        }));
+        hidingTimeSlider.valueProperty().addListener(((observableValue, number, t1) -> {
+            refreshHidingTimeLabel(t1.doubleValue());
+            AutoSavers.getCacheSaver().putCache(CacheSaver.HIDING_INTERVAL,
                     (long) (t1.doubleValue() * 1000));
         }));
     }
@@ -231,7 +242,7 @@ public class MainView implements Initializable {
         }));
     }
 
-    private void refreshFrameTimeLabel(double value) {
+    private void refreshTimeIntervalLabel(double value) {
         int d = (int) value;
         double frac = value - d;
         double resFrac = Math.round(frac * 10 / 5) * 5;
@@ -240,17 +251,21 @@ public class MainView implements Initializable {
         timeIntervalLabel.setText(res);
     }
 
+    private void refreshHidingTimeLabel(double value) {
+        int d = (int) value;
+        double frac = value - d;
+        double resFrac = Math.round(frac * 10 / 5) * 5;
+        String res = String.format("%.1f", resFrac / 10 + d);
+
+        hidingTimeLabel.setText(res);
+    }
+
     private void restoreFromCache() {
         CacheSaver cacheSaver = AutoSavers.getCacheSaver();
         CacheSaver.MainViewCache mvc = cacheSaver.getMainViewCache();
         scoreCountingBox.getSelectionModel().select(mvc.scoreCounting);
         timeIntervalSlider.setValue((double) mvc.timeInterval / 1000);
+        hidingTimeSlider.setValue((double) mvc.hidingInterval / 1000);
         distanceBox.getSelectionModel().select(mvc.testDistance);
     }
-
-//    private void storeCache() {
-//        AutoSavers.getCacheSaver().writeMainViewCache(scoreCountingBox.getValue(),
-//                getTimeInterval(),
-//                distanceBox.getValue());
-//    }
 }

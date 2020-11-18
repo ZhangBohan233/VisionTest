@@ -7,6 +7,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.VBox?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="dvaTest.gui.HistoryView"
@@ -31,6 +32,21 @@
         </placeholder>
     </TreeTableView>
 
-    <Pane fx:id="rightPane" GridPane.columnIndex="1" visible="false" managed="false"/>
+    <VBox fx:id="rightPane" GridPane.columnIndex="1" spacing="10.0" visible="false" managed="false">
+        <GridPane vgap="10.0" hgap="20.0">
+            <Label text="%testType"/>
+            <Label fx:id="testTypeLabel" GridPane.columnIndex="1"/>
+            <Label text="%visionScoreCount" GridPane.rowIndex="1"/>
+            <Label fx:id="scoreCountingLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+            <Label text="%testDistance" GridPane.rowIndex="2"/>
+            <Label fx:id="distanceLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <Label text="%showingTime" GridPane.rowIndex="3"/>
+            <Label fx:id="showingTimeLabel" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            <Label text="%hidingTime" GridPane.rowIndex="4"/>
+            <Label fx:id="hidingTimeLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <Label text="%testTime" GridPane.rowIndex="5"/>
+            <Label fx:id="testTimeLabel" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        </GridPane>
+    </VBox>
 
 </GridPane>
