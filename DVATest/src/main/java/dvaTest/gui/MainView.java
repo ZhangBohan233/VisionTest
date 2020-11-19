@@ -92,6 +92,7 @@ public class MainView implements Initializable {
     @FXML
     void onDisconnectClicked() throws IOException {
         ClientManager.closeCurrentClient();
+        ClientManager.discardCurrentClient();
         setDisconnected();
     }
 

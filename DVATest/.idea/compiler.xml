@@ -9,9 +9,5 @@
         <module name="dva-test" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="dva-test (1)" target="13" />
-      <module name="DVATest" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>

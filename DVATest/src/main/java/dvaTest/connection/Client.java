@@ -43,7 +43,7 @@ public class Client extends Thread {
         sendMessage(testUnit.toByteArray());
     }
 
-    synchronized void disconnectFromServer() throws IOException {
+    synchronized void disconnectWithServerByClient() throws IOException {
         sendMessage(Signals.DISCONNECT_BY_CLIENT);
         disconnected = true;
         shutdown();

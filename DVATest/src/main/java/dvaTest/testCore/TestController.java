@@ -154,7 +154,7 @@ public class TestController implements ITestController {
                 try {
                     ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
                 } catch (IOException e) {
-                    cancel();
+                    baseTimer.cancel();
                     EventLogger.log(e);
                     throw new RuntimeException(e);
                 }
@@ -162,15 +162,8 @@ public class TestController implements ITestController {
                 testView.updateGui(curTrueUnit);
             } else {
                 finishTest();
-                cancel();
+                baseTimer.cancel();
             }
-        }
-
-        @Override
-        public boolean cancel() {
-            boolean res = super.cancel();
-            System.out.println("Cancelled " + res);
-            return res;
         }
     }
 }
