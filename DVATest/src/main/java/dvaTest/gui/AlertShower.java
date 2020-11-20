@@ -13,16 +13,24 @@ import java.util.ResourceBundle;
 
 public class AlertShower {
 
-    public void showError(String content, ResourceBundle bundle, Stage parentStage) {
+    public static void showError(String content, ResourceBundle bundle, Stage parentStage) {
+        show(content, bundle.getString("error"), bundle, parentStage);
+    }
+
+    public static void showSuccess(String content, ResourceBundle bundle, Stage parentStage) {
+        show(content, bundle.getString("success"), bundle, parentStage);
+    }
+
+    private static void show(String content, String title, ResourceBundle bundle, Stage parentStage) {
         try {
             FXMLLoader loader =
-                    new FXMLLoader(getClass().getResource("/dvaTest/fxml/widgets/customAlert.fxml"), bundle);
+                    new FXMLLoader(AlertShower.class.getResource("/dvaTest/fxml/widgets/customAlert.fxml"), bundle);
             Parent root = loader.load();
 
             Stage stage = new Stage();
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(parentStage);
-            stage.setTitle(bundle.getString("error"));
+            stage.setTitle(title);
             stage.setScene(new Scene(root));
 
             CustomAlert customAlert = loader.getController();
@@ -32,9 +40,5 @@ public class AlertShower {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void showError(String content, ResourceBundle bundle) {
-        showError(content, bundle, null);
     }
 }

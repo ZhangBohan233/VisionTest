@@ -52,7 +52,7 @@ public class TestPrepView implements Initializable {
                             bundle);
             Parent root = loader.load();
 
-            stage.setTitle(testPref.getTestType().show(bundle));
+            stage.setTitle(testPref.getTestType().show(bundle, true));
             stage.setScene(new Scene(root));
 
             TestView testView = loader.getController();

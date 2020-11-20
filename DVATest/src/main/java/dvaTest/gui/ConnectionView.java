@@ -60,7 +60,7 @@ public class ConnectionView implements Initializable {
                 msgLabel.setText(bundle.getString("connectionSuccess"));
             });
             parent.setConnected();
-//            waitAndExit(0);
+            waitAndExit(0);
         } catch (IOException e) {
             msgLabel.setTextFill(Paint.valueOf("red"));
             msgLabel.setText(bundle.getString("connectionFail"));

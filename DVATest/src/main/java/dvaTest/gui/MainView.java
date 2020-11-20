@@ -91,8 +91,8 @@ public class MainView implements Initializable {
 
     @FXML
     void onDisconnectClicked() throws IOException {
-        ClientManager.closeCurrentClient();
-        ClientManager.discardCurrentClient();
+        ClientManager.closeAndDiscardCurrentClient();
+//        ClientManager.discardCurrentClient();
         setDisconnected();
     }
 
@@ -196,7 +196,7 @@ public class MainView implements Initializable {
                             bundle);
             Parent root = loader.load();
 
-            stage.setTitle(testType.show(bundle));
+            stage.setTitle(testType.show(bundle, true));
             stage.setScene(new Scene(root));
 
             TestPrepView testPrepView = loader.getController();

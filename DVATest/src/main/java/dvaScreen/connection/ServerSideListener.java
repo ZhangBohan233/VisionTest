@@ -125,7 +125,7 @@ public class ServerSideListener extends Thread {
                 screenTestView = loader.getController();
                 screenTestView.setScreenParams(mainView.getPixelsPerMm(), mainView.getSystemZoom());
 
-                screenTestStage.setTitle(testType.show(mainView.getBundle()));
+                screenTestStage.setTitle(testType.show(mainView.getBundle(), true));
                 screenTestStage.setScene(new Scene(root));
 
                 screenTestStage.show();

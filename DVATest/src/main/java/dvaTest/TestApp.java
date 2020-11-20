@@ -18,7 +18,9 @@ import java.util.ResourceBundle;
 public class TestApp extends Application {
 
     private static ResourceBundle bundle;
+    private static SimpleDateFormat fullDateFormat;
     private static SimpleDateFormat dateFormat;
+    private static SimpleDateFormat timeFormat;
 
     public static void run(String[] args) {
         try {
@@ -35,7 +37,9 @@ public class TestApp extends Application {
 
         bundle = ResourceBundle.getBundle("common.bundles.Languages",
                 new Locale("zh", "CN"));
+        fullDateFormat = new SimpleDateFormat(bundle.getString("fullDateFormat"));
         dateFormat = new SimpleDateFormat(bundle.getString("dateFormat"));
+        timeFormat = new SimpleDateFormat(bundle.getString("timeFormat"));
 
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/dvaTest/fxml/mainView.fxml"), bundle);
@@ -50,7 +54,7 @@ public class TestApp extends Application {
         primaryStage.setOnHidden(e -> {
             try {
                 AutoSavers.stopAllSavers();
-                ClientManager.closeCurrentClient();
+                ClientManager.closeAndDiscardCurrentClient();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -63,7 +67,15 @@ public class TestApp extends Application {
         return bundle;
     }
 
+    public static SimpleDateFormat getFullDateFormat() {
+        return fullDateFormat;
+    }
+
     public static SimpleDateFormat getDateFormat() {
         return dateFormat;
+    }
+
+    public static SimpleDateFormat getTimeFormat() {
+        return timeFormat;
     }
 }

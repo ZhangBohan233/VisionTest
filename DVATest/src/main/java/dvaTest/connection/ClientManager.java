@@ -21,16 +21,12 @@ public class ClientManager {
         currentClient = new Client(address, port, mainView);
     }
 
-    public static void closeCurrentClient() throws IOException {
+    public static void closeAndDiscardCurrentClient() throws IOException {
         if (currentClient != null) {
             currentClient.disconnectWithServerByClient();
-//            currentClient = null;
+            currentClient = null;
         } else {
             System.out.println("No client to close.");
         }
-    }
-
-    public static void discardCurrentClient() {
-        currentClient = null;
     }
 }

@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="dvaTest.gui.HistoryView"
-          prefHeight="400.0" hgap="10.0">
+          prefHeight="400.0" hgap="10.0" vgap="5.0">
 
     <padding>
         <Insets topRightBottomLeft="5.0"/>
@@ -22,17 +17,30 @@
         <ColumnConstraints/>
     </columnConstraints>
 
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+
     <TreeTableView fx:id="historyTable">
         <columns>
+<!--            <TreeTableColumn fx:id="checkBoxCol" text="%checkSelect"/>-->
             <TreeTableColumn fx:id="subjectCol" prefWidth="250.0"/>
             <TreeTableColumn fx:id="timeCol" prefWidth="150.0" text="%testTime"/>
+            <TreeTableColumn fx:id="checkBoxCol" text="%checkSelect"/>
         </columns>
         <placeholder>
             <Label text="%noTestHistory"/>
         </placeholder>
     </TreeTableView>
 
-    <VBox fx:id="rightPane" GridPane.columnIndex="1" spacing="10.0" visible="false" managed="false">
+    <HBox GridPane.rowIndex="1" spacing="10.0">
+        <Button text="%export" onAction="#exportAction"/>
+        <Button text="%delete" onAction="#deleteAction"/>
+    </HBox>
+
+    <VBox fx:id="rightPane" GridPane.columnIndex="1" GridPane.rowSpan="2"
+          spacing="10.0" visible="false" managed="false">
         <GridPane vgap="10.0" hgap="20.0">
             <Label text="%testType"/>
             <Label fx:id="testTypeLabel" GridPane.columnIndex="1"/>

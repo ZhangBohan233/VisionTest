@@ -1,10 +1,15 @@
 package common.data;
 
 import common.EventLogger;
+import dvaTest.TestApp;
 import dvaTest.gui.items.ScoreCounting;
 import dvaTest.testCore.ResultRecord;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class DataSaver {
 
@@ -131,5 +137,55 @@ public class DataSaver {
         if (!f.exists()) {
             if (!f.mkdirs()) throw new RuntimeException("Failed to create dir " + f);
         }
+    }
+
+    public static void exportAsXlsx(File file, List<ResultRecord.NamedRecord> recordList) throws IOException {
+        ResourceBundle bundle = TestApp.getBundle();
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet();
+        XSSFRow titleRow = sheet.createRow(0);
+
+        String[] titles = new String[]{
+                bundle.getString("name"),
+                bundle.getString("date"),
+                bundle.getString("time"),
+                bundle.getString("distanceU"),
+                bundle.getString("showingTimeU"),
+                bundle.getString("hidingTimeU"),
+                bundle.getString("testSubject"),
+                bundle.getString("visionScoreCount"),
+                bundle.getString("testScore"),
+                bundle.getString("note")
+        };
+
+        // 标题
+        for (int i = 0; i < titles.length; i++) {
+            XSSFCell cell = titleRow.createCell(i);
+            cell.setCellValue(titles[i]);
+        }
+
+        // 内容
+        for (int i = 0; i < recordList.size(); i++) {
+            ResultRecord.NamedRecord record = recordList.get(i);
+            TestPref testPref = record.resultRecord.testPref;
+
+            XSSFRow row = sheet.createRow(i + 1);
+
+            row.createCell(0).setCellValue(record.name);
+            row.createCell(1).setCellValue(TestApp.getDateFormat().format(record.creationTime));
+            row.createCell(2).setCellValue(TestApp.getTimeFormat().format(record.creationTime));
+            row.createCell(3).setCellValue(testPref.getDistance());
+            row.createCell(4).setCellValue((double) testPref.getIntervalMills() / 1000);
+            row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);
+            row.createCell(6).setCellValue(testPref.getTestType().show(bundle, false));
+            row.createCell(7).setCellValue(testPref.getScoreCounting().toString());
+            row.createCell(8).setCellValue("/");
+            row.createCell(9).setCellValue(record.note);
+        }
+
+        FileOutputStream fos = new FileOutputStream(file);
+        workbook.write(fos);
+        fos.flush();
+        fos.close();
     }
 }

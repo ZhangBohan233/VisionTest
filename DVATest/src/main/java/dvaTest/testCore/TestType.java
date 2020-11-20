@@ -42,8 +42,9 @@ public enum TestType {
         return signal;
     }
 
-    public String show(ResourceBundle bundle) {
-        return bundle.getString(bundleKey);
+    public String show(ResourceBundle bundle, boolean showChartText) {
+        return showChartText ?
+                bundle.getString(bundleKey) + bundle.getString("visionChart") : bundle.getString(bundleKey);
     }
 
     public Test getTest() {

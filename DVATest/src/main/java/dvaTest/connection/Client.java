@@ -106,7 +106,7 @@ public class Client extends Thread {
                 case Signals.DISCONNECT_BY_SERVER:
 //                    disconnected = true;
                     shutdown();
-                    ClientManager.discardCurrentClient();
+//                    ClientManager.discardCurrentClient();
                     mainView.setDisconnected();
                     break;
                 case Signals.SCREEN_INTERRUPT:
