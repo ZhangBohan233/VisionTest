@@ -27,8 +27,6 @@ public class SnellenTest extends Test {
     private static final String[] STR_LEVEL_METERS =
             {"6/60", "6/36", "6/24", "6/18", "6/12", "6/9", "6/6", "6/5", "6/4"};
 
-//    public static final SnellenTest SNELLEN_TEST = new SnellenTest(ITEMS);
-
     public SnellenTest() {
         super(ITEMS);
     }

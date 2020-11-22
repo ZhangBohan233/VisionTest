@@ -1,18 +1,25 @@
 package dvaTest.testCore;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class ResultRecord {
-
-    public final List<RecordUnit> recordUnits;
+    public final UnitList[] testResults;
     public final TestPref testPref;
+    public final Date testStartTime;
 
-    public ResultRecord(List<RecordUnit> recordUnits, TestPref testPref) {
-        this.recordUnits = recordUnits;
+    public ResultRecord(UnitList[] testResults, TestPref testPref, Date testStartTime) {
+        this.testResults = testResults;
         this.testPref = testPref;
+        this.testStartTime = testStartTime;
+    }
+
+    /**
+     * 产生评分
+     *
+     * @return the string conclusion of score
+     */
+    public String generateScoreConclusion() {
+
     }
 
     public static class RecordUnit {
@@ -29,14 +36,14 @@ public class ResultRecord {
             this.correct = correct;
         }
 
-        public static RecordUnit fromTest(TestController.TestResultUnit resultUnit) {
-            return new RecordUnit(
-                    resultUnit.getTestUnit().getVisionLevel(),
-                    resultUnit.getTestUnit().getTestImage().getName(),
-                    resultUnit.getUserInput(),
-                    resultUnit.isCorrect()
-            );
-        }
+//        public static RecordUnit fromTest(TestController.TestResultUnit resultUnit) {
+//            return new RecordUnit(
+//                    resultUnit.getTestUnit().getVisionLevel(),
+//                    resultUnit.getTestUnit().getTestImage().getName(),
+//                    resultUnit.getUserInput(),
+//                    resultUnit.isCorrect()
+//            );
+//        }
 
         /**
          * 将测试结果列表转换为Map
@@ -70,25 +77,19 @@ public class ResultRecord {
         }
     }
 
+    public static class UnitList extends ArrayList<RecordUnit> {
+    }
+
     public static class NamedRecord {
 
         public final ResultRecord resultRecord;
         public final String name;
         public final String note;
-        public final Date creationTime;
 
         public NamedRecord(ResultRecord resultRecord, String name, String note) {
             this.resultRecord = resultRecord;
             this.name = name;
             this.note = note;
-            this.creationTime = new Date(System.currentTimeMillis());
-        }
-
-        public NamedRecord(ResultRecord resultRecord, String name, String note, Date creationTime) {
-            this.resultRecord = resultRecord;
-            this.name = name;
-            this.note = note;
-            this.creationTime = creationTime;
         }
     }
 }

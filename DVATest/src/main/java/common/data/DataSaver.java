@@ -53,13 +53,15 @@ public class DataSaver {
         base.put("note", record.note);
 
         JSONArray resultArray = new JSONArray();
-        for (ResultRecord.RecordUnit ru : record.resultRecord.recordUnits) {
-            JSONObject obj = new JSONObject();
-            obj.put("vision", ru.getVisionLevel());
-            obj.put("shown", ru.getShown());
-            obj.put("input", ru.getUserInput());
-            obj.put("correct", ru.isCorrect());
-            resultArray.put(obj);
+        for (ResultRecord.UnitList ul : record.resultRecord.testResults) {
+            for (ResultRecord.RecordUnit ru : ul) {
+                JSONObject obj = new JSONObject();
+                obj.put("vision", ru.getVisionLevel());
+                obj.put("shown", ru.getShown());
+                obj.put("input", ru.getUserInput());
+                obj.put("correct", ru.isCorrect());
+                resultArray.put(obj);
+            }
         }
 
         base.put("results", resultArray);
@@ -119,8 +121,8 @@ public class DataSaver {
                     .frameTimeMills(interval)
                     .hidingTimeMills(hidingMills)
                     .build();
-            ResultRecord rr = new ResultRecord(recordUnits, testPref);
-            return new ResultRecord.NamedRecord(rr, name, note, TIME_FORMATTER.parse(timeStr));
+            ResultRecord rr = new ResultRecord(recordUnits, testPref, TIME_FORMATTER.parse(timeStr));
+            return new ResultRecord.NamedRecord(rr, name, note);
         } catch (IOException | ParseException | JSONException | IllegalArgumentException e) {
             // Record file damaged
             return null;
@@ -172,8 +174,10 @@ public class DataSaver {
             XSSFRow row = sheet.createRow(i + 1);
 
             row.createCell(0).setCellValue(record.name);
-            row.createCell(1).setCellValue(TestApp.getDateFormat().format(record.creationTime));
-            row.createCell(2).setCellValue(TestApp.getTimeFormat().format(record.creationTime));
+            row.createCell(1).setCellValue(
+                    TestApp.getDateFormat().format(record.resultRecord.testStartTime));
+            row.createCell(2).setCellValue(
+                    TestApp.getTimeFormat().format(record.resultRecord.testStartTime));
             row.createCell(3).setCellValue(testPref.getDistance());
             row.createCell(4).setCellValue((double) testPref.getIntervalMills() / 1000);
             row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);

@@ -112,7 +112,7 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
 
         @Override
         public String getTime() {
-            return TestApp.getFullDateFormat().format(record.creationTime);
+            return TestApp.getFullDateFormat().format(record.resultRecord.testStartTime);
         }
 
         @Override

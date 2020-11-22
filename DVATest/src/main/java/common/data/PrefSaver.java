@@ -23,29 +23,6 @@ public class PrefSaver {
         timer.schedule(new PrefSaverTask(), 0, AutoSavers.PERIOD);
     }
 
-    public void saveAndStop() {
-        saveMapToFile();
-        timer.cancel();
-        System.out.println("pref saver stopped");
-    }
-
-    public void storePref(String key, String value) {
-        map.put(key, value);
-    }
-
-    public String getPref(String key) {
-        return map.get(key);
-    }
-
-    public int getInt(String key) {
-        String s = map.get(key);
-        try {
-            return Integer.parseInt(s);
-        } catch (NullPointerException | NumberFormatException e) {
-            return -1;
-        }
-    }
-
     private static Map<String, String> loadMap(String prefFile) {
         Map<String, String> map = new TreeMap<>();
         if (new File(prefFile).exists()) {
@@ -68,6 +45,50 @@ public class PrefSaver {
             }
         }
         return map;
+    }
+
+    public void saveAndStop() {
+        saveMapToFile();
+        timer.cancel();
+        System.out.println("pref saver stopped");
+    }
+
+    public void storePref(String key, String value) {
+        map.put(key, value);
+    }
+
+    public void storePref(String key, Object value) {
+        map.put(key, value.toString());
+    }
+
+    public String getPref(String key) {
+        return map.get(key);
+    }
+
+    public int getInt(String key) {
+        String s = map.get(key);
+        try {
+            return Integer.parseInt(s);
+        } catch (NullPointerException | NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * 获取一个整数。如果该键不存在，返回{@code defaultValue}并且将其保存
+     *
+     * @param key          key
+     * @param defaultValue default value
+     * @return value correspond to key if key exists. Otherwise return the default value. 1506600552
+     */
+    public int getInt(String key, int defaultValue) {
+        String s = map.get(key);
+        try {
+            return Integer.parseInt(s);
+        } catch (NullPointerException | NumberFormatException e) {
+            map.put(key, String.valueOf(defaultValue));
+            return defaultValue;
+        }
     }
 
     void saveMapToFile() {

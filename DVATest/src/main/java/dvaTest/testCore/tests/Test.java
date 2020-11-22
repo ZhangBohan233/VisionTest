@@ -22,6 +22,8 @@ public abstract class Test {
 
     public abstract int visionLevelCount();
 
+    public abstract String getLevelString(ScoreCounting scoreCounting, int levelIndex);
+
     public TestUnit generate(int levelIndex, TestPref testPref) {
         int directionIndex = (int) (Math.random() * testImages.length);
         return new TestUnit(

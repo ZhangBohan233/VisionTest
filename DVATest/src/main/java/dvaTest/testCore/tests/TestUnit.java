@@ -7,6 +7,7 @@ import dvaTest.testCore.testItems.TestImage;
 
 public class TestUnit {
 
+//    private final int levelIndex;
     private final String visionLevel;
     private final double graphScale;
     private final double distance;
@@ -17,6 +18,7 @@ public class TestUnit {
 
     TestUnit(String visionLevel, double graphScale, double distance, long timeInterval,
              TestImage testImage, TestType testType) {
+//        this.levelIndex = levelIndex;
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
         this.distance = distance;

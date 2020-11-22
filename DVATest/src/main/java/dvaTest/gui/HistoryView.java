@@ -43,9 +43,6 @@ public class HistoryView implements Initializable {
     @FXML
     Pane rightPane;
 
-    @FXML
-    Label testTypeLabel, scoreCountingLabel, distanceLabel, showingTimeLabel, hidingTimeLabel, testTimeLabel;
-
     private ResourceBundle bundle;
 
     private Stage stage;
@@ -170,15 +167,6 @@ public class HistoryView implements Initializable {
         rightPane.setManaged(true);
         rightPane.setVisible(true);
         rightPane.getChildren().add(rp);
-
-        TestPref testPref = test.record.resultRecord.testPref;
-
-        testTypeLabel.setText(testPref.getTestType().show(bundle, false));
-        scoreCountingLabel.setText(testPref.getScoreCounting().toString());
-        showingTimeLabel.setText((double) testPref.getIntervalMills() / 1000 + " " + bundle.getString("unitSecond"));
-        hidingTimeLabel.setText((double) testPref.getHidingMills() / 1000 + " " + bundle.getString("unitSecond"));
-        distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
-        testTimeLabel.setText(TestApp.getFullDateFormat().format(test.record.creationTime));
 
         stage.sizeToScene();
     }

@@ -15,8 +15,7 @@ public class ServerManager {
     private static Server currentServer;
 
     public static boolean startServer(ScreenMainView mainView) {
-        port = AutoSavers.getPrefSaver().getInt("port");
-        if (port == -1) port = DEFAULT_PORT;
+        port = AutoSavers.getPrefSaver().getInt("port", DEFAULT_PORT);
         try {
             generateIpAddress();
             if (currentServer == null) {

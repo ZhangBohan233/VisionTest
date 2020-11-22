@@ -4,8 +4,10 @@ import dvaScreen.gui.items.ResolutionItem;
 import dvaTest.TestApp;
 import dvaTest.gui.items.ResultTableItem;
 import dvaTest.testCore.ResultRecord;
+import dvaTest.testCore.TestPref;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,6 +31,10 @@ public class ResultPane extends VBox {
 
     @FXML
     TableColumn<ResolutionItem, String> correctRatioCol;
+
+    @FXML
+    Label testTypeLabel, scoreCountingLabel, distanceLabel, showingTimeLabel,
+            hidingTimeLabel, testTimeLabel, conclusionLabel;
 
     private ResultRecord resultRecord;
 
@@ -58,6 +64,16 @@ public class ResultPane extends VBox {
         }
 
         Collections.sort(resultTable.getItems());
+
+        ResourceBundle bundle = TestApp.getBundle();
+        TestPref testPref = resultRecord.testPref;
+
+        testTypeLabel.setText(testPref.getTestType().show(bundle, false));
+        scoreCountingLabel.setText(testPref.getScoreCounting().toString());
+        showingTimeLabel.setText((double) testPref.getIntervalMills() / 1000 + " " + bundle.getString("unitSecond"));
+        hidingTimeLabel.setText((double) testPref.getHidingMills() / 1000 + " " + bundle.getString("unitSecond"));
+        distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
+        testTimeLabel.setText(TestApp.getFullDateFormat().format(resultRecord.testStartTime));
     }
 
     private void setTableFactory() {

@@ -2,36 +2,27 @@ package dvaTest.testCore;
 
 import common.EventLogger;
 import common.Signals;
+import common.data.AutoSavers;
 import dvaTest.connection.ClientManager;
 import dvaTest.gui.TestView;
 import dvaTest.testCore.tests.Test;
 import dvaTest.testCore.tests.TestUnit;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class TestController implements ITestController {
-
-    /**
-     * 切换图片的等待时间
-     * 在此期间将不会显示任何图片
-     */
-    public static final long BLANK_WAIT_TIME = 1000;
+    private final int maxCount = AutoSavers.getPrefSaver().getInt("eachLevel", 5);
 
     private final TestPref testPref;
     private final TestView testView;
     private final Test test;
-    private final TestLevelAllocator levelAllocator;
-//    private boolean interrupted = false;
+    private final ResultRecord.UnitList[] testResults;
+    private final LevelAllocator levelAllocator;
+    private Date testStartTime;
     private Timer baseTimer;
-
     private TestUnit curTrueUnit;
     private String userInputName;
-
-    private final List<TestResultUnit> testResultUnits = new ArrayList<>();
 
     public TestController(TestPref testPref, TestView testView) {
         this.testPref = testPref;
@@ -39,17 +30,21 @@ public class TestController implements ITestController {
 
         test = testPref.getTestType().getTest();
 
-        this.levelAllocator =
-                new TestLevelAllocator(test.visionLevelCount(), test.visionLevelCount() / 2);
+        int totalLevelCount = test.visionLevelCount();
+        testResults = new ResultRecord.UnitList[totalLevelCount];
+        for (int i = 0; i < totalLevelCount; i++) {
+            testResults[i] = new ResultRecord.UnitList();
+        }
+        levelAllocator = new LevelAllocator(test.visionLevelCount() / 2);
     }
 
     public void start() {
+        testStartTime = new Date();
         baseTimer = new Timer();
         baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + testPref.getHidingMills());
     }
 
     public void normalStop() {
-//        interrupted = true;
         baseTimer.cancel();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
@@ -78,63 +73,149 @@ public class TestController implements ITestController {
     }
 
     private void proceedOne() {
-        TestResultUnit tru = new TestResultUnit(curTrueUnit, userInputName);
-        testResultUnits.add(tru);
-
-        if (tru.isCorrect()) {
-            // 正确的结果
-            levelAllocator.correctResult();
-        } else {
-            levelAllocator.incorrectResult();
-        }
+        ResultRecord.RecordUnit tru = new ResultRecord.RecordUnit(
+                curTrueUnit.getVisionLevel(),
+                curTrueUnit.getTestImage().getName(),
+                userInputName,
+                curTrueUnit.getTestImage().getName().equals(userInputName));
+        testResults[levelAllocator.getCurrentIndex()].add(tru);
+        levelAllocator.generateNext(tru.isCorrect());
     }
 
     private void finishTest() {
-//        System.out.println(testResultUnits);
-
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        List<ResultRecord.RecordUnit> resultRecords = new ArrayList<>();
-        for (TestResultUnit tru : testResultUnits) {
-            resultRecords.add(ResultRecord.RecordUnit.fromTest(tru));
-        }
+//        List<ResultRecord.RecordUnit> resultRecords = new ArrayList<>();
+//        for (ResultRecord.UnitList truList : testResults) {
+//            resultRecords.addAll(truList);
+//        }
 
-        ResultRecord resultRecord = new ResultRecord(resultRecords, testPref);
+        ResultRecord resultRecord = new ResultRecord(testResults, testPref, testStartTime);
 
         testView.showResult(resultRecord);
         testView.closeWindow();
     }
 
-    public static class TestResultUnit {
-        private final TestUnit testUnit;
-        private final String userInput;  // "" if no input
-        private final boolean correct;
+    private boolean levelComplete(int levelIndex) {
+        return testResults[levelIndex].size() == maxCount;
+    }
 
-        TestResultUnit(TestUnit testUnit, String userInput) {
-            this.testUnit = testUnit;
-            this.userInput = userInput;
-            this.correct = testUnit.getTestImage().getName().equals(userInput);
+    /**
+     * @param levelIndex 等级index
+     * @return 如果该等级已完成且正确率高于50%则返回{@code true}
+     */
+    private boolean levelSuccess(int levelIndex) {
+        if (levelComplete(levelIndex)) {
+            int corrCount = 0;
+            for (ResultRecord.RecordUnit tru : testResults[levelIndex]) {
+                if (tru.isCorrect()) corrCount++;
+            }
+            return corrCount > maxCount / 2;  // 不用转换为double
+        }
+        return false;
+    }
+
+//    public static class TestResultUnit {
+//        private final TestUnit testUnit;
+//        private final String userInput;  // "" if no input
+//        private final boolean correct;
+//
+//        TestResultUnit(TestUnit testUnit, String userInput) {
+//            this.testUnit = testUnit;
+//            this.userInput = userInput;
+//            this.correct = testUnit.getTestImage().getName().equals(userInput);
+//        }
+//
+//        public String getUserInput() {
+//            return userInput;
+//        }
+//
+//        public TestUnit getTestUnit() {
+//            return testUnit;
+//        }
+//
+//        public boolean isCorrect() {
+//            return correct;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return String.format("Given: %s, input: %s", testUnit, userInput);
+//        }
+//    }
+
+    private class LevelAllocator {
+
+        private boolean neverCorr = true;
+        private boolean neverFail = true;
+
+        /**
+         * 状态记录器。若为-1则结束
+         */
+        private int nextIndex;
+
+        LevelAllocator(int initLevel) {
+            nextIndex = initLevel;
         }
 
-        public String getUserInput() {
-            return userInput;
+        /**
+         * 产生下一个状态
+         *
+         * @param currIsCorrect 当前结果是否正确
+         */
+        void generateNext(boolean currIsCorrect) {
+            int totalLevels = test.visionLevelCount();
+
+            if (levelComplete(nextIndex)) {  // 该行已填满
+                if (levelSuccess(nextIndex)) {  // 该行正确率过半
+                    nextIndex++;
+                    if (nextIndex == totalLevels ||      // 达到最高等级
+                            levelComplete(nextIndex)) {  // 下一级已完成
+                        nextIndex = -1;  // 中止测试
+                        return;
+                    }
+                } else {
+                    nextIndex--;
+                    if (nextIndex < 0 ||                 // 达到最低级
+                            levelComplete(nextIndex)) {  // 上一级已完成
+                        nextIndex = -1;  // 中止测试
+                        return;
+                    }
+                }
+            }
+            // 未填满则状态不变
+
+            if (currIsCorrect) {
+                neverCorr = false;
+
+                if (neverFail) {
+                    // 从未错误，直接跳级
+                    nextIndex = (totalLevels - nextIndex) / 2 + nextIndex;
+                }
+            } else {
+                neverFail = false;
+
+                if (neverCorr) {
+                    // 从未正确，直接跳级
+                    nextIndex /= 2;
+                }
+            }
         }
 
-        public TestUnit getTestUnit() {
-            return testUnit;
+        boolean hasNext() {
+            return nextIndex >= 0;
         }
 
-        public boolean isCorrect() {
-            return correct;
+        int next() {
+            return nextIndex;
         }
 
-        @Override
-        public String toString() {
-            return String.format("Given: %s, input: %s", testUnit, userInput);
+        int getCurrentIndex() {
+            return nextIndex;
         }
     }
 
@@ -148,7 +229,8 @@ public class TestController implements ITestController {
 
             if (levelAllocator.hasNext()) {
                 userInput("", "");  // 重置为无输入
-                curTrueUnit = test.generate(levelAllocator.next(), testPref);
+                int currentLevelIndex = levelAllocator.next();
+                curTrueUnit = test.generate(currentLevelIndex, testPref);
                 System.out.println("generated: " + curTrueUnit);
 
                 try {
