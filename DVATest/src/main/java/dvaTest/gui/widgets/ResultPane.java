@@ -57,7 +57,7 @@ public class ResultPane extends VBox {
     public void setup(ResultRecord resultRecord) {
         this.resultRecord = resultRecord;
 
-        Map<String, int[]> sucFailMap = ResultRecord.RecordUnit.recordListToLevelMap(resultRecord.recordUnits);
+        Map<String, int[]> sucFailMap = resultRecord.toLevelMap();
 
         for (Map.Entry<String, int[]> entry : sucFailMap.entrySet()) {
             resultTable.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
@@ -74,6 +74,7 @@ public class ResultPane extends VBox {
         hidingTimeLabel.setText((double) testPref.getHidingMills() / 1000 + " " + bundle.getString("unitSecond"));
         distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
         testTimeLabel.setText(TestApp.getFullDateFormat().format(resultRecord.testStartTime));
+        conclusionLabel.setText(resultRecord.generateScoreConclusion());
     }
 
     private void setTableFactory() {

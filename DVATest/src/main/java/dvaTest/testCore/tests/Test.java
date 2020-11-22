@@ -2,6 +2,7 @@ package dvaTest.testCore.tests;
 
 import dvaTest.gui.items.ScoreCounting;
 import dvaTest.testCore.TestPref;
+import dvaTest.testCore.TestTypeException;
 import dvaTest.testCore.testItems.TestImage;
 
 import java.util.Map;
@@ -22,7 +23,17 @@ public abstract class Test {
 
     public abstract int visionLevelCount();
 
-    public abstract String getLevelString(ScoreCounting scoreCounting, int levelIndex);
+    public String getLevelString(ScoreCounting scoreCounting, int levelIndex) {
+        return getVisionLevels(scoreCounting)[levelIndex];
+    }
+
+    public int getLevelIndexFromShown(ScoreCounting scoreCounting, String levelStr) {
+        String[] stringArr = getVisionLevels(scoreCounting);
+        for (int i = 0; i < stringArr.length; i++) {
+            if (stringArr[i].equals(levelStr)) return i;
+        }
+        throw new TestTypeException("No such level string");
+    }
 
     public TestUnit generate(int levelIndex, TestPref testPref) {
         int directionIndex = (int) (Math.random() * testImages.length);

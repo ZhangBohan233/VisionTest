@@ -14,12 +14,48 @@ public class ResultRecord {
     }
 
     /**
+     * 将测试结果列表转换为Map
+     *
+     * @return map of {level: [correct, incorrect]}
+     */
+    public Map<String, int[]> toLevelMap() {
+        Map<String, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
+        for (UnitList ul : testResults)
+            for (RecordUnit ru : ul) {
+                int[] res = sucFailMap.computeIfAbsent(ru.getVisionLevel(), k -> new int[2]);
+                if (ru.isCorrect()) res[0]++;
+                else res[1]++;
+            }
+        return sucFailMap;
+    }
+
+    /**
      * 产生评分
      *
      * @return the string conclusion of score
      */
     public String generateScoreConclusion() {
-
+        int levelCount = testPref.getTestType().getTest().visionLevelCount();
+        int highestIndex = 0;
+        int failsInHighest = 0;
+        List<Integer> corrInFailedLevels = new ArrayList<>();
+        for (int i = 0; i < levelCount; i++) {
+            UnitList ul = testResults[i];
+            int corrCount = ul.correctCount();
+            if (corrCount > ul.size() / 2) {
+                highestIndex = i;
+                failsInHighest = ul.size() - corrCount;
+            } else if (corrCount > 0) {
+                corrInFailedLevels.add(corrCount);
+            }
+        }
+        StringBuilder stringBuilder =
+                new StringBuilder(testPref.getTestType().getTest().getLevelString(
+                        testPref.getScoreCounting(),
+                        highestIndex));
+        if (failsInHighest > 0) stringBuilder.append(" - ").append(failsInHighest);
+        for (int i : corrInFailedLevels) stringBuilder.append(" + ").append(i);
+        return stringBuilder.toString();
     }
 
     public static class RecordUnit {
@@ -45,20 +81,20 @@ public class ResultRecord {
 //            );
 //        }
 
-        /**
-         * 将测试结果列表转换为Map
-         *
-         * @return map of {level: [correct, incorrect]}
-         */
-        public static Map<String, int[]> recordListToLevelMap(List<RecordUnit> resultUnitList) {
-            Map<String, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
-            for (RecordUnit ru: resultUnitList) {
-                int[] res = sucFailMap.computeIfAbsent(ru.getVisionLevel(), k -> new int[2]);
-                if (ru.isCorrect()) res[0]++;
-                else res[1]++;
-            }
-            return sucFailMap;
-        }
+//        /**
+//         * 将测试结果列表转换为Map
+//         *
+//         * @return map of {level: [correct, incorrect]}
+//         */
+//        public static Map<String, int[]> recordListToLevelMap(List<RecordUnit> resultUnitList) {
+//            Map<String, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
+//            for (RecordUnit ru: resultUnitList) {
+//                int[] res = sucFailMap.computeIfAbsent(ru.getVisionLevel(), k -> new int[2]);
+//                if (ru.isCorrect()) res[0]++;
+//                else res[1]++;
+//            }
+//            return sucFailMap;
+//        }
 
         public String getVisionLevel() {
             return visionLevel;
@@ -78,6 +114,13 @@ public class ResultRecord {
     }
 
     public static class UnitList extends ArrayList<RecordUnit> {
+        public int correctCount() {
+            int corrCount = 0;
+            for (ResultRecord.RecordUnit tru : this) {
+                if (tru.isCorrect()) corrCount++;
+            }
+            return corrCount;
+        }
     }
 
     public static class NamedRecord {

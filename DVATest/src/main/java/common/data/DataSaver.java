@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -105,23 +104,40 @@ public class DataSaver {
                 note = root.getString("note");
             }
             JSONArray results = root.getJSONArray("results");
-            List<ResultRecord.RecordUnit> recordUnits = new ArrayList<>();
+//            List<ResultRecord.RecordUnit> recordUnits = new ArrayList<>();
+//            for (Object obj : results) {
+//                JSONObject json = (JSONObject) obj;
+//                String vision = json.getString("vision");
+//                String shown = json.getString("shown");
+//                String input = json.getString("input");
+//                boolean correct = json.getBoolean("correct");
+//                recordUnits.add(new ResultRecord.RecordUnit(vision, shown, input, correct));
+//            }
+            TestType testType = TestType.valueOf(typeStr);
+            ScoreCounting scoreCounting = ScoreCounting.valueOf(scoreCountingStr);
+            TestPref testPref = new TestPref.TestPrefBuilder()
+                    .testType(testType)
+                    .scoreCounting(scoreCounting)
+                    .distance(distance)
+                    .frameTimeMills(interval)
+                    .hidingTimeMills(hidingMills)
+                    .build();
+
+            int vlcCount = testType.getTest().visionLevelCount();
+            ResultRecord.UnitList[] unitLists = new ResultRecord.UnitList[vlcCount];
+            for (int i = 0; i < vlcCount; i++) unitLists[i] = new ResultRecord.UnitList();
             for (Object obj : results) {
                 JSONObject json = (JSONObject) obj;
                 String vision = json.getString("vision");
                 String shown = json.getString("shown");
                 String input = json.getString("input");
                 boolean correct = json.getBoolean("correct");
-                recordUnits.add(new ResultRecord.RecordUnit(vision, shown, input, correct));
+                ResultRecord.RecordUnit ru = new ResultRecord.RecordUnit(vision, shown, input, correct);
+                int levelIndex = testType.getTest().getLevelIndexFromShown(scoreCounting, vision);
+                unitLists[levelIndex].add(ru);
             }
-            TestPref testPref = new TestPref.TestPrefBuilder()
-                    .testType(TestType.valueOf(typeStr))
-                    .scoreCounting(ScoreCounting.valueOf(scoreCountingStr))
-                    .distance(distance)
-                    .frameTimeMills(interval)
-                    .hidingTimeMills(hidingMills)
-                    .build();
-            ResultRecord rr = new ResultRecord(recordUnits, testPref, TIME_FORMATTER.parse(timeStr));
+
+            ResultRecord rr = new ResultRecord(unitLists, testPref, TIME_FORMATTER.parse(timeStr));
             return new ResultRecord.NamedRecord(rr, name, note);
         } catch (IOException | ParseException | JSONException | IllegalArgumentException e) {
             // Record file damaged
@@ -183,7 +199,7 @@ public class DataSaver {
             row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);
             row.createCell(6).setCellValue(testPref.getTestType().show(bundle, false));
             row.createCell(7).setCellValue(testPref.getScoreCounting().toString());
-            row.createCell(8).setCellValue("/");
+            row.createCell(8).setCellValue(record.resultRecord.generateScoreConclusion());
             row.createCell(9).setCellValue(record.note);
         }
 

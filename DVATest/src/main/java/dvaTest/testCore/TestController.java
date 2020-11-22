@@ -89,11 +89,6 @@ public class TestController implements ITestController {
             e.printStackTrace();
         }
 
-//        List<ResultRecord.RecordUnit> resultRecords = new ArrayList<>();
-//        for (ResultRecord.UnitList truList : testResults) {
-//            resultRecords.addAll(truList);
-//        }
-
         ResultRecord resultRecord = new ResultRecord(testResults, testPref, testStartTime);
 
         testView.showResult(resultRecord);
@@ -110,11 +105,7 @@ public class TestController implements ITestController {
      */
     private boolean levelSuccess(int levelIndex) {
         if (levelComplete(levelIndex)) {
-            int corrCount = 0;
-            for (ResultRecord.RecordUnit tru : testResults[levelIndex]) {
-                if (tru.isCorrect()) corrCount++;
-            }
-            return corrCount > maxCount / 2;  // 不用转换为double
+            return testResults[levelIndex].correctCount() > maxCount / 2;  // 不用转换为double
         }
         return false;
     }
