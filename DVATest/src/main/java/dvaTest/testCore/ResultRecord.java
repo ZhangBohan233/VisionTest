@@ -72,30 +72,6 @@ public class ResultRecord {
             this.correct = correct;
         }
 
-//        public static RecordUnit fromTest(TestController.TestResultUnit resultUnit) {
-//            return new RecordUnit(
-//                    resultUnit.getTestUnit().getVisionLevel(),
-//                    resultUnit.getTestUnit().getTestImage().getName(),
-//                    resultUnit.getUserInput(),
-//                    resultUnit.isCorrect()
-//            );
-//        }
-
-//        /**
-//         * 将测试结果列表转换为Map
-//         *
-//         * @return map of {level: [correct, incorrect]}
-//         */
-//        public static Map<String, int[]> recordListToLevelMap(List<RecordUnit> resultUnitList) {
-//            Map<String, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
-//            for (RecordUnit ru: resultUnitList) {
-//                int[] res = sucFailMap.computeIfAbsent(ru.getVisionLevel(), k -> new int[2]);
-//                if (ru.isCorrect()) res[0]++;
-//                else res[1]++;
-//            }
-//            return sucFailMap;
-//        }
-
         public String getVisionLevel() {
             return visionLevel;
         }

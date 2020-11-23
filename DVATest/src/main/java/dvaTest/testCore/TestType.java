@@ -1,6 +1,5 @@
 package dvaTest.testCore;
 
-import common.EventLogger;
 import common.Signals;
 import dvaTest.gui.widgets.inputs.*;
 import dvaTest.testCore.tests.*;

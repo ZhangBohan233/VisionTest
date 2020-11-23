@@ -104,15 +104,6 @@ public class DataSaver {
                 note = root.getString("note");
             }
             JSONArray results = root.getJSONArray("results");
-//            List<ResultRecord.RecordUnit> recordUnits = new ArrayList<>();
-//            for (Object obj : results) {
-//                JSONObject json = (JSONObject) obj;
-//                String vision = json.getString("vision");
-//                String shown = json.getString("shown");
-//                String input = json.getString("input");
-//                boolean correct = json.getBoolean("correct");
-//                recordUnits.add(new ResultRecord.RecordUnit(vision, shown, input, correct));
-//            }
             TestType testType = TestType.valueOf(typeStr);
             ScoreCounting scoreCounting = ScoreCounting.valueOf(scoreCountingStr);
             TestPref testPref = new TestPref.TestPrefBuilder()

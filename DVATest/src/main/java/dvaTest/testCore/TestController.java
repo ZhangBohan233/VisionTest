@@ -38,12 +38,18 @@ public class TestController implements ITestController {
         levelAllocator = new LevelAllocator(test.visionLevelCount() / 2);
     }
 
+    /**
+     * 开始测试
+     */
     public void start() {
         testStartTime = new Date();
         baseTimer = new Timer();
         baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + testPref.getHidingMills());
     }
 
+    /**
+     * 由测试结束触发的正常退出
+     */
     public void normalStop() {
         baseTimer.cancel();
         try {
@@ -109,35 +115,6 @@ public class TestController implements ITestController {
         }
         return false;
     }
-
-//    public static class TestResultUnit {
-//        private final TestUnit testUnit;
-//        private final String userInput;  // "" if no input
-//        private final boolean correct;
-//
-//        TestResultUnit(TestUnit testUnit, String userInput) {
-//            this.testUnit = testUnit;
-//            this.userInput = userInput;
-//            this.correct = testUnit.getTestImage().getName().equals(userInput);
-//        }
-//
-//        public String getUserInput() {
-//            return userInput;
-//        }
-//
-//        public TestUnit getTestUnit() {
-//            return testUnit;
-//        }
-//
-//        public boolean isCorrect() {
-//            return correct;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return String.format("Given: %s, input: %s", testUnit, userInput);
-//        }
-//    }
 
     private class LevelAllocator {
 
