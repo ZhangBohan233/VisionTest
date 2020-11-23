@@ -53,6 +53,8 @@ public class TestView implements Initializable {
 
         setAllOnKeyPressed(rootPane);
 
+        thisStage.sizeToScene();
+
         thisStage.setOnCloseRequest(e -> {
             testController.normalStop();
         });
