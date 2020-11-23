@@ -36,6 +36,8 @@ public class ConnectionView implements Initializable {
         addPortFieldListener();
 
         restoreFromCache();
+
+        ClientManager.listLanDevices();
     }
 
     @FXML
