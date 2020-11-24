@@ -67,11 +67,14 @@
 
         <Label text="%connectionHint" GridPane.columnSpan="2"/>
 
-        <Label text="%thisIp" GridPane.rowIndex="1"/>
-        <Label fx:id="thisIpLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="%thisName" GridPane.rowIndex="1"/>
+        <Label fx:id="thisNameLabel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-        <Label text="%port" GridPane.rowIndex="2"/>
-        <Label fx:id="portLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="%thisIp" GridPane.rowIndex="2"/>
+        <Label fx:id="thisIpLabel" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="%port" GridPane.rowIndex="3"/>
+        <Label fx:id="portLabel" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </GridPane>
 
     <HBox fx:id="connectedPane">

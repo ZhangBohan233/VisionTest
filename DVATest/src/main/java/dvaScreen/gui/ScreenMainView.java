@@ -29,7 +29,7 @@ public class ScreenMainView implements Initializable {
     ImageView logoView;
 
     @FXML
-    Label thisIpLabel, portLabel, screenPpiLabel;
+    Label thisIpLabel, thisNameLabel, portLabel, screenPpiLabel;
 
     @FXML
     GridPane notConnectedPane;
@@ -96,6 +96,7 @@ public class ScreenMainView implements Initializable {
     }
 
     public void askConnectionIfNone() {
+        thisNameLabel.setText(ServerManager.getThisAddress().getHostName());
         thisIpLabel.setText(ServerManager.getThisAddress().getHostAddress());
         portLabel.setText(String.valueOf(ServerManager.getPort()));
         if (!ServerManager.hasConnection()) {

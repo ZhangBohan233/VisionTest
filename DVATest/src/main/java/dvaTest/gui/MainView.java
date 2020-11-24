@@ -84,7 +84,7 @@ public class MainView implements Initializable {
         stage.setScene(new Scene(root));
 
         ConnectionView connectionView = loader.getController();
-        connectionView.setStage(stage, this);
+        connectionView.setup(stage, this);
 
         stage.show();
     }

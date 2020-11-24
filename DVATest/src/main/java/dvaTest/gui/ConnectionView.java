@@ -1,18 +1,25 @@
 package dvaTest.gui;
 
 import common.data.AutoSavers;
+import common.data.CacheSaver;
 import dvaScreen.connection.ServerManager;
 import dvaTest.connection.ClientManager;
-import common.data.CacheSaver;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,7 +29,12 @@ public class ConnectionView implements Initializable {
     TextField ipField, portField;
 
     @FXML
-    Label msgLabel;
+    Label msgLabel, deviceListPlaceHolder;
+
+    @FXML
+    TableView<InetAddress> devicesTable;
+
+    ScanDevicesService scanService;
 
     private MainView parent;
     private Stage stage;
@@ -34,26 +46,16 @@ public class ConnectionView implements Initializable {
 
         addIpFieldListener();
         addPortFieldListener();
+        setDevicesTableFactory();
 
         restoreFromCache();
-
-        ClientManager.listLanDevices();
     }
 
     @FXML
     void onConnectClicked() {
-        String portText;
-        int port;
-        try {
-            portText = portField.getText();
-            port = Integer.parseInt(portText);
-        } catch (NumberFormatException e) {
-            msgLabel.setTextFill(Paint.valueOf("red"));
-            msgLabel.setText(bundle.getString("invalidPortInput"));
-            return;
-        }
+        int port = getPort();
+        if (port == -1) return;
         String ipAddress = ipField.getText();
-//        CacheSaver.TestCache.writePortAndIp(portText, ipAddress);
         try {
             ClientManager.startClient(ipAddress, port, parent);
 
@@ -69,9 +71,35 @@ public class ConnectionView implements Initializable {
         }
     }
 
-    public void setStage(Stage stage, MainView parent) {
+    @FXML
+    void onRefreshClicked() {
+        devicesTable.getItems().clear();
+        deviceListPlaceHolder.setText(bundle.getString("searchingDevices"));
+        startFindingDevices();
+    }
+
+    public void setup(Stage stage, MainView parent) {
         this.stage = stage;
         this.parent = parent;
+
+        stage.setOnHidden(e -> {
+            if (scanService != null) {
+                scanService.cancel();
+            }
+        });
+
+        onRefreshClicked();
+    }
+
+    private int getPort() {
+        try {
+            String portText = portField.getText();
+            return Integer.parseInt(portText);
+        } catch (NumberFormatException e) {
+            msgLabel.setTextFill(Paint.valueOf("red"));
+            msgLabel.setText(bundle.getString("invalidPortInput"));
+            return -1;
+        }
     }
 
     private void waitAndExit(long mills) {
@@ -81,6 +109,25 @@ public class ConnectionView implements Initializable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void startFindingDevices() {
+        scanService = new ScanDevicesService();
+        scanService.setOnCancelled(e -> {
+            scanService.runningProperty.setValue(false);
+            deviceListPlaceHolder.setText(bundle.getString("deviceListPlaceHolder"));
+        });
+        scanService.setOnFailed(e -> deviceListPlaceHolder.setText(bundle.getString("deviceListPlaceHolder")));
+        scanService.setOnSucceeded(e -> deviceListPlaceHolder.setText(bundle.getString("deviceListPlaceHolder")));
+        scanService.start();
+    }
+
+    private void setDevicesTableFactory() {
+        devicesTable.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("hostName"));
+        devicesTable.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("hostAddress"));
+
+        devicesTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) ->
+                ipField.setText(newValue.getHostAddress())));
     }
 
     private void addIpFieldListener() {
@@ -95,6 +142,7 @@ public class ConnectionView implements Initializable {
             }
             ipField.setText(t1);
             AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_IP, t1);
+            System.out.println(121);
         }));
     }
 
@@ -118,8 +166,25 @@ public class ConnectionView implements Initializable {
         String ip = AutoSavers.getCacheSaver().getCache(CacheSaver.TEST_IP);
         portField.setText(port == null ? String.valueOf(ServerManager.DEFAULT_PORT) : port);
         ipField.setText(ip == null ? ClientManager.DEFAULT_IP : ip);
-//        String[] portIp = CacheSaver.TestCache.getLastUsedPortAndIp();
-//        portField.setText(portIp[0]);
-//        ipField.setText(portIp[1]);
+    }
+
+    private class ScanDevicesService extends Service<Void> {
+        private final BooleanProperty runningProperty = new ReadOnlyBooleanWrapper(true);
+
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<>() {
+                @Override
+                protected Void call() {
+                    int port = getPort();
+                    if (port == -1) {
+                        cancel();
+                        return null;
+                    }
+                    ClientManager.listLanDevices(devicesTable.getItems(), port, runningProperty);
+                    return null;
+                }
+            };
+        }
     }
 }

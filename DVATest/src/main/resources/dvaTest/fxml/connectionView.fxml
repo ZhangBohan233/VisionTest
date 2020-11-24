@@ -12,14 +12,32 @@
         <Insets topRightBottomLeft="5.0"/>
     </padding>
 
+    <columnConstraints>
+        <ColumnConstraints percentWidth="45.0"/>
+        <ColumnConstraints percentWidth="55.0"/>
+    </columnConstraints>
+
     <Label text="%screenIp"/>
     <TextField fx:id="ipField" GridPane.columnIndex="1"/>
 
     <Label text="%port" GridPane.rowIndex="1"/>
     <TextField fx:id="portField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-    <Button text="%connect" onAction="#onConnectClicked" GridPane.rowIndex="2"/>
+    <HBox spacing="10" GridPane.rowIndex="2">
+        <Button text="%connect" onAction="#onConnectClicked"/>
+        <Label fx:id="msgLabel"/>
+    </HBox>
 
-    <Label fx:id="msgLabel" GridPane.rowIndex="3"/>
+    <TableView fx:id="devicesTable" GridPane.rowIndex="3" GridPane.columnSpan="2">
+        <columns>
+            <TableColumn text="%deviceName" prefWidth="140.0"/>
+            <TableColumn text="%deviceIp" prefWidth="160.0"/>
+        </columns>
+        <placeholder>
+            <Label fx:id="deviceListPlaceHolder" text="%deviceListPlaceHolder"/>
+        </placeholder>
+    </TableView>
+
+    <Button text="%refresh" onAction="#onRefreshClicked" GridPane.rowIndex="4"/>
 
 </GridPane>

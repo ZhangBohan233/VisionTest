@@ -30,10 +30,8 @@ public class ServerManager {
         }
     }
 
-    public static void stopServer() throws IOException {
-        if (currentServer == null) {
-            throw new IOException("No server running");
-        } else {
+    public static void stopServer() {
+        if (currentServer != null) {
             currentServer.stopServer();
         }
     }

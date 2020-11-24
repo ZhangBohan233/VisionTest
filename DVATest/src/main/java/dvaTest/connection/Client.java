@@ -16,7 +16,7 @@ public class Client extends Thread {
     private final Socket clientSocket;
     private boolean disconnected;
     private ITestController testController;
-    private Listener listener;
+    private final Listener listener;
 
     Client(String address, int port, MainView mainView) throws IOException {
         this.mainView = mainView;

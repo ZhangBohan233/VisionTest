@@ -2,6 +2,8 @@ package dvaTest.connection;
 
 import common.EventLogger;
 import dvaTest.gui.MainView;
+import javafx.beans.property.BooleanProperty;
+import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,19 +43,14 @@ public class ClientManager {
         }
     }
 
-    public static void listLanDevices() {
+    private static String getFirstTwoIp() throws IOException {
+        String thisAddr = InetAddress.getLocalHost().getHostAddress();
+        String firstThree = thisAddr.substring(0, thisAddr.lastIndexOf('.'));
+        return thisAddr.substring(0, firstThree.lastIndexOf('.'));
+    }
+
+    public static void listLanDevices(ObservableList<InetAddress> connectibleList, int port, BooleanProperty running) {
         try {
-//            InetAddress localAddr = InetAddress.getLocalHost();
-
-//            byte[] currentAddr = new byte[4];
-//            System.arraycopy(localAddr.getAddress(), 0, currentAddr, 0, 3);  // 前三部分代表网络
-
-//            for (int i = 1; i <= 255; i++) {
-//                currentAddr[3] = (byte) i;
-//                InetAddress addr = InetAddress.getByAddress(currentAddr);
-//                new AddressChecker(addr, reachable).start();
-//            }
-
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(Runtime.getRuntime().exec("arp -a").getInputStream()));
 
@@ -68,10 +65,16 @@ public class ClientManager {
             Pattern pat = Pattern.compile("(\\d+.\\d+.\\d+.\\d+)");
             Matcher matcher = pat.matcher(builder.toString());
 
-            List<InetAddress> reachable = new ArrayList<>();
-            while (matcher.find()) {
+            String firstTwoIp = getFirstTwoIp();  // 同一个局域网下ip前两位必定相同
+
+            while (running.get() && matcher.find()) {
                 String ip = matcher.group();
-                new AddressChecker(InetAddress.getByName(ip), reachable).start();
+//                new AsyncAddressChecker(InetAddress.getByName(ip), connectibleList).start();
+                if (ip.startsWith(firstTwoIp)) {
+                    InetAddress address = InetAddress.getByName(ip);
+                    if (checkAddress(address, port))
+                        connectibleList.add(address);
+                }
             }
 
         } catch (Exception e) {
@@ -79,12 +82,41 @@ public class ClientManager {
         }
     }
 
-    private static class AddressChecker extends Thread {
+    private static boolean checkAddress(InetAddress address, int port) {
+        try {
+            System.out.print("Reaching " + address + "... ");
+            if (address.isReachable(50)) {
+                System.out.print("Checking... ");
+                Socket socket = new Socket();
+                try {
+                    socket.connect(new InetSocketAddress(address.getHostAddress(), port));
+                    System.out.println("Success");
+                    return true;
+                } catch (IOException e2) {
+                    System.out.println("Failed");
+                    //
+                } finally {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        EventLogger.log(e);
+                    }
+                }
+            } else {
+                System.out.println();
+            }
+        } catch (IOException e) {
+            EventLogger.log(e);
+        }
+        return false;
+    }
+
+    private static class AsyncAddressChecker extends Thread {
 
         private final InetAddress address;
         private final List<InetAddress> reachableAddresses;
 
-        AddressChecker(InetAddress address, List<InetAddress> reachableAddresses) {
+        AsyncAddressChecker(InetAddress address, List<InetAddress> reachableAddresses) {
             this.address = address;
             this.reachableAddresses = reachableAddresses;
         }
@@ -93,23 +125,23 @@ public class ClientManager {
         public void run() {
 
             try {
-                if (address.isReachable(1000)) {
-//                    reachableAddresses.add(address);
-//                    System.out.println(address.getCanonicalHostName() + " " + address.getHostAddress());
-
-                    Socket socket = new Socket();
-                    try {
-                        socket.connect(new InetSocketAddress(address.getHostAddress(), 3456));
-                        System.out.println(address);
-                    } catch (IOException e2) {
-                        System.out.println("Failed " + address);
-                    } finally {
-                        try {
-                            socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                if (address.isReachable(50)) {
+                    reachableAddresses.add(address);
+//                    Socket socket = new Socket();
+//                    try {
+//                        socket.connect(new InetSocketAddress(address.getHostAddress(), 3456));
+//                        reachableAddresses.add(address);
+////                        address.
+////                        System.out.println(address);
+//                    } catch (IOException e2) {
+////                        System.out.println("Failed " + address);
+//                    } finally {
+//                        try {
+//                            socket.close();
+//                        } catch (IOException e) {
+//                            EventLogger.log(e);
+//                        }
+//                    }
                 }
             } catch (IOException e) {
                 EventLogger.log(e);

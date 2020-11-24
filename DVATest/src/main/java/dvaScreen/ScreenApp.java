@@ -56,12 +56,8 @@ public class ScreenApp extends Application {
         }
 
         primaryStage.setOnHidden(e -> {
-            try {
-                AutoSavers.stopAllSavers();
-                ServerManager.stopServer();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            AutoSavers.stopAllSavers();
+            ServerManager.stopServer();
         });
 
         primaryStage.show();
