@@ -68,10 +68,15 @@ public class CacheSaver {
         return root;
     }
 
-    private static void createDir(String path) {
-        File f = new File(path);
+    /**
+     * 创建一个文件的目录
+     *
+     * @param filePath 文件路径，此文件的父目录将被创建
+     */
+    private static void createParentDirOfFile(String filePath) {
+        File f = new File(filePath);
         if (!f.exists()) {
-            if (!f.mkdirs()) throw new RuntimeException("Failed to create dir " + f);
+            if (!f.getParentFile().mkdirs()) throw new RuntimeException("Failed to create dir " + f.getParentFile());
         }
     }
 
@@ -112,7 +117,7 @@ public class CacheSaver {
     }
 
     private void writeJson(JSONObject root) {
-        createDir(fileName);
+        createParentDirOfFile(fileName);
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
 

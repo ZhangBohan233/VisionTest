@@ -29,15 +29,25 @@ public class Server extends Thread {
             serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
             startListening();
         } catch (BindException e) {
-            EventLogger.log(e);
             mainView.showCannotConnect(mainView.getBundle().getString("portOccupied"),
-                    mainView.getBundle().getString("changePortInPref1") +
-                            PrefSaver.SCREEN_PREF +
-                            mainView.getBundle().getString("changePortInPref2"));
+                    String.format(
+                            mainView.getBundle().getString("closePortOccupant"),
+                            PrefSaver.SCREEN_PREF));
+        } catch (IllegalArgumentException e) {
+            mainView.showCannotConnect(mainView.getBundle().getString("invalidPort"),
+                    String.format(
+                            mainView.getBundle().getString("changePortInPref"),
+                            PrefSaver.SCREEN_PREF));
         } catch (IOException e) {
             EventLogger.log(e);
             mainView.showCannotConnect(mainView.getBundle().getString("cannotConnectToNet"),
                     "");
+        } finally {
+            try {
+                serverSocket.close();
+            } catch (IOException e) {
+                EventLogger.log(e);
+            }
         }
     }
 

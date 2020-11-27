@@ -112,6 +112,9 @@ public class ConnectionView implements Initializable {
     }
 
     private void startFindingDevices() {
+        if (scanService != null && scanService.isRunning()) {
+            scanService.cancel();  // 取消当前服务
+        }
         scanService = new ScanDevicesService();
         scanService.setOnCancelled(e -> {
             scanService.runningProperty.setValue(false);
