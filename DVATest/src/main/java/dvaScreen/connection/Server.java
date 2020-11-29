@@ -51,14 +51,17 @@ public class Server extends Thread {
         }
     }
 
-    public void startListening() throws IOException {
+    public synchronized void startListening() throws IOException {
+        System.out.println("Start waiting for connection");
+        System.out.println(serverSocket.isClosed());
         try {
             clientSocket = serverSocket.accept();
         } catch (SocketException e) {
             // No client has connected
+            e.printStackTrace();
             return;
         }
-
+        System.out.println("Connected! ");
         ServerSideListener listener = new ServerSideListener(mainView, this, clientSocket);
         listener.start();
     }

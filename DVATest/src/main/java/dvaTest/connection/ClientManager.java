@@ -1,6 +1,7 @@
 package dvaTest.connection;
 
 import common.EventLogger;
+import common.Signals;
 import dvaTest.gui.MainView;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
@@ -82,7 +83,7 @@ public class ClientManager {
         }
     }
 
-    private static boolean checkAddress(InetAddress address, int port) {
+    private synchronized static boolean checkAddress(InetAddress address, int port) {
         try {
             System.out.print("Reaching " + address + "... ");
             if (address.isReachable(50)) {
@@ -90,6 +91,7 @@ public class ClientManager {
                 Socket socket = new Socket();
                 try {
                     socket.connect(new InetSocketAddress(address.getHostAddress(), port));
+//                    socket.getOutputStream().write(Signals.TEST_CONNECTION);
                     System.out.println("Success");
                     return true;
                 } catch (IOException e2) {
@@ -109,43 +111,5 @@ public class ClientManager {
             EventLogger.log(e);
         }
         return false;
-    }
-
-    private static class AsyncAddressChecker extends Thread {
-
-        private final InetAddress address;
-        private final List<InetAddress> reachableAddresses;
-
-        AsyncAddressChecker(InetAddress address, List<InetAddress> reachableAddresses) {
-            this.address = address;
-            this.reachableAddresses = reachableAddresses;
-        }
-
-        @Override
-        public void run() {
-
-            try {
-                if (address.isReachable(50)) {
-                    reachableAddresses.add(address);
-//                    Socket socket = new Socket();
-//                    try {
-//                        socket.connect(new InetSocketAddress(address.getHostAddress(), 3456));
-//                        reachableAddresses.add(address);
-////                        address.
-////                        System.out.println(address);
-//                    } catch (IOException e2) {
-////                        System.out.println("Failed " + address);
-//                    } finally {
-//                        try {
-//                            socket.close();
-//                        } catch (IOException e) {
-//                            EventLogger.log(e);
-//                        }
-//                    }
-                }
-            } catch (IOException e) {
-                EventLogger.log(e);
-            }
-        }
     }
 }
