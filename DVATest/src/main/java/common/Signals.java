@@ -12,4 +12,5 @@ public class Signals {
     public static final byte SHOW_STD_LOG = 13;
     public static final byte SHOW_ETDRS = 14;
     public static final byte NEXT_TEST_UNIT = 20;
+    public static final byte TEST_CONNECTION = 30;
 }

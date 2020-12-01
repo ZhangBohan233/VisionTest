@@ -48,6 +48,8 @@ public class ResultView implements Initializable {
         resultPane.setup(resultRecord);
         resultContainer.getChildren().add(resultPane);
         setOnClose();
+
+        thisStage.sizeToScene();
     }
 
     @FXML

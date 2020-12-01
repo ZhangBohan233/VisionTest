@@ -27,7 +27,7 @@
             <MenuItem text="%testHistory" onAction="#showHistory"/>
         </Menu>
         <Menu text="%helpMenu">
-            <MenuItem text="%about"/>
+            <MenuItem text="%about" onAction="#showAbout"/>
         </Menu>
     </MenuBar>
 

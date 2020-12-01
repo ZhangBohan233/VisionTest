@@ -129,8 +129,11 @@ public class ConnectionView implements Initializable {
         devicesTable.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("hostName"));
         devicesTable.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("hostAddress"));
 
-        devicesTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) ->
-                ipField.setText(newValue.getHostAddress())));
+        devicesTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                ipField.setText(newValue.getHostAddress());
+            }
+        }));
     }
 
     private void addIpFieldListener() {
@@ -145,7 +148,6 @@ public class ConnectionView implements Initializable {
             }
             ipField.setText(t1);
             AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_IP, t1);
-            System.out.println(121);
         }));
     }
 

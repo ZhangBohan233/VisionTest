@@ -48,16 +48,29 @@ public class ServerSideListener extends Thread {
                     processSignal(array);
                 }
             }
+            System.out.println("Listener closed! ");
             server.startListening();  // 当前连接断开，准备连接下一个客户端
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void processSignal(byte signal) {
+    private synchronized void processSignal(byte signal) {
         switch (signal) {
+            case Signals.TEST_CONNECTION:
+                System.out.println("received connection test!");
+                disconnected = true;
+//                try {
+//                    client.shutdownInput();
+//                    client.shutdownOutput();
+//                    client.close();
+//                    server.startListening();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+                break;
             case Signals.GREET:
-                System.out.println("connected! ");
+                System.out.println("connected with client! ");
                 mainView.setConnectedUi();
                 break;
             case Signals.SHOW_SNELLEN:
@@ -89,7 +102,7 @@ public class ServerSideListener extends Thread {
         }
     }
 
-    private void processSignal(byte[] array) {
+    private synchronized void processSignal(byte[] array) {
         switch (array[0]) {
             case Signals.NEXT_TEST_UNIT:
                 TestUnit testUnit = TestUnit.fromByteArray(array);
