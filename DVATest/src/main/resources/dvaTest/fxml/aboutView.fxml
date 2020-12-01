@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<VBox prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="dvaTest.gui.AboutView" alignment="CENTER" spacing="20.0">
+
+    <Label text="%appName">
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+
+    <Label fx:id="versionLabel">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+
+</VBox>

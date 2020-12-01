@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 
 public class TestApp extends Application {
 
+    public static final String VERSION = "V1.0";
+
     private static ResourceBundle bundle;
     private static SimpleDateFormat fullDateFormat;
     private static SimpleDateFormat dateFormat;

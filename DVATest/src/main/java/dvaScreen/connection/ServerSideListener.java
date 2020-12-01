@@ -70,7 +70,7 @@ public class ServerSideListener extends Thread {
 //                }
                 break;
             case Signals.GREET:
-                System.out.println("connected! ");
+                System.out.println("connected with client! ");
                 mainView.setConnectedUi();
                 break;
             case Signals.SHOW_SNELLEN:

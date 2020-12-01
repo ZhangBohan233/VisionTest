@@ -91,7 +91,7 @@ public class ClientManager {
                 Socket socket = new Socket();
                 try {
                     socket.connect(new InetSocketAddress(address.getHostAddress(), port));
-//                    socket.getOutputStream().write(Signals.TEST_CONNECTION);
+                    socket.getOutputStream().write(Signals.TEST_CONNECTION);
                     System.out.println("Success");
                     return true;
                 } catch (IOException e2) {

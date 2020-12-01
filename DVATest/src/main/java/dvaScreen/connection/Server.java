@@ -26,7 +26,7 @@ public class Server extends Thread {
     @Override
     public void run() {
         try {
-            serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
+//            serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
             startListening();
         } catch (BindException e) {
             mainView.showCannotConnect(mainView.getBundle().getString("portOccupied"),
@@ -51,14 +51,18 @@ public class Server extends Thread {
         }
     }
 
-    public synchronized void startListening() throws IOException {
+    public void startListening() throws IOException {
         System.out.println("Start waiting for connection");
-        System.out.println(serverSocket.isClosed());
+        if (serverSocket == null || serverSocket.isClosed()) {
+            // 解决一个serverSocket被自动关闭的bug
+            serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
+        }
         try {
             clientSocket = serverSocket.accept();
         } catch (SocketException e) {
             // No client has connected
-            e.printStackTrace();
+            System.out.println("Socket server closed without connection!");
+//            e.printStackTrace();
             return;
         }
         System.out.println("Connected! ");
@@ -70,10 +74,11 @@ public class Server extends Thread {
         return clientSocket;
     }
 
-    public synchronized void stopServer() {
+    public void stopServer() {
         if (serverSocket == null) {
             return;
         }
+//        System.out.println("Closing server");
         try {
             if (clientSocket != null && !clientSocket.isClosed()) {
                 sendMessage(Signals.DISCONNECT_BY_SERVER);
@@ -83,6 +88,7 @@ public class Server extends Thread {
         } finally {
             try {
                 serverSocket.close();
+                System.out.println("Server closed! ");
             } catch (IOException e) {
                 EventLogger.log(e);
             }

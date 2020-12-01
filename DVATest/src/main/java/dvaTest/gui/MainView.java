@@ -141,6 +141,21 @@ public class MainView implements Initializable {
         }
     }
 
+    @FXML
+    void showAbout() throws IOException {
+        Stage stage = new Stage();
+
+        FXMLLoader loader =
+                new FXMLLoader(getClass().getResource("/dvaTest/fxml/aboutView.fxml"),
+                        TestApp.getBundle());
+        Parent root = loader.load();
+
+        stage.setScene(new Scene(root));
+        stage.setTitle(bundle.getString("appName"));
+
+        stage.show();
+    }
+
     public void setStage(Stage stage) {
         this.thisStage = stage;
     }
