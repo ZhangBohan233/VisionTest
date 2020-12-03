@@ -1,0 +1,6 @@
+{
+  "port": "3456",
+  "ip": "192.168.186.1",
+  "scoreCounting": "FIVE",
+  "hidingInterval": 1000
+}

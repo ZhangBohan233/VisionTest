@@ -120,7 +120,7 @@ public class ConnectionView implements Initializable {
             scanService.runningProperty.setValue(false);
             deviceListPlaceHolder.setText(bundle.getString("deviceListPlaceHolder"));
         });
-        scanService.setOnFailed(e -> deviceListPlaceHolder.setText(bundle.getString("deviceListPlaceHolder")));
+        scanService.setOnFailed(e -> deviceListPlaceHolder.setText(bundle.getString("searchDevicesFailed")));
         scanService.setOnSucceeded(e -> deviceListPlaceHolder.setText(bundle.getString("deviceListPlaceHolder")));
         scanService.start();
     }
@@ -134,6 +134,13 @@ public class ConnectionView implements Initializable {
                 ipField.setText(newValue.getHostAddress());
             }
         }));
+
+        devicesTable.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                if (devicesTable.getSelectionModel().getSelectedIndex() != -1)
+                    onConnectClicked();
+            }
+        });
     }
 
     private void addIpFieldListener() {

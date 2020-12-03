@@ -24,19 +24,26 @@ import java.util.ResourceBundle;
 public class DataSaver {
 
     public static final String DATA_DIR = "data";
-    private static final SimpleDateFormat NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+    public static final SimpleDateFormat FILE_NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm");
     private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    /**
+     * @param personName 被试姓名
+     * @return 该被试的文件夹
+     */
+    public static File getSubjectDirByPerson(String personName) {
+        return new File(DATA_DIR + File.separator + personName);
+    }
 
     public static void saveTestResult(ResultRecord.NamedRecord record) {
         createDirsIfNone();
 
-        File subjectDir = new File(DATA_DIR + File.separator + record.name);
+        File subjectDir = getSubjectDirByPerson(record.name);
         if (!subjectDir.exists()) {
             if (!subjectDir.mkdirs()) throw new RuntimeException("Failed to create dir " + subjectDir);
         }
 
         Date testDate = new Date(System.currentTimeMillis());
-        String nameDateStr = NAME_FORMATTER.format(testDate);
         String dateStr = TIME_FORMATTER.format(testDate);
 
         TestPref testPref = record.resultRecord.testPref;
@@ -49,6 +56,7 @@ public class DataSaver {
         base.put("scoreCounting", testPref.getScoreCounting().name());
         base.put("interval", testPref.getIntervalMills());
         base.put("hidingTime", testPref.getHidingMills());
+        base.put("conclusion", record.resultRecord.scoreConclusion);
         base.put("note", record.note);
 
         JSONArray resultArray = new JSONArray();
@@ -66,7 +74,7 @@ public class DataSaver {
         base.put("results", resultArray);
 
         String jsonString = base.toString(2);
-        String fileName = subjectDir.getAbsolutePath() + File.separator + "test-" + nameDateStr + ".json";
+        String fileName = subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName;
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
@@ -190,7 +198,7 @@ public class DataSaver {
             row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);
             row.createCell(6).setCellValue(testPref.getTestType().show(bundle, false));
             row.createCell(7).setCellValue(testPref.getScoreCounting().toString());
-            row.createCell(8).setCellValue(record.resultRecord.generateScoreConclusion());
+            row.createCell(8).setCellValue(record.resultRecord.scoreConclusion);
             row.createCell(9).setCellValue(record.note);
         }
 
@@ -198,5 +206,22 @@ public class DataSaver {
         workbook.write(fos);
         fos.flush();
         fos.close();
+    }
+
+    /**
+     * @param recordList 将要删除的项目列表
+     * @return 成功删除项目的数量
+     */
+    public static int deleteRecords(List<ResultRecord.NamedRecord> recordList) {
+        int sucCount = 0;
+        for (ResultRecord.NamedRecord nr : recordList) {
+            File file = new File(getSubjectDirByPerson(nr.name) + File.separator + nr.resultRecord.fileName);
+            if (file.delete()) {
+                sucCount++;
+            } else {
+                System.out.println(file + " deletion failed.");
+            }
+        }
+        return sucCount;
     }
 }

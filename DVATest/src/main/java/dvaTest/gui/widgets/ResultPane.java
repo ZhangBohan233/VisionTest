@@ -74,7 +74,7 @@ public class ResultPane extends VBox {
         hidingTimeLabel.setText((double) testPref.getHidingMills() / 1000 + " " + bundle.getString("unitSecond"));
         distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
         testTimeLabel.setText(TestApp.getFullDateFormat().format(resultRecord.testStartTime));
-        conclusionLabel.setText(resultRecord.generateScoreConclusion());
+        conclusionLabel.setText(resultRecord.scoreConclusion);
     }
 
     private void setTableFactory() {

@@ -20,7 +20,8 @@
 
     <Separator/>
 
-    <HBox alignment="CENTER_RIGHT">
+    <HBox alignment="CENTER_RIGHT" spacing="10.0">
         <Button text="%confirm" onAction="#onOkAction"/>
+        <Button fx:id="cancelButton" text="%cancel" onAction="#onCancelAction" managed="false"/>
     </HBox>
 </VBox>

@@ -21,6 +21,30 @@ public class AlertShower {
         show(content, bundle.getString("success"), bundle, parentStage);
     }
 
+    public static boolean showAsk(String content, ResourceBundle bundle, Stage parentStage) {
+        try {
+            FXMLLoader loader =
+                    new FXMLLoader(AlertShower.class.getResource("/dvaTest/fxml/widgets/customAlert.fxml"), bundle);
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(parentStage);
+            stage.setTitle(bundle.getString("pleaseConfirm"));
+            stage.setScene(new Scene(root));
+
+            CustomAlert customAlert = loader.getController();
+            customAlert.setup(content, stage, true);
+
+            stage.showAndWait();
+
+            return customAlert.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private static void show(String content, String title, ResourceBundle bundle, Stage parentStage) {
         try {
             FXMLLoader loader =
@@ -34,7 +58,7 @@ public class AlertShower {
             stage.setScene(new Scene(root));
 
             CustomAlert customAlert = loader.getController();
-            customAlert.setup(content, stage);
+            customAlert.setup(content, stage, false);
 
             stage.show();
         } catch (IOException e) {

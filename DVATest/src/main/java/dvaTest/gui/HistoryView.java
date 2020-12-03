@@ -2,17 +2,14 @@ package dvaTest.gui;
 
 import common.EventLogger;
 import common.data.DataSaver;
-import dvaTest.TestApp;
 import dvaTest.gui.items.HistoryTreeItem;
 import dvaTest.gui.widgets.ResultPane;
 import dvaTest.testCore.ResultRecord;
-import dvaTest.testCore.TestPref;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.layout.Pane;
@@ -51,6 +48,7 @@ public class HistoryView implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
 
+        setTableListeners();
         fillTable();
     }
 
@@ -86,7 +84,29 @@ public class HistoryView implements Initializable {
 
     @FXML
     void deleteAction() {
+        List<ResultRecord.NamedRecord> recordList = getAllSelected();
+        int listSize = recordList.size();
+        if (AlertShower.showAsk(
+                String.format(bundle.getString("confirmDeleteNItems"), listSize),
+                bundle,
+                stage)) {
+            int sucCount = DataSaver.deleteRecords(recordList);
+            if (sucCount == listSize) {
+                AlertShower.showSuccess(bundle.getString("deleteSuccess"), bundle, stage);
+            } else {
+                AlertShower.showSuccess(
+                        String.format(bundle.getString("deletePartFail"), sucCount, listSize - sucCount),
+                        bundle,
+                        stage
+                );
+            }
+            refreshTable();
+        }
+    }
 
+    private void refreshTable() {
+        historyTable.getSelectionModel().clearSelection();
+        fillTable();
     }
 
     private List<ResultRecord.NamedRecord> getAllSelected() {
@@ -95,7 +115,7 @@ public class HistoryView implements Initializable {
         return recordList;
     }
 
-    private void fillTable() {
+    private void setTableListeners() {
         subjectCol.setCellValueFactory(p -> {
             HistoryTreeItem.Item hi = p.getValue().getValue();
             return new ReadOnlyStringWrapper(hi.getSubject());
@@ -109,19 +129,18 @@ public class HistoryView implements Initializable {
             return new ReadOnlyObjectWrapper<>(hi.getCheckBox());
         });
         historyTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
-            if (newValue.getValue() instanceof HistoryTreeItem.Test) {
+            if (newValue != null && newValue.getValue() instanceof HistoryTreeItem.Test) {
                 showRightPane((HistoryTreeItem.Test) newValue.getValue());
             } else {
                 hideRightPane();
             }
         }));
+    }
 
+    private void fillTable() {
         HistoryTreeItem rootItem = readTestToTable();
-//        rootItem.setIndependent(false);
         historyTable.setRoot(rootItem);
         historyTable.setShowRoot(true);
-//        historyTable.getSelectionModel().selectedItemProperty().addListener(
-//                (observable, oldValue, newValue) -> System.out.println(12321));
     }
 
     private HistoryTreeItem readTestToTable() {

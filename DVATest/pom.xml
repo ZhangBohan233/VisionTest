@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>trashsoftware</groupId>
     <artifactId>dva-test</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>dva-test</name>
 
@@ -110,7 +110,7 @@
         </repository>
     </repositories>
     <properties>
-        <maven.compiler.release>13</maven.compiler.release>
+        <maven.compiler.release>11</maven.compiler.release>
     </properties>
 
     <build>
@@ -120,7 +120,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>13</release>
+                    <release>11</release>
                 </configuration>
             </plugin>
             <plugin>

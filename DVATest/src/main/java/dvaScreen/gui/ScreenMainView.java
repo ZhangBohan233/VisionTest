@@ -1,5 +1,6 @@
 package dvaScreen.gui;
 
+import common.EventLogger;
 import common.Utility;
 import common.data.AutoSavers;
 import common.data.CacheSaver;
@@ -67,7 +68,13 @@ public class ScreenMainView implements Initializable {
         fillBoxes();
 
         restoreFromCache();
-        setAutoDetected();
+
+        try {
+            setAutoDetected();
+        } catch (Exception e) {
+            // 未知的硬件问题
+            EventLogger.log(e);
+        }
     }
 
     public void setup(Stage stage) {
@@ -153,7 +160,7 @@ public class ScreenMainView implements Initializable {
         }));
     }
 
-    private void setAutoDetected() {
+    private void setAutoDetected() throws HeadlessException {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 //        double windowsWidth = screen.getWidth();
         double windowsHeight = screen.getHeight();
@@ -259,9 +266,4 @@ public class ScreenMainView implements Initializable {
         double screenSize = AutoSavers.getCacheSaver().getDouble(CacheSaver.SCREEN_SIZE);
         setScreenSize(Double.isNaN(screenSize) ? 15.6 : screenSize);
     }
-
-//    public void storeToCache() {
-////        CacheSaver.ScreenCache.writeScreenSize(getScreenSize());
-//        AutoSavers.getCacheSaver().putCache(CacheSaver.SCREEN_SIZE, getScreenSize());
-//    }
 }

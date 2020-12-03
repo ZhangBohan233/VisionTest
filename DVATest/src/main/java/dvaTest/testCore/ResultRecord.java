@@ -1,16 +1,22 @@
 package dvaTest.testCore;
 
+import common.data.DataSaver;
+
 import java.util.*;
 
 public class ResultRecord {
     public final UnitList[] testResults;
     public final TestPref testPref;
     public final Date testStartTime;
+    public final String fileName;
+    public final String scoreConclusion;
 
     public ResultRecord(UnitList[] testResults, TestPref testPref, Date testStartTime) {
         this.testResults = testResults;
         this.testPref = testPref;
         this.testStartTime = testStartTime;
+        this.fileName = "test-" + DataSaver.FILE_NAME_FORMATTER.format(testStartTime) + ".json";
+        this.scoreConclusion = generateScoreConclusion();
     }
 
     /**
@@ -34,7 +40,7 @@ public class ResultRecord {
      *
      * @return the string conclusion of score
      */
-    public String generateScoreConclusion() {
+    private String generateScoreConclusion() {
         int levelCount = testPref.getTestType().getTest().visionLevelCount();
         int highestIndex = 0;
         int failsInHighest = 0;
