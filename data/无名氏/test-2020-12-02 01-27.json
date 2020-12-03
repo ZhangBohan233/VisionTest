@@ -1,0 +1,108 @@
+{
+  "note": "",
+  "distance": 5,
+  "name": "无名氏",
+  "interval": 3000,
+  "time": "2020-12-02 01:27:22",
+  "type": "LANDOLT",
+  "results": [
+    {
+      "vision": "0.7",
+      "input": "left",
+      "shown": "left",
+      "correct": true
+    },
+    {
+      "vision": "0.7",
+      "input": "right",
+      "shown": "right",
+      "correct": true
+    },
+    {
+      "vision": "0.7",
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": "0.7",
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    },
+    {
+      "vision": "0.7",
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": "0.6",
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": "0.6",
+      "input": "downLeft",
+      "shown": "downLeft",
+      "correct": true
+    },
+    {
+      "vision": "0.6",
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": "0.6",
+      "input": "downRight",
+      "shown": "right",
+      "correct": false
+    },
+    {
+      "vision": "0.6",
+      "input": "down",
+      "shown": "downLeft",
+      "correct": false
+    },
+    {
+      "vision": "0.5",
+      "input": "left",
+      "shown": "upLeft",
+      "correct": false
+    },
+    {
+      "vision": "0.5",
+      "input": "down",
+      "shown": "up",
+      "correct": false
+    },
+    {
+      "vision": "0.5",
+      "input": "downRight",
+      "shown": "downRight",
+      "correct": true
+    },
+    {
+      "vision": "0.5",
+      "input": "right",
+      "shown": "upLeft",
+      "correct": false
+    },
+    {
+      "vision": "0.5",
+      "input": "up",
+      "shown": "down",
+      "correct": false
+    },
+    {
+      "vision": "0.3",
+      "input": "left",
+      "shown": "downLeft",
+      "correct": false
+    }
+  ],
+  "scoreCounting": "LOG_MAR",
+  "hidingTime": 500
+}

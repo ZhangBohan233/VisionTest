@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="eadba4f4-84d8-4f26-9779-cb9ae354d855" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/DVATest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/DvaScreen-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/DvaTest-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/documents/Plan.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/screen_pref.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/EventLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/Signals.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/Utility.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/data/AutoSavers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/data/CacheSaver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/data/DataSaver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/common/data/PrefSaver.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/Screen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/ScreenApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/connection/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/connection/ServerException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/connection/ServerManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/connection/ServerSideListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/gui/ScreenMainView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/gui/ScreenTestView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/gui/items/ResolutionItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaScreen/gui/items/WindowsScaleItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/TestApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/TestMain.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/connection/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/connection/ClientManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/AboutView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/AlertShower.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/ConnectionView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/HistoryView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/MainView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/ResultView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/TestPrepView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/TestView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/items/HistoryTreeItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/items/ResultTableItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/items/ScoreCounting.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/CustomAlert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/ResultPane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/inputs/CTestInput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/inputs/EtdrsTestInput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/inputs/SnellenTestInput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/inputs/StdLogTestInput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/gui/widgets/inputs/TestInput.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/ITestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/IdleTestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/ResultRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/TestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/TestPref.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/TestType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/TestTypeException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/testItems/TestImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/CTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/EtdrsTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/LogBasedText.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/SnellenTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/StdLogTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/dvaTest/testCore/tests/TestUnit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/bundles/Languages_zh_CN.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/BLANK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/C100.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/C_BLANK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/down.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/downLeft.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/downRight.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/left.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/right.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/up.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/upLeft.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/c/upRight.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/C.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/D.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/H.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/K.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/N.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/O.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/R.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/S.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/V.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/etdrs/Z.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/C.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/C2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/D.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/D2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/E.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/F.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/L.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/O.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/P.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/P2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/T.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/snellen/Z.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/stdLog/down.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/stdLog/left.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/stdLog/right.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/common/images/stdLog/up.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaScreen/css/testScreen.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaScreen/fxml/screenMainView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaScreen/fxml/screenTestView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/aboutView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/connectionView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/historyView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/mainView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/resultView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/testPrepView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/testView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/widgets/customAlert.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/widgets/inputs/cTestInput.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/widgets/inputs/etdrsTestInput.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/widgets/inputs/snellenTestInput.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/widgets/inputs/stdLogTestInput.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/src/main/resources/dvaTest/fxml/widgets/resultPane.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DVATest/test_pref.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/Screen.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/connection/Listener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/connection/Server.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/connection/ServerException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/connection/ServerManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/connection/Signals.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/gui/ScreenConnectionView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/dvaScreen/gui/ScreenMainView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/java/module-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/resources/dvaScreen/bundles/Languages_zh_CN.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/resources/dvaScreen/fxml/screenConnectionView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DvaScreen/src/main/resources/dvaScreen/fxml/screenMainView.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/c2/C8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/resizedC/C8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/C.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/D.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/H.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/K.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/N.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/O.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/R.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/S.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/V.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/Z.bmp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/angle.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/sloan/sload total.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/C.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/C2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/D.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/D2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/E.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/F.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/L.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/O.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/P.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/P2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/T.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/Z.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/snellen/snellen.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/对数/LOG1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/对数/LOG2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/对数/LOG3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/对数/LOG4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/对数/LOG_BLANK.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/对数/e3c45336c8aaef9fd3d2a49f06aa3ce3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/C型/C jpeg.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/C8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/空军视力表/QQ截图20200713222640.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/C.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/D.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/H.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/K.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/N.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/O.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/R.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/S.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/V.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/Z.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/视力表3/视力表/视力表新.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/DvaScreen-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/DvaTest-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ScreenLauncher.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/ScreenLauncher.pyw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/TestLauncher.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/TestLauncher.pyw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/auto_move.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/auto_pack.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/bin/DvaScreen-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/bin/DvaTest-jar-with-dependencies.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/bin/ScreenLauncher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/bin/TestLauncher.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/cache/screen/cache.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/cache/test/cache.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/screen_pref.cfg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/test_pref.cfg" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="CSS File" />
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="Python Stub" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="63af9d09-ee51-48e5-acbf-73e1c4acbc61" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="E:\Program Files\JetBrains\IntelliJ IDEA 2019.1\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1iGjEVugvOvaUmVJSpMkUKDea7S" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="common" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\GitHub\VisionTest\DVATest" />
+      <recent name="E:\GitHub\VisionTest\DVATest\src\main\resources\dvaTest\fxml\widgets\inputs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\GitHub\VisionTest\DVATest\logs" />
+      <recent name="E:\GitHub\VisionTest\DVATest\src\main\resources\dvaTest\fxml\widgets\inputs" />
+      <recent name="E:\GitHub\VisionTest\DVATest\src\main\resources\common\bundles" />
+      <recent name="E:\GitHub\VisionTest\DVATest\src\main\resources\common" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.TestMain">
+    <configuration name="Screen" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dvaScreen.Screen" />
+      <module name="dva-test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dvaScreen.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dvaTest.TestMain" />
+      <module name="dva-test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="dvaTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Utility" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="common.Utility" />
+      <module name="dva-test" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="common.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ScreenLauncher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="dva-test" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ScreenLauncher.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestLauncher" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="dva-test" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestLauncher.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Screen" />
+      <item itemvalue="Application.TestMain" />
+      <item itemvalue="Application.Utility" />
+      <item itemvalue="Python.TestLauncher" />
+      <item itemvalue="Python.ScreenLauncher" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestMain" />
+        <item itemvalue="Application.Screen" />
+        <item itemvalue="Python.ScreenLauncher" />
+        <item itemvalue="Python.TestLauncher" />
+        <item itemvalue="Application.Utility" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="eadba4f4-84d8-4f26-9779-cb9ae354d855" name="Default Changelist" comment="" />
+      <created>1601540711695</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1601540711695</updated>
+      <workItem from="1601540712904" duration="4554000" />
+      <workItem from="1601797642481" duration="32869000" />
+      <workItem from="1601974874550" duration="7859000" />
+      <workItem from="1602603127703" duration="1705000" />
+      <workItem from="1602747000302" duration="267000" />
+      <workItem from="1602747344348" duration="23607000" />
+      <workItem from="1602906932475" duration="8126000" />
+      <workItem from="1603007502948" duration="6718000" />
+      <workItem from="1603029512682" duration="7819000" />
+      <workItem from="1603098705899" duration="5296000" />
+      <workItem from="1603118954585" duration="8187000" />
+      <workItem from="1603165466581" duration="13344000" />
+      <workItem from="1603189728193" duration="7287000" />
+      <workItem from="1603209675172" duration="3717000" />
+      <workItem from="1603256008084" duration="4830000" />
+      <workItem from="1603281808683" duration="18135000" />
+      <workItem from="1603343191629" duration="5004000" />
+      <workItem from="1603355970742" duration="1432000" />
+      <workItem from="1603444313277" duration="15034000" />
+      <workItem from="1603529623951" duration="3499000" />
+      <workItem from="1603612855947" duration="671000" />
+      <workItem from="1603713822429" duration="7649000" />
+      <workItem from="1603820379524" duration="888000" />
+      <workItem from="1603867281645" duration="9522000" />
+      <workItem from="1603887133848" duration="1389000" />
+      <workItem from="1603897616319" duration="22141000" />
+      <workItem from="1604306424901" duration="17000" />
+      <workItem from="1605110315212" duration="2583000" />
+      <workItem from="1605167471842" duration="13000" />
+      <workItem from="1605601569171" duration="12685000" />
+      <workItem from="1605716603764" duration="5732000" />
+      <workItem from="1605791514092" duration="1370000" />
+      <workItem from="1605803863713" duration="20411000" />
+      <workItem from="1605964855869" duration="4843000" />
+      <workItem from="1605983578660" duration="23419000" />
+      <workItem from="1606134482328" duration="19556000" />
+      <workItem from="1606308822430" duration="1083000" />
+      <workItem from="1606500686882" duration="216000" />
+      <workItem from="1606501138221" duration="2407000" />
+      <workItem from="1606663581099" duration="5136000" />
+      <workItem from="1606815181964" duration="599000" />
+      <workItem from="1606839985686" duration="315000" />
+      <workItem from="1606840552037" duration="3946000" />
+      <workItem from="1606898014017" duration="962000" />
+      <workItem from="1606922161228" duration="7672000" />
+      <workItem from="1606988660954" duration="7036000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="361" y="53" key="#Plugins" timestamp="1603190359654">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="53" key="#Plugins/0.0.1536.824@0.0.1536.824" timestamp="1603190359654" />
+    <state x="249" y="0" key="#Project_Structure" timestamp="1606928349891">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="249" y="0" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1606928349891" />
+    <state x="223" y="67" width="1089" height="737" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606928379451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" width="1089" height="737" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1606928379451" />
+    <state x="399" y="150" key="#com.intellij.ide.util.ExportDialog" timestamp="1605606996173">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="399" y="150" key="#com.intellij.ide.util.ExportDialog/0.0.1536.824@0.0.1536.824" timestamp="1605606996173" />
+    <state x="574" y="118" key="#com.intellij.ide.util.MemberChooser" timestamp="1606843820435">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="574" y="118" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1606843820435" />
+    <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor" timestamp="1606928102297">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1606928102297" />
+    <state x="449" y="147" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1606500831672">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="449" y="147" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.824@0.0.1536.824" timestamp="1606500831672" />
+    <state x="440" y="335" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1603123030957">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="440" y="335" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1536.824@0.0.1536.824" timestamp="1603123030956" />
+    <state x="544" y="279" width="448" height="272" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1601898882132">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="544" y="279" width="448" height="272" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.824@0.0.1536.824" timestamp="1601898882132" />
+    <state x="548" y="292" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages" timestamp="1603123033333">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="548" y="292" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.packages/0.0.1536.824@0.0.1536.824" timestamp="1603123033333" />
+    <state x="490" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1605879696451">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="490" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1605879696451" />
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1603190381138">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1603190381138" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1606994651951">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1606994651951" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1606994651951">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1606994651951" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1606994651951">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1606994651951" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1606994651951">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1606994651951" />
+    <state width="1493" height="210" key="GridCell.Tab.1.bottom" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.1.center" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.1.left" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.1.right" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.2.bottom" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.2.bottom/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.2.center" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.2.center/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.2.left" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.2.left/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state width="1493" height="210" key="GridCell.Tab.2.right" timestamp="1605722352151">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.2.right/0.0.1536.824@0.0.1536.824" timestamp="1605722352151" />
+    <state x="249" y="0" key="SettingsEditor" timestamp="1606928364031">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="249" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1606928364031" />
+    <state x="485" y="304" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1603190624471">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="485" y="304" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1603190624471" />
+    <state x="499" y="172" key="extract.method.dialog" timestamp="1605866098158">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="172" key="extract.method.dialog/0.0.1536.824@0.0.1536.824" timestamp="1605866098158" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1603190393466">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1603190393466" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/DVATest$TestLauncher.coverage" NAME="TestLauncher Coverage Results" MODIFIED="1606928286893" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DVATest$ScreenLauncher.coverage" NAME="ScreenLauncher Coverage Results" MODIFIED="1606928330071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

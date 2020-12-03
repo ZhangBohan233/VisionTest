@@ -1,0 +1,77 @@
+{
+  "note": "",
+  "distance": 5,
+  "name": "无名氏",
+  "interval": 2500,
+  "time": "2020-10-23 23:09:23",
+  "type": "c",
+  "results": [
+    {
+      "vision": 0.5,
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": 1,
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "left",
+      "shown": "left",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "left",
+      "shown": "left",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "left",
+      "shown": "left",
+      "correct": true
+    },
+    {
+      "vision": 2,
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    }
+  ],
+  "scoreCounting": "DEC"
+}

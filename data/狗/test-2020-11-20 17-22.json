@@ -1,0 +1,60 @@
+{
+  "note": "",
+  "distance": 5,
+  "name": "狗",
+  "interval": 1000,
+  "time": "2020-11-20 17:22:55",
+  "type": "LANDOLT",
+  "results": [
+    {
+      "vision": "0.3",
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    },
+    {
+      "vision": "0.0",
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": "-0.2",
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": "-0.3",
+      "input": "left",
+      "shown": "left",
+      "correct": true
+    },
+    {
+      "vision": "-0.3",
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    },
+    {
+      "vision": "-0.3",
+      "input": "downLeft",
+      "shown": "downLeft",
+      "correct": true
+    },
+    {
+      "vision": "-0.3",
+      "input": "up",
+      "shown": "up",
+      "correct": true
+    },
+    {
+      "vision": "-0.3",
+      "input": "left",
+      "shown": "left",
+      "correct": true
+    }
+  ],
+  "scoreCounting": "LOG_MAR",
+  "hidingTime": 500
+}

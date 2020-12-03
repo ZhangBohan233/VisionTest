@@ -1,0 +1,108 @@
+{
+  "note": "哈哈哈哈哈哈",
+  "distance": 5,
+  "name": "无名氏",
+  "interval": 2500,
+  "hidingTime": 1000,
+  "time": "2020-10-26 21:34:22",
+  "type": "SNELLEN",
+  "results": [
+    {
+      "vision": "6/12",
+      "input": "E",
+      "shown": "E",
+      "correct": true
+    },
+    {
+      "vision": "6/6",
+      "input": "",
+      "shown": "T",
+      "correct": false
+    },
+    {
+      "vision": "6/6",
+      "input": "P",
+      "shown": "P",
+      "correct": true
+    },
+    {
+      "vision": "6/6",
+      "input": "O",
+      "shown": "O",
+      "correct": true
+    },
+    {
+      "vision": "6/6",
+      "input": "D",
+      "shown": "D",
+      "correct": true
+    },
+    {
+      "vision": "6/5",
+      "input": "D",
+      "shown": "D",
+      "correct": true
+    },
+    {
+      "vision": "6/5",
+      "input": "C",
+      "shown": "C",
+      "correct": true
+    },
+    {
+      "vision": "6/5",
+      "input": "C",
+      "shown": "C",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "C",
+      "shown": "C",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "P",
+      "shown": "P",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "O",
+      "shown": "O",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "E",
+      "shown": "E",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "F",
+      "shown": "F",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "O",
+      "shown": "O",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "Z",
+      "shown": "Z",
+      "correct": true
+    },
+    {
+      "vision": "6/4",
+      "input": "C",
+      "shown": "C",
+      "correct": true
+    }
+  ],
+  "scoreCounting": "FRAC_METER"
+}

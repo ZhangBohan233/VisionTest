@@ -1,0 +1,74 @@
+{
+  "name": "严永红",
+  "interval": 3000,
+  "time": "2020-10-21 00:26:13",
+  "type": "c",
+  "results": [
+    {
+      "vision": 0.4,
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": 0.8,
+      "input": "up",
+      "shown": "up",
+      "correct": true
+    },
+    {
+      "vision": 1.2,
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "right",
+      "shown": "up",
+      "correct": false
+    },
+    {
+      "vision": 1.5,
+      "input": "downLeft",
+      "shown": "downLeft",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "upRight",
+      "shown": "upRight",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "right",
+      "shown": "right",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "up",
+      "shown": "up",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "upLeft",
+      "shown": "upLeft",
+      "correct": true
+    },
+    {
+      "vision": 1.5,
+      "input": "down",
+      "shown": "down",
+      "correct": true
+    }
+  ]
+}
