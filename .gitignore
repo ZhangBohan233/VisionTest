@@ -4,6 +4,8 @@
 *.exe
 .idea/
 logs/
+cache/
+data/
 
 target/
 pom.xml.tag
