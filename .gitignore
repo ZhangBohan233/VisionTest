@@ -1,9 +1,7 @@
 *.iml
 *.log
-DVATest/.idea/
-DVATest/data/
-DVATest/cache/
-DVAScreen/.idea/
+.idea/
+logs/
 
 target/
 pom.xml.tag
