@@ -1,5 +1,7 @@
 *.iml
 *.log
+*.jar
+*.exe
 .idea/
 logs/
 

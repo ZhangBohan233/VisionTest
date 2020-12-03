@@ -1,8 +1,0 @@
-{
-  "distance": 5,
-  "port": "3456",
-  "ip": "192.168.186.1",
-  "interval": 1500,
-  "scoreCounting": "LOG_MAR",
-  "hidingInterval": 500
-}
