@@ -2,6 +2,7 @@
 *.log
 *.jar
 *.exe
+*.cfg
 .idea/
 logs/
 cache/
