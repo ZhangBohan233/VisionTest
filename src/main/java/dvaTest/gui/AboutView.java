@@ -10,10 +10,19 @@ import java.util.ResourceBundle;
 
 public class AboutView implements Initializable {
     @FXML
-    Label versionLabel;
+    Label versionLabel, authorLabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         versionLabel.setText(TestApp.VERSION);
+        setAuthor(resources);
+    }
+
+    private void setAuthor(ResourceBundle bundle) {
+        if (bundle.getLocale().getLanguage().equals("zh")) {
+            authorLabel.setText(TestApp.AUTHOR_ZH);
+        } else {
+            authorLabel.setText(TestApp.AUTHOR_EN);
+        }
     }
 }

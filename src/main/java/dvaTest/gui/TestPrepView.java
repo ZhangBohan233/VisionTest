@@ -2,17 +2,17 @@ package dvaTest.gui;
 
 import common.EventLogger;
 import dvaTest.connection.ClientManager;
-import dvaTest.gui.widgets.inputs.CTestInput;
-import dvaTest.gui.widgets.inputs.TestInput;
+import dvaTest.testCore.EyeSide;
 import dvaTest.testCore.IdleTestController;
+import dvaTest.testCore.TestController;
 import dvaTest.testCore.TestPref;
-import dvaTest.testCore.TestType;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -25,9 +25,16 @@ public class TestPrepView implements Initializable {
     @FXML
     Pane inputContainer;
 
+    @FXML
+    Label eyeLabel;
+
     private TestPref testPref;
     private ResourceBundle bundle;
     private Stage stage;
+    private Scene scene;
+    private TestView testView;
+
+    private TestController realController;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,34 +44,56 @@ public class TestPrepView implements Initializable {
     public void setTestPref(TestPref testPref, Stage stage) {
         this.testPref = testPref;
         this.stage = stage;
+        this.scene = stage.getScene();
+
+        this.realController = new TestController(testPref);
 
         // 使client可以关闭这个窗口
         ClientManager.getCurrentClient().setTestController(new IdleTestController(this));
 
         inputContainer.getChildren().add(testPref.getTestType().generateTestInput(null));
+        setEyeLabel(realController.getNextSide());
     }
 
     @FXML
     void startTestClicked() {
-        try {
-            FXMLLoader loader =
-                    new FXMLLoader(getClass().getResource("/dvaTest/fxml/testView.fxml"),
-                            bundle);
-            Parent root = loader.load();
+        if (testView == null) {
+            try {
+                FXMLLoader loader =
+                        new FXMLLoader(getClass().getResource("/dvaTest/fxml/testView.fxml"),
+                                bundle);
+                Parent root = loader.load();
 
-            stage.setTitle(testPref.getTestType().show(bundle, true));
-            stage.setScene(new Scene(root));
+                Scene scene = new Scene(root);
 
-            TestView testView = loader.getController();
-            testView.setup(stage, testPref);
+                stage.setScene(scene);
 
-            stage.show();
+                testView = loader.getController();
+                realController.setTestView(testView);
+                testView.setup(stage, this, realController, testPref);
 
-            testView.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-            EventLogger.log(e);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                EventLogger.log(e);
+            }
+        } else {
+            Platform.runLater(() -> {
+                stage.setScene(testView.getScene());
+            });
         }
+        testView.start();
+    }
+
+    public void backToPrepView(EyeSide eyeSide) {
+        Platform.runLater(() -> {
+            stage.setScene(scene);
+            setEyeLabel(eyeSide);
+        });
+    }
+
+    private void setEyeLabel(EyeSide eyeSide) {
+        eyeLabel.setText(bundle.getString("pleaseUse") + eyeSide.toString());
     }
 
     public void closeWindow() {

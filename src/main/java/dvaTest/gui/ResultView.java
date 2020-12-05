@@ -2,8 +2,6 @@ package dvaTest.gui;
 
 import common.Utility;
 import common.data.DataSaver;
-import dvaScreen.gui.items.ResolutionItem;
-import dvaTest.gui.items.ResultTableItem;
 import dvaTest.gui.widgets.ResultPane;
 import dvaTest.testCore.ResultRecord;
 import javafx.fxml.FXML;
@@ -11,8 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -22,8 +22,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ResultView implements Initializable {
@@ -48,8 +46,6 @@ public class ResultView implements Initializable {
         resultPane.setup(resultRecord);
         resultContainer.getChildren().add(resultPane);
         setOnClose();
-
-        thisStage.sizeToScene();
     }
 
     @FXML
@@ -69,8 +65,6 @@ public class ResultView implements Initializable {
         Label messageLabel = new Label();
         messageLabel.setTextFill(Paint.valueOf("red"));
 
-
-
         Label noteLabel = new Label(bundle.getString("note"));
         TextArea noteArea = new TextArea();
 
@@ -80,14 +74,26 @@ public class ResultView implements Initializable {
         saveButton.setOnAction(e -> {
             String subjectName = nameField.getText();
             if (Utility.isValidFileName(subjectName)) {
-                DataSaver.saveTestResult(new ResultRecord.NamedRecord(
+                if (DataSaver.saveTestResult(new ResultRecord.NamedRecord(
                         resultPane.getResultRecord(),
                         subjectName,
-                        noteArea.getText()));
-                saved = true;
-                dialogStage.close();
-                if (closeAfterSave) {
-                    thisStage.close();
+                        noteArea.getText()))) {
+                    saved = true;
+                    AlertShower.showSuccess(
+                            bundle.getString("saveSuccess"),
+                            bundle,
+                            null
+                    );
+                    dialogStage.close();
+                    if (closeAfterSave) {
+                        thisStage.close();
+                    }
+                } else {
+                    AlertShower.showError(
+                            bundle.getString("saveFailed"),
+                            bundle,
+                            dialogStage
+                    );
                 }
             } else {
                 messageLabel.setText(bundle.getString("invalidSubjectName"));

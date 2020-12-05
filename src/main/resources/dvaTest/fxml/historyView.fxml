@@ -18,15 +18,13 @@
     </columnConstraints>
 
     <rowConstraints>
-        <RowConstraints/>
-        <RowConstraints/>
+        <RowConstraints />
+        <RowConstraints minHeight="40.0"/>
     </rowConstraints>
 
     <TreeTableView fx:id="historyTable">
         <columns>
-<!--            <TreeTableColumn fx:id="checkBoxCol" text="%checkSelect"/>-->
-            <TreeTableColumn fx:id="subjectCol" prefWidth="250.0"/>
-            <TreeTableColumn fx:id="timeCol" prefWidth="150.0" text="%testTime"/>
+            <TreeTableColumn fx:id="timeCol" prefWidth="250.0" text="%testTime"/>
             <TreeTableColumn fx:id="checkBoxCol" text="%checkSelect"/>
         </columns>
         <placeholder>

@@ -164,7 +164,8 @@ public class ScreenMainView implements Initializable {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 //        double windowsWidth = screen.getWidth();
         double windowsHeight = screen.getHeight();
-        DisplayMode mode = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
+        DisplayMode mode = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice().getDisplayMode();
         int hardwareWidth = mode.getWidth();
         int hardwareHeight = mode.getHeight();
 

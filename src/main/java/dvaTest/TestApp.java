@@ -18,6 +18,8 @@ import java.util.ResourceBundle;
 public class TestApp extends Application {
 
     public static final String VERSION = "V1.0";
+    public static final String AUTHOR_ZH = "张博涵";
+    public static final String AUTHOR_EN = "Bohan Zhang";
 
     private static ResourceBundle bundle;
     private static SimpleDateFormat fullDateFormat;

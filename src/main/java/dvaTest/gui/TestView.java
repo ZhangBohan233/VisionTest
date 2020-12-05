@@ -29,12 +29,14 @@ public class TestView implements Initializable {
     Pane inputContainer;
 
     @FXML
-    Label levelLabel, inputLabel;
+    Label levelLabel, inputLabel, eyeLabel;
 
     private TestInput testInput;
 
     private ResourceBundle bundle;
     private Stage thisStage;
+    private Scene thisScene;
+    private TestPrepView testPrepView;
     private TestController testController;
 
     @Override
@@ -42,9 +44,11 @@ public class TestView implements Initializable {
         this.bundle = resourceBundle;
     }
 
-    public void setup(Stage stage, TestPref testPref) {
+    public void setup(Stage stage, TestPrepView testPrepView, TestController testController, TestPref testPref) {
         this.thisStage = stage;
-        testController = new TestController(testPref, this);
+        this.testPrepView = testPrepView;
+        this.thisScene = stage.getScene();
+        this.testController = testController;
 
         ClientManager.getCurrentClient().setTestController(testController);
 
@@ -56,12 +60,16 @@ public class TestView implements Initializable {
         thisStage.sizeToScene();
 
         thisStage.setOnCloseRequest(e -> {
-            testController.normalStop();
+            testController.stopByUser();
         });
     }
 
+    public Scene getScene() {
+        return thisScene;
+    }
+
     public void start() {
-        testController.start();
+        testController.startPartialTest();
     }
 
     public void updateGui(TestUnit testUnit) {
@@ -88,11 +96,20 @@ public class TestView implements Initializable {
                 ResultView resultView = loader.getController();
                 resultView.setup(windowStage, resultRecord);
 
+                windowStage.sizeToScene();
                 windowStage.show();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public void nextSideTest(EyeSide eyeSide) {
+        testPrepView.backToPrepView(eyeSide);
+    }
+
+    public void setEyeLabel(EyeSide eyeSide) {
+        eyeLabel.setText(bundle.getString("pleaseUse") + eyeSide.toString());
     }
 
     public void closeWindow() {
@@ -101,14 +118,12 @@ public class TestView implements Initializable {
 
     @FXML
     void stopTest() {
-        testController.normalStop();
+        testController.stopByUser();
         thisStage.close();
     }
 
     @FXML
     void keyPressedAction(KeyEvent keyEvent) {
-//        keyEvent.consume();
-//        System.out.println(keyEvent);
         testInput.keyPressed(keyEvent);
     }
 

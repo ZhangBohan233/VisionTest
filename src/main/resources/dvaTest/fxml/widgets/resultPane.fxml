@@ -4,9 +4,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
 <fx:root type="dvaTest.gui.widgets.ResultPane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
-         prefHeight="400.0" prefWidth="300.0" spacing="10.0">
+         prefHeight="400.0" prefWidth="600.0" spacing="10.0">
 
     <GridPane vgap="10.0" hgap="20.0">
         <Label text="%testType"/>
@@ -21,17 +22,47 @@
         <Label fx:id="hidingTimeLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
         <Label text="%testTime" GridPane.rowIndex="5"/>
         <Label fx:id="testTimeLabel" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-        <Label text="%conclusion" GridPane.rowIndex="6"/>
-        <Label fx:id="conclusionLabel" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
     </GridPane>
 
-    <TableView fx:id="resultTable">
-        <columns>
-            <TableColumn text="%visionLevel" fx:id="visionLevelCol"/>
-            <TableColumn text="%correctCount" fx:id="correctCountCol"/>
-            <TableColumn text="%incorrectCount" fx:id="incorrectCountCol"/>
-            <TableColumn text="%correctRatio" fx:id="correctRatioCol"/>
-        </columns>
-    </TableView>
+    <HBox spacing="5.0">
+        <VBox fx:id="leftBox" spacing="5.0" managed="false" visible="false" fillWidth="false">
+            <Label text="%leftEye"/>
+            <Label fx:id="leftScoreLabel"/>
+            <TableView fx:id="leftTable">
+                <columns>
+                    <TableColumn text="%visionLevel"/>
+                    <TableColumn text="%correctCount"/>
+                    <TableColumn text="%incorrectCount"/>
+                    <TableColumn text="%correctRatio"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox fx:id="rightBox" spacing="5.0" managed="false" visible="false" fillWidth="false">
+            <Label text="%rightEye"/>
+            <Label fx:id="rightScoreLabel"/>
+            <TableView fx:id="rightTable">
+                <columns>
+                    <TableColumn text="%visionLevel"/>
+                    <TableColumn text="%correctCount"/>
+                    <TableColumn text="%incorrectCount"/>
+                    <TableColumn text="%correctRatio"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox fx:id="bothBox" spacing="5.0" managed="false" visible="false" fillWidth="false">
+            <Label text="%bothEyes"/>
+            <Label fx:id="bothScoreLabel"/>
+            <TableView fx:id="bothTable">
+                <columns>
+                    <TableColumn text="%visionLevel"/>
+                    <TableColumn text="%correctCount"/>
+                    <TableColumn text="%incorrectCount"/>
+                    <TableColumn text="%correctRatio"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </HBox>
 
 </fx:root>

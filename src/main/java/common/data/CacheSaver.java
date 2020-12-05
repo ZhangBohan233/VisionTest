@@ -22,8 +22,11 @@ public class CacheSaver {
     public static final String TEST_IP = "ip";
     public static final String TEST_SCORE_COUNTING = "scoreCounting";
     public static final String TEST_INTERVAL = "interval";
-    public static final String HIDING_INTERVAL = "hidingInterval";
+    public static final String TEST_HIDING_INTERVAL = "hidingInterval";
     public static final String TEST_DISTANCE = "distance";
+    public static final String TEST_LEFT_EYE = "leftEye";
+    public static final String TEST_RIGHT_EYE = "rightEye";
+    public static final String TEST_DUAL_EYES = "bothEyes";
 
     public static final String SCREEN_SIZE = "screenSize";
 
@@ -107,6 +110,11 @@ public class CacheSaver {
         }
     }
 
+    public boolean getBoolean(String key) {
+        String s = getCache(key);
+        return Boolean.parseBoolean(s);
+    }
+
     public double getDouble(String key) {
         String s = getCache(key);
         try {
@@ -137,7 +145,7 @@ public class CacheSaver {
 //        String[] scIntDt = getTestCachesByKeys("scoreCounting", "interval", "distance");
         String scStr = getCache(TEST_SCORE_COUNTING);
         long intervalOri = getLong(TEST_INTERVAL);
-        long hidingOri = getLong(HIDING_INTERVAL);
+        long hidingOri = getLong(TEST_HIDING_INTERVAL);
         double dis = getDouble(TEST_DISTANCE);
 
         ScoreCounting sc;
@@ -151,28 +159,29 @@ public class CacheSaver {
         long hiding = hidingOri == -1 ? 1000 : hidingOri;
         double distance = Double.isNaN(dis) ? 5.0 : dis;
 
-        return new MainViewCache(sc, interval, hiding, distance);
+        return new MainViewCache(sc, interval, hiding, distance,
+                getBoolean(TEST_LEFT_EYE), getBoolean(TEST_RIGHT_EYE), getBoolean(TEST_DUAL_EYES));
     }
-
-    public void writeMainViewCache(ScoreCounting sc, long timeInterval, double distance) {
-        putCache(TEST_SCORE_COUNTING, sc.name());
-        putCache(TEST_INTERVAL, String.valueOf(timeInterval));
-        putCache(TEST_DISTANCE, String.valueOf(distance));
-    }
-//    }
 
     public static class MainViewCache {
         public final ScoreCounting scoreCounting;
         public final long timeInterval;
         public final long hidingInterval;
         public final double testDistance;
+        public final boolean leftEye;
+        public final boolean rightEye;
+        public final boolean dualEyes;
 
         private MainViewCache(ScoreCounting scoreCounting, long timeInterval, long hidingInterval,
-                              double testDistance) {
+                              double testDistance, boolean leftEye, boolean rightEye, boolean dualEyes) {
             this.scoreCounting = scoreCounting;
             this.timeInterval = timeInterval;
             this.hidingInterval = hidingInterval;
             this.testDistance = testDistance;
+
+            this.leftEye = leftEye;
+            this.rightEye = rightEye;
+            this.dualEyes = dualEyes;
         }
     }
 

@@ -53,10 +53,7 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
         public abstract CheckBox getCheckBox();
 
         @FXML
-        public abstract String getSubject();
-
-        @FXML
-        public abstract String getTime();
+        public abstract String getTimeOrName();
 
         abstract void exportToList(List<ResultRecord.NamedRecord> recordList);
     }
@@ -76,13 +73,8 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
         }
 
         @Override
-        public String getSubject() {
+        public String getTimeOrName() {
             return name;
-        }
-
-        @Override
-        public String getTime() {
-            return "";
         }
 
         @Override
@@ -93,10 +85,8 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
 
     public static class Test extends Item {
         public final ResultRecord.NamedRecord record;
-        private final File file;
 
-        public Test(File file, ResultRecord.NamedRecord record) {
-            this.file = file;
+        public Test(ResultRecord.NamedRecord record) {
             this.record = record;
         }
 
@@ -106,12 +96,7 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
         }
 
         @Override
-        public String getSubject() {
-            return file.getName();
-        }
-
-        @Override
-        public String getTime() {
+        public String getTimeOrName() {
             return TestApp.getFullDateFormat().format(record.resultRecord.testStartTime);
         }
 
@@ -134,13 +119,8 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
         }
 
         @Override
-        public String getSubject() {
+        public String getTimeOrName() {
             return TestApp.getBundle().getString("testHistory");
-        }
-
-        @Override
-        public String getTime() {
-            return "";
         }
 
         @Override

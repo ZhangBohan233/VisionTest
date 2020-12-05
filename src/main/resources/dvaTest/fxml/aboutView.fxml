@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox prefHeight="240.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<VBox prefHeight="240.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="dvaTest.gui.AboutView" alignment="CENTER" spacing="20.0">
 
     <Label text="%appName">
@@ -17,5 +18,18 @@
             <Font size="14.0"/>
         </font>
     </Label>
+
+    <HBox spacing="5.0" alignment="TOP_CENTER">
+        <Label text="%author">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+        <Label fx:id="authorLabel">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+    </HBox>
 
 </VBox>

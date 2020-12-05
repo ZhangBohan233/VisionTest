@@ -3,6 +3,7 @@ package common.data;
 import common.EventLogger;
 import dvaTest.TestApp;
 import dvaTest.gui.items.ScoreCounting;
+import dvaTest.testCore.EyeSide;
 import dvaTest.testCore.ResultRecord;
 import dvaTest.testCore.TestPref;
 import dvaTest.testCore.TestType;
@@ -17,9 +18,7 @@ import org.json.JSONObject;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DataSaver {
 
@@ -35,12 +34,21 @@ public class DataSaver {
         return new File(DATA_DIR + File.separator + personName);
     }
 
-    public static void saveTestResult(ResultRecord.NamedRecord record) {
+    /**
+     * 保存测试记录
+     *
+     * @param record 测试记录
+     * @return 若保存成功，返回{@code true}。反之返回{@code false}
+     */
+    public static boolean saveTestResult(ResultRecord.NamedRecord record) {
         createDirsIfNone();
 
         File subjectDir = getSubjectDirByPerson(record.name);
         if (!subjectDir.exists()) {
-            if (!subjectDir.mkdirs()) throw new RuntimeException("Failed to create dir " + subjectDir);
+            if (!subjectDir.mkdirs()) {
+                EventLogger.log(new RuntimeException("Failed to create dir " + subjectDir));
+                return false;
+            }
         }
 
         Date testDate = new Date(System.currentTimeMillis());
@@ -56,22 +64,30 @@ public class DataSaver {
         base.put("scoreCounting", testPref.getScoreCounting().name());
         base.put("interval", testPref.getIntervalMills());
         base.put("hidingTime", testPref.getHidingMills());
-        base.put("conclusion", record.resultRecord.scoreConclusion);
+//        base.put("conclusion", record.resultRecord.scoreConclusion);
         base.put("note", record.note);
 
-        JSONArray resultArray = new JSONArray();
-        for (ResultRecord.UnitList ul : record.resultRecord.testResults) {
-            for (ResultRecord.RecordUnit ru : ul) {
-                JSONObject obj = new JSONObject();
-                obj.put("vision", ru.getVisionLevel());
-                obj.put("shown", ru.getShown());
-                obj.put("input", ru.getUserInput());
-                obj.put("correct", ru.isCorrect());
-                resultArray.put(obj);
+        JSONObject results = new JSONObject();
+
+        for (Map.Entry<EyeSide, ResultRecord.UnitList[]> entry : record.resultRecord.testResults.entrySet()) {
+            JSONArray resultArray = new JSONArray();
+            for (ResultRecord.UnitList ul : entry.getValue()) {
+                for (ResultRecord.RecordUnit ru : ul) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("vision", ru.getVisionLevel());
+                    obj.put("shown", ru.getShown());
+                    obj.put("input", ru.getUserInput());
+                    obj.put("correct", ru.isCorrect());
+                    resultArray.put(obj);
+                }
             }
+            JSONObject side = new JSONObject();
+            side.put("conclusion", record.resultRecord.scoreConclusions.get(entry.getKey()));
+            side.put("detail", resultArray);
+            results.put(entry.getKey().name(), side);
         }
 
-        base.put("results", resultArray);
+        base.put("results", results);
 
         String jsonString = base.toString(2);
         String fileName = subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName;
@@ -81,8 +97,10 @@ public class DataSaver {
             fileWriter.write(jsonString);
             fileWriter.flush();
             fileWriter.close();
+            return true;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            EventLogger.log(e);
+            return false;
         }
     }
 
@@ -111,7 +129,6 @@ public class DataSaver {
             if (root.has("note")) {
                 note = root.getString("note");
             }
-            JSONArray results = root.getJSONArray("results");
             TestType testType = TestType.valueOf(typeStr);
             ScoreCounting scoreCounting = ScoreCounting.valueOf(scoreCountingStr);
             TestPref testPref = new TestPref.TestPrefBuilder()
@@ -123,20 +140,29 @@ public class DataSaver {
                     .build();
 
             int vlcCount = testType.getTest().visionLevelCount();
-            ResultRecord.UnitList[] unitLists = new ResultRecord.UnitList[vlcCount];
-            for (int i = 0; i < vlcCount; i++) unitLists[i] = new ResultRecord.UnitList();
-            for (Object obj : results) {
-                JSONObject json = (JSONObject) obj;
-                String vision = json.getString("vision");
-                String shown = json.getString("shown");
-                String input = json.getString("input");
-                boolean correct = json.getBoolean("correct");
-                ResultRecord.RecordUnit ru = new ResultRecord.RecordUnit(vision, shown, input, correct);
-                int levelIndex = testType.getTest().getLevelIndexFromShown(scoreCounting, vision);
-                unitLists[levelIndex].add(ru);
+            Map<EyeSide, ResultRecord.UnitList[]> resultMap = new TreeMap<>();
+            JSONObject results = root.getJSONObject("results");
+
+            for (String enumName : results.keySet()) {
+                JSONObject side = results.getJSONObject(enumName);
+                JSONArray detail = side.getJSONArray("detail");
+
+                ResultRecord.UnitList[] unitLists = new ResultRecord.UnitList[vlcCount];
+                for (int i = 0; i < vlcCount; i++) unitLists[i] = new ResultRecord.UnitList();
+                for (Object obj : detail) {
+                    JSONObject json = (JSONObject) obj;
+                    String vision = json.getString("vision");
+                    String shown = json.getString("shown");
+                    String input = json.getString("input");
+                    boolean correct = json.getBoolean("correct");
+                    ResultRecord.RecordUnit ru = new ResultRecord.RecordUnit(vision, shown, input, correct);
+                    int levelIndex = testType.getTest().getLevelIndexFromShown(scoreCounting, vision);
+                    unitLists[levelIndex].add(ru);
+                }
+                resultMap.put(EyeSide.valueOf(enumName), unitLists);
             }
 
-            ResultRecord rr = new ResultRecord(unitLists, testPref, TIME_FORMATTER.parse(timeStr));
+            ResultRecord rr = new ResultRecord(resultMap, testPref, TIME_FORMATTER.parse(timeStr));
             return new ResultRecord.NamedRecord(rr, name, note);
         } catch (IOException | ParseException | JSONException | IllegalArgumentException e) {
             // Record file damaged
@@ -171,7 +197,9 @@ public class DataSaver {
                 bundle.getString("hidingTimeU"),
                 bundle.getString("testSubject"),
                 bundle.getString("visionScoreCount"),
-                bundle.getString("testScore"),
+                bundle.getString("leftEye"),
+                bundle.getString("rightEye"),
+                bundle.getString("bothEyes"),
                 bundle.getString("note")
         };
 
@@ -198,8 +226,10 @@ public class DataSaver {
             row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);
             row.createCell(6).setCellValue(testPref.getTestType().show(bundle, false));
             row.createCell(7).setCellValue(testPref.getScoreCounting().toString());
-            row.createCell(8).setCellValue(record.resultRecord.scoreConclusion);
-            row.createCell(9).setCellValue(record.note);
+            row.createCell(8).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.LEFT));
+            row.createCell(9).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.RIGHT));
+            row.createCell(10).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.BOTH));
+            row.createCell(11).setCellValue(record.note);
         }
 
         FileOutputStream fos = new FileOutputStream(file);

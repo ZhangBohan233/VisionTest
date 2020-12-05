@@ -36,6 +36,8 @@ public class AlertShower {
             CustomAlert customAlert = loader.getController();
             customAlert.setup(content, stage, true);
 
+            stage.setAlwaysOnTop(true);
+
             stage.showAndWait();
 
             return customAlert.isOkClicked();
@@ -59,6 +61,8 @@ public class AlertShower {
 
             CustomAlert customAlert = loader.getController();
             customAlert.setup(content, stage, false);
+
+            stage.setAlwaysOnTop(true);
 
             stage.show();
         } catch (IOException e) {

@@ -31,8 +31,8 @@ public class HistoryView implements Initializable {
     @FXML
     TreeTableColumn<HistoryTreeItem.Item, CheckBox> checkBoxCol;
 
-    @FXML
-    TreeTableColumn<HistoryTreeItem.Item, String> subjectCol;
+//    @FXML
+//    TreeTableColumn<HistoryTreeItem.Item, String> subjectCol;
 
     @FXML
     TreeTableColumn<HistoryTreeItem.Item, String> timeCol;
@@ -116,13 +116,9 @@ public class HistoryView implements Initializable {
     }
 
     private void setTableListeners() {
-        subjectCol.setCellValueFactory(p -> {
-            HistoryTreeItem.Item hi = p.getValue().getValue();
-            return new ReadOnlyStringWrapper(hi.getSubject());
-        });
         timeCol.setCellValueFactory(p -> {
             HistoryTreeItem.Item hi = p.getValue().getValue();
-            return new ReadOnlyStringWrapper(hi.getTime());
+            return new ReadOnlyStringWrapper(hi.getTimeOrName());
         });
         checkBoxCol.setCellValueFactory(p -> {
             HistoryTreeItem.Item hi = p.getValue().getValue();
@@ -163,7 +159,7 @@ public class HistoryView implements Initializable {
                             ResultRecord.NamedRecord record = DataSaver.loadSavedResult(rec);
                             if (record != null) {
                                 personItem.getChildren().add(
-                                        new HistoryTreeItem(new HistoryTreeItem.Test(rec, record)));
+                                        new HistoryTreeItem(new HistoryTreeItem.Test(record)));
                             }
                         }
                     }

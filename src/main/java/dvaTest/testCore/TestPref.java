@@ -9,6 +9,7 @@ public class TestPref {
     private long intervalMills;
     private long hidingMills;
     private double distance;
+    private boolean leftEye, rightEye, bothEyes;
 
     public static class TestPrefBuilder {
         private final TestPref testPref = new TestPref();
@@ -38,6 +39,13 @@ public class TestPref {
             return this;
         }
 
+        public TestPrefBuilder leftRightDualEyes(boolean leftEye, boolean rightEye, boolean dualEyes) {
+            testPref.leftEye = leftEye;
+            testPref.rightEye = rightEye;
+            testPref.bothEyes = dualEyes;
+            return this;
+        }
+
         public TestPref build() {
             return testPref;
         }
@@ -61,5 +69,17 @@ public class TestPref {
 
     public double getDistance() {
         return distance;
+    }
+
+    public boolean isBothEyes() {
+        return bothEyes;
+    }
+
+    public boolean isLeftEye() {
+        return leftEye;
+    }
+
+    public boolean isRightEye() {
+        return rightEye;
     }
 }

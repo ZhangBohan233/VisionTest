@@ -44,6 +44,9 @@ public class MainView implements Initializable {
     ComboBox<ScoreCounting> scoreCountingBox;
 
     @FXML
+    CheckBox leftEyeBox, rightEyeBox, dualEyesBox;
+
+    @FXML
     ComboBox<Double> distanceBox;
 
     private ResourceBundle bundle;
@@ -54,6 +57,8 @@ public class MainView implements Initializable {
         this.bundle = resourceBundle;
 
         setFrameTimeSliderListener();
+        setCheckBoxListeners();
+
         refreshTimeIntervalLabel(timeIntervalSlider.getValue());
         refreshHidingTimeLabel(hidingTimeSlider.getValue());
 
@@ -65,6 +70,8 @@ public class MainView implements Initializable {
 
         setScoreCountingListener();
         restoreFromCache();
+
+        setTestButtons();
 
         distanceBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_DISTANCE, newValue);
@@ -199,6 +206,7 @@ public class MainView implements Initializable {
                 .distance(distanceBox.getValue())
                 .frameTimeMills(getTimeInterval())
                 .hidingTimeMills(getHidingMills())
+                .leftRightDualEyes(leftEyeBox.isSelected(), rightEyeBox.isSelected(), dualEyesBox.isSelected())
                 .build();
 //        storeCache();
         try {
@@ -226,6 +234,32 @@ public class MainView implements Initializable {
         }
     }
 
+    private void setCheckBoxListeners() {
+        leftEyeBox.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+            setTestButtons();
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_LEFT_EYE, newValue);
+        }));
+        rightEyeBox.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+            setTestButtons();
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_RIGHT_EYE, newValue);
+        }));
+        dualEyesBox.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+            setTestButtons();
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_DUAL_EYES, newValue);
+        }));
+    }
+
+    private void setTestButtons() {
+        if (leftEyeBox.isSelected() || rightEyeBox.isSelected() || dualEyesBox.isSelected()) {
+            setTestButtonsByScoreCounting(scoreCountingBox.getValue().isLogMar);
+        } else {
+            snellenButton.setDisable(true);
+            cButton.setDisable(true);
+            stdLogButton.setDisable(true);
+            etdrsButton.setDisable(true);
+        }
+    }
+
     private void setFrameTimeSliderListener() {
         timeIntervalSlider.valueProperty().addListener(((observableValue, number, t1) -> {
             refreshTimeIntervalLabel(t1.doubleValue());
@@ -234,28 +268,30 @@ public class MainView implements Initializable {
         }));
         hidingTimeSlider.valueProperty().addListener(((observableValue, number, t1) -> {
             refreshHidingTimeLabel(t1.doubleValue());
-            AutoSavers.getCacheSaver().putCache(CacheSaver.HIDING_INTERVAL,
+            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_HIDING_INTERVAL,
                     (long) (t1.doubleValue() * 1000));
         }));
     }
 
     private void setScoreCountingListener() {
         scoreCountingBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
-            if (newValue.isLogMar) {
-                snellenButton.setDisable(true);
-
-                cButton.setDisable(false);
-                stdLogButton.setDisable(false);
-                etdrsButton.setDisable(false);
-            } else {
-                snellenButton.setDisable(false);
-
-                cButton.setDisable(true);
-                stdLogButton.setDisable(true);
-                etdrsButton.setDisable(true);
-            }
+            setTestButtonsByScoreCounting(newValue.isLogMar);
             AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_SCORE_COUNTING, newValue.name());
         }));
+    }
+
+    private void setTestButtonsByScoreCounting(boolean isLogMar) {
+        if (isLogMar) {
+            snellenButton.setDisable(true);
+            cButton.setDisable(false);
+            stdLogButton.setDisable(false);
+            etdrsButton.setDisable(false);
+        } else {
+            snellenButton.setDisable(false);
+            cButton.setDisable(true);
+            stdLogButton.setDisable(true);
+            etdrsButton.setDisable(true);
+        }
     }
 
     private void refreshTimeIntervalLabel(double value) {
@@ -283,5 +319,8 @@ public class MainView implements Initializable {
         timeIntervalSlider.setValue((double) mvc.timeInterval / 1000);
         hidingTimeSlider.setValue((double) mvc.hidingInterval / 1000);
         distanceBox.getSelectionModel().select(mvc.testDistance);
+        leftEyeBox.setSelected(mvc.leftEye);
+        rightEyeBox.setSelected(mvc.rightEye);
+        dualEyesBox.setSelected(mvc.dualEyes);
     }
 }

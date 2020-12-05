@@ -47,6 +47,16 @@
                 </ComboBox>
                 <Label text="%unitMeters"/>
             </HBox>
+            <HBox spacing="10.0">
+                <CheckBox fx:id="leftEyeBox" text="%leftEye"/>
+                <CheckBox fx:id="rightEyeBox" text="%rightEye"/>
+                <CheckBox fx:id="dualEyesBox" text="%bothEyes"/>
+            </HBox>
+            <HBox spacing="10.0" alignment="CENTER_LEFT" prefWidth="400.0">
+                <Separator/>
+                <Label text="%visionCharts"/>
+                <Separator/>
+            </HBox>
             <HBox spacing="5.0">
                 <Button fx:id="cButton" text="%cChart" onAction="#cChartClicked"/>
                 <Button fx:id="stdLogButton" text="%stdLogChart" onAction="#stdLogChartClicked"/>

@@ -7,6 +7,7 @@ import dvaTest.connection.ClientManager;
 import dvaTest.gui.TestView;
 import dvaTest.testCore.tests.Test;
 import dvaTest.testCore.tests.TestUnit;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.util.*;
@@ -15,43 +16,85 @@ public class TestController implements ITestController {
     private final int maxCount = AutoSavers.getPrefSaver().getInt("eachLevel", 5);
 
     private final TestPref testPref;
-    private final TestView testView;
+    private TestView testView;
     private final Test test;
-    private final ResultRecord.UnitList[] testResults;
-    private final LevelAllocator levelAllocator;
-    private Date testStartTime;
-    private Timer baseTimer;
-    private TestUnit curTrueUnit;
-    private String userInputName;
 
-    public TestController(TestPref testPref, TestView testView) {
+    private final int totalLevelCount;
+    private final Queue<EyeSide> queue = new ArrayDeque<>();
+    private final Map<EyeSide, ResultRecord.UnitList[]> resultMap = new TreeMap<>();
+    private Date testStartTime;
+    private SideTestController currentController;
+
+    private boolean interrupted = false;
+
+    public TestController(TestPref testPref) {
         this.testPref = testPref;
-        this.testView = testView;
 
         test = testPref.getTestType().getTest();
 
-        int totalLevelCount = test.visionLevelCount();
-        testResults = new ResultRecord.UnitList[totalLevelCount];
-        for (int i = 0; i < totalLevelCount; i++) {
-            testResults[i] = new ResultRecord.UnitList();
+        if (testPref.isLeftEye()) queue.add(EyeSide.LEFT);
+        if (testPref.isRightEye()) queue.add(EyeSide.RIGHT);
+        if (testPref.isBothEyes()) queue.add(EyeSide.BOTH);
+
+        if (queue.isEmpty()) throw new RuntimeException("Unexpected error, no test has been selected.");
+
+        totalLevelCount = test.visionLevelCount();
+    }
+
+    public void setTestView(TestView testView) {
+        this.testView = testView;
+    }
+
+    /**
+     * @return 返回下一个要测试的眼侧，但不进行真正的测试。
+     */
+    public EyeSide getNextSide() {
+        return queue.peek();
+    }
+
+    /**
+     * 由小测试结束触发的正常退出
+     */
+    private void finishOneSideTest() {
+        resultMap.put(currentController.side, currentController.testResults);
+        if (!queue.isEmpty()) {
+            testView.nextSideTest(queue.peek());
+        } else {
+            finishTotalTest();
         }
-        levelAllocator = new LevelAllocator(test.visionLevelCount() / 2);
+    }
+
+    private void finishTotalTest() {
+        ResultRecord resultRecord = new ResultRecord(resultMap, testPref, testStartTime);
+        testView.showResult(resultRecord);
+        testView.closeWindow();
+
+        try {
+            ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
-     * 开始测试
+     * 开始下一步测试
      */
-    public void start() {
-        testStartTime = new Date();
-        baseTimer = new Timer();
-        baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + testPref.getHidingMills());
+    public void startPartialTest() {
+        if (testStartTime == null) testStartTime = new Date();
+
+        EyeSide eyeSide = queue.poll();
+        Platform.runLater(() -> testView.setEyeLabel(eyeSide));
+
+        currentController = new SideTestController(eyeSide);
+        currentController.start();
     }
 
     /**
-     * 由测试结束触发的正常退出
+     * 由用户主动停止测试、关闭窗口造成的停止
      */
-    public void normalStop() {
-        baseTimer.cancel();
+    public void stopByUser() {
+        interrupted = true;
+        currentController.interrupt();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
@@ -66,11 +109,13 @@ public class TestController implements ITestController {
 
     @Override
     public void interrupt() {
-        baseTimer.cancel();
+        interrupted = true;
+        currentController.interrupt();
+//        baseTimer.cancel();
     }
 
     public void userInput(String name, String buttonText) {
-        userInputName = name;
+        currentController.userInputName = name;
         testView.updateInput(buttonText);
     }
 
@@ -78,141 +123,163 @@ public class TestController implements ITestController {
         return testView;
     }
 
-    private void proceedOne() {
-        ResultRecord.RecordUnit tru = new ResultRecord.RecordUnit(
-                curTrueUnit.getVisionLevel(),
-                curTrueUnit.getTestImage().getName(),
-                userInputName,
-                curTrueUnit.getTestImage().getName().equals(userInputName));
-        testResults[levelAllocator.getCurrentIndex()].add(tru);
-        levelAllocator.generateNext(tru.isCorrect());
-    }
-
-    private void finishTest() {
-        try {
-            ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ResultRecord resultRecord = new ResultRecord(testResults, testPref, testStartTime);
-
-        testView.showResult(resultRecord);
-        testView.closeWindow();
-    }
-
-    private boolean levelComplete(int levelIndex) {
-        return testResults[levelIndex].size() == maxCount;
-    }
-
     /**
-     * @param levelIndex 等级index
-     * @return 如果该等级已完成且正确率高于50%则返回{@code true}
+     * 管理一侧眼睛视力测试的控制器
      */
-    private boolean levelSuccess(int levelIndex) {
-        if (levelComplete(levelIndex)) {
-            return testResults[levelIndex].correctCount() > maxCount / 2;  // 不用转换为double
-        }
-        return false;
-    }
+    private class SideTestController {
+        private final ResultRecord.UnitList[] testResults;
+        private final LevelAllocator levelAllocator;
+        private final EyeSide side;
+        private Timer baseTimer;
+        private TestUnit curTrueUnit;
+        private String userInputName;
 
-    private class LevelAllocator {
+        SideTestController(EyeSide side) {
+            this.side = side;
 
-        private boolean neverCorr = true;
-        private boolean neverFail = true;
-
-        /**
-         * 状态记录器。若为-1则结束
-         */
-        private int nextIndex;
-
-        LevelAllocator(int initLevel) {
-            nextIndex = initLevel;
+            testResults = new ResultRecord.UnitList[totalLevelCount];
+            for (int i = 0; i < totalLevelCount; i++) {
+                testResults[i] = new ResultRecord.UnitList();
+            }
+            levelAllocator = new LevelAllocator(totalLevelCount / 2);
         }
 
-        /**
-         * 产生下一个状态
-         *
-         * @param currIsCorrect 当前结果是否正确
-         */
-        void generateNext(boolean currIsCorrect) {
-            int totalLevels = test.visionLevelCount();
+        private void start() {
+            baseTimer = new Timer();
+            baseTimer.schedule(new TestTask(), 0, testPref.getIntervalMills() + testPref.getHidingMills());
+        }
 
-            if (levelComplete(nextIndex)) {  // 该行已填满
-                if (levelSuccess(nextIndex)) {  // 该行正确率过半
-                    nextIndex++;
-                    if (nextIndex == totalLevels ||      // 达到最高等级
-                            levelComplete(nextIndex)) {  // 下一级已完成
-                        nextIndex = -1;  // 中止测试
-                        return;
+        private void proceedOne() {
+            ResultRecord.RecordUnit tru = new ResultRecord.RecordUnit(
+                    curTrueUnit.getVisionLevel(),
+                    curTrueUnit.getTestImage().getName(),
+                    userInputName,
+                    curTrueUnit.getTestImage().getName().equals(userInputName));
+            testResults[levelAllocator.getCurrentIndex()].add(tru);
+            levelAllocator.generateNext(tru.isCorrect());
+        }
+
+        private void interrupt() {
+            baseTimer.cancel();
+        }
+
+        private boolean levelComplete(int levelIndex) {
+            return testResults[levelIndex].size() == maxCount;
+        }
+
+        /**
+         * @param levelIndex 等级index
+         * @return 如果该等级已完成且正确率高于50%则返回{@code true}
+         */
+        private boolean levelSuccess(int levelIndex) {
+            if (levelComplete(levelIndex)) {
+                return testResults[levelIndex].correctCount() > maxCount / 2;  // 不用转换为double
+            }
+            return false;
+        }
+
+        private void finishTest() {
+            finishOneSideTest();
+        }
+
+        private class LevelAllocator {
+
+            private boolean neverCorr = true;
+            private boolean neverFail = true;
+
+            /**
+             * 状态记录器。若为-1则结束
+             */
+            private int nextIndex;
+
+            LevelAllocator(int initLevel) {
+                nextIndex = initLevel;
+            }
+
+            /**
+             * 产生下一个状态
+             *
+             * @param currIsCorrect 当前结果是否正确
+             */
+            void generateNext(boolean currIsCorrect) {
+                int totalLevels = test.visionLevelCount();
+
+                if (levelComplete(nextIndex)) {  // 该行已填满
+                    if (levelSuccess(nextIndex)) {  // 该行正确率过半
+                        nextIndex++;
+                        if (nextIndex == totalLevels ||      // 达到最高等级
+                                levelComplete(nextIndex)) {  // 下一级已完成
+                            nextIndex = -1;  // 中止测试
+                            return;
+                        }
+                    } else {
+                        nextIndex--;
+                        if (nextIndex < 0 ||                 // 达到最低级
+                                levelComplete(nextIndex)) {  // 上一级已完成
+                            nextIndex = -1;  // 中止测试
+                            return;
+                        }
+                    }
+                }
+                // 未填满则状态不变
+
+                if (currIsCorrect) {
+                    neverCorr = false;
+
+                    if (neverFail) {
+                        // 从未错误，直接跳级
+                        nextIndex = (totalLevels - nextIndex) / 2 + nextIndex;
                     }
                 } else {
-                    nextIndex--;
-                    if (nextIndex < 0 ||                 // 达到最低级
-                            levelComplete(nextIndex)) {  // 上一级已完成
-                        nextIndex = -1;  // 中止测试
-                        return;
+                    neverFail = false;
+
+                    if (neverCorr) {
+                        // 从未正确，直接跳级
+                        nextIndex /= 2;
                     }
                 }
             }
-            // 未填满则状态不变
 
-            if (currIsCorrect) {
-                neverCorr = false;
+            boolean hasNext() {
+                return nextIndex >= 0;
+            }
 
-                if (neverFail) {
-                    // 从未错误，直接跳级
-                    nextIndex = (totalLevels - nextIndex) / 2 + nextIndex;
-                }
-            } else {
-                neverFail = false;
+            int next() {
+                return nextIndex;
+            }
 
-                if (neverCorr) {
-                    // 从未正确，直接跳级
-                    nextIndex /= 2;
-                }
+            int getCurrentIndex() {
+                return nextIndex;
             }
         }
 
-        boolean hasNext() {
-            return nextIndex >= 0;
-        }
+        class TestTask extends TimerTask {
+            @Override
+            public void run() {
+                // 处理上一次测试
+                if (curTrueUnit != null) {
+                    proceedOne();
+                }
 
-        int next() {
-            return nextIndex;
-        }
+                if (levelAllocator.hasNext()) {
+                    userInput("", "");  // 重置为无输入
+                    int currentLevelIndex = levelAllocator.next();
+                    curTrueUnit = test.generate(currentLevelIndex, testPref);
+                    System.out.println("generated: " + curTrueUnit);
 
-        int getCurrentIndex() {
-            return nextIndex;
-        }
-    }
+                    try {
+                        ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
+                    } catch (IOException e) {
+                        baseTimer.cancel();
+                        EventLogger.log(e);
+                        throw new RuntimeException(e);
+                    }
 
-    class TestTask extends TimerTask {
-        @Override
-        public void run() {
-            // 处理上一次测试
-            if (curTrueUnit != null) {
-                proceedOne();
-            }
-
-            if (levelAllocator.hasNext()) {
-                userInput("", "");  // 重置为无输入
-                int currentLevelIndex = levelAllocator.next();
-                curTrueUnit = test.generate(currentLevelIndex, testPref);
-                System.out.println("generated: " + curTrueUnit);
-
-                try {
-                    ClientManager.getCurrentClient().sendTestUnit(curTrueUnit);
-                } catch (IOException e) {
+                    testView.updateGui(curTrueUnit);
+                } else {
+                    finishTest();
                     baseTimer.cancel();
-                    EventLogger.log(e);
-                    throw new RuntimeException(e);
                 }
-
-                testView.updateGui(curTrueUnit);
-            } else {
-                finishTest();
-                baseTimer.cancel();
             }
         }
     }
