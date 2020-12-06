@@ -15,13 +15,13 @@
 
     <Label fx:id="eyeLabel">
         <font>
-            <Font size="16.0"/>
+            <Font size="18.0"/>
         </font>
     </Label>
 
     <Button text="%stopTest" onAction="#stopTest">
         <font>
-            <Font size="18.0"/>
+            <Font size="16.0"/>
         </font>
     </Button>
     <GridPane hgap="20.0" vgap="10.0">

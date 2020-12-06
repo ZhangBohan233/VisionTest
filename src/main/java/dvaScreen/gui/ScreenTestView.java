@@ -55,9 +55,8 @@ public class ScreenTestView implements Initializable {
     }
 
     public void showGraph(TestUnit testUnit) {
-        InputStream inputStream = getClass().getResourceAsStream(testUnit.getTestImage().getImagePath());
-        System.out.println("Received " + testUnit.getTestImage().getImagePath());
-        Image image = new Image(inputStream);
+        Image image = testUnit.getTestImage().getImage();
+        System.out.println("Received " + testUnit.getTestImage().getName());
 
         final double graphHeightMm = testUnit.getGraphScale() *
                 testUnit.getTestType().getTest().standardHeightMm(testUnit.getDistance());
@@ -66,14 +65,8 @@ public class ScreenTestView implements Initializable {
         Platform.runLater(() -> {
             imageView.setFitHeight(graphHeightPixels);
             imageView.setImage(image);
-            System.out.println("Shown " + testUnit.getTestImage().getImagePath() + " " + testUnit.getVisionLevel());
+            System.out.println("Shown " + testUnit.getTestImage().getName() + " " + testUnit.getVisionLevel());
         });
-
-        try {
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         try {
             Thread.sleep(testUnit.getTimeInterval());

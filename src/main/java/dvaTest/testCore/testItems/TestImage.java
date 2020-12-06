@@ -1,18 +1,16 @@
 package dvaTest.testCore.testItems;
 
-import dvaTest.testCore.TestType;
-import dvaTest.testCore.tests.CTest;
-import dvaTest.testCore.tests.EtdrsTest;
-import dvaTest.testCore.tests.SnellenTest;
-import dvaTest.testCore.tests.StdLogTest;
+import javafx.scene.image.Image;
 
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class TestImage {
 
     public final static String IMAGE_RESOURCE_DIR = "/common/images/";
     private final String name;
     private final String imagePath;
+    private Image image;
 
     public TestImage(String name, String imagePath) {
         this.name = name;
@@ -34,8 +32,17 @@ public class TestImage {
         return obj.getClass() == getClass() && name.equals(((TestImage) obj).name);
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public Image getImage() {
+        if (image == null) {
+            InputStream is = getClass().getResourceAsStream(this.imagePath);
+            this.image = new Image(is);
+            try {
+                is.close();
+                return image;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else return image;
     }
 
     public String getName() {

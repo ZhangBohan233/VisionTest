@@ -25,7 +25,7 @@ public class TestController implements ITestController {
     private Date testStartTime;
     private SideTestController currentController;
 
-    private boolean interrupted = false;
+//    private boolean interrupted = false;
 
     public TestController(TestPref testPref) {
         this.testPref = testPref;
@@ -83,6 +83,7 @@ public class TestController implements ITestController {
         if (testStartTime == null) testStartTime = new Date();
 
         EyeSide eyeSide = queue.poll();
+        assert eyeSide != null;
         Platform.runLater(() -> testView.setEyeLabel(eyeSide));
 
         currentController = new SideTestController(eyeSide);
@@ -93,7 +94,7 @@ public class TestController implements ITestController {
      * 由用户主动停止测试、关闭窗口造成的停止
      */
     public void stopByUser() {
-        interrupted = true;
+//        interrupted = true;
         currentController.interrupt();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
@@ -109,7 +110,7 @@ public class TestController implements ITestController {
 
     @Override
     public void interrupt() {
-        interrupted = true;
+//        interrupted = true;
         currentController.interrupt();
 //        baseTimer.cancel();
     }

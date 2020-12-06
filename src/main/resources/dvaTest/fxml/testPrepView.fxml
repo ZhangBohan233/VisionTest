@@ -17,13 +17,13 @@
 
     <Label fx:id="eyeLabel">
         <font>
-            <Font size="16.0"/>
+            <Font size="18.0"/>
         </font>
     </Label>
 
     <Button text="%startTest" onAction="#startTestClicked">
         <font>
-            <Font size="18.0"/>
+            <Font size="16.0"/>
         </font>
     </Button>
 

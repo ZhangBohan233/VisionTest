@@ -17,6 +17,7 @@ public class Server extends Thread {
     private final ScreenMainView mainView;
     private ServerSocket serverSocket;
     private Socket clientSocket;
+    private boolean closed = false;
 
     public Server(ScreenMainView mainView, int port) {
         this.port = port;
@@ -52,6 +53,7 @@ public class Server extends Thread {
     }
 
     public void startListening() throws IOException {
+        if (closed) return;
         System.out.println("Start waiting for connection");
         if (serverSocket == null || serverSocket.isClosed()) {
             // 解决一个serverSocket被自动关闭的bug
@@ -78,6 +80,7 @@ public class Server extends Thread {
         if (serverSocket == null) {
             return;
         }
+        closed = true;
 //        System.out.println("Closing server");
         try {
             if (clientSocket != null && !clientSocket.isClosed()) {

@@ -90,7 +90,8 @@ public class DataSaver {
         base.put("results", results);
 
         String jsonString = base.toString(2);
-        String fileName = subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName;
+        String fileName = createFileNameNoDup(
+                subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName);
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
@@ -102,6 +103,15 @@ public class DataSaver {
             EventLogger.log(e);
             return false;
         }
+    }
+
+    private static String createFileNameNoDup(String oriFileName) {
+        String curName = oriFileName;
+        int count = 0;
+        while (new File(curName).exists()) {
+            curName = String.format("%s(%d)", oriFileName, ++count);
+        }
+        return curName;
     }
 
     public static ResultRecord.NamedRecord loadSavedResult(File file) {

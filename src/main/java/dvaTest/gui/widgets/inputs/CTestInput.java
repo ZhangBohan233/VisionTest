@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
@@ -72,7 +73,23 @@ public class CTestInput extends TestInput {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-
+        if (keyEvent.getCode() == KeyCode.NUMPAD8) {
+            directionButtonClicked("up", "↑");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD7) {
+            directionButtonClicked("upLeft", "↖");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD4) {
+            directionButtonClicked("left", "←");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD1) {
+            directionButtonClicked("downLeft", "↙");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD2) {
+            directionButtonClicked("down", "↓");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD3) {
+            directionButtonClicked("downRight", "↘");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD6) {
+            directionButtonClicked("right", "→");
+        } else if (keyEvent.getCode() == KeyCode.NUMPAD9) {
+            directionButtonClicked("upRight", "↗");
+        }
     }
 
     private void directionButtonClicked(String directionName, String buttonText) {

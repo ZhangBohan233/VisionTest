@@ -73,9 +73,9 @@ public abstract class Test {
      */
     public abstract double standardHeightMm(double distance);
 
-    public TestImage[] getTestImageArray() {
-        return testImages;
-    }
+//    public TestImage[] getTestImageArray() {
+//        return testImages;
+//    }
 
     public Map<String, TestImage> getTestImageMap() {
         return testImageMap;
