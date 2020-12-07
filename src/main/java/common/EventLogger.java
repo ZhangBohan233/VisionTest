@@ -14,13 +14,28 @@ public class EventLogger {
         createLogDirIfNone();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FMT);
-            String realName = LOG_BASE_NAME + sdf.format(new Date(System.currentTimeMillis())) + ".log";
+            String realName = LOG_BASE_NAME + sdf.format(new Date()) + ".log";
             FileWriter fileWriter = new FileWriter(realName);
             PrintWriter pw = new PrintWriter(fileWriter);
             throwable.printStackTrace(pw);
 
             pw.flush();
             pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void log(String message) {
+        createLogDirIfNone();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FMT);
+            String realName = LOG_BASE_NAME + sdf.format(new Date()) + ".log";
+            FileWriter fileWriter = new FileWriter(realName);
+            fileWriter.write(message);
+
+            fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
