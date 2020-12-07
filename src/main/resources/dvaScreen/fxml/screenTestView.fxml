@@ -4,6 +4,8 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 <GridPane xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="dvaScreen.gui.ScreenTestView"
@@ -18,6 +20,11 @@
         <RowConstraints valignment="CENTER" percentHeight="100.0"/>
     </rowConstraints>
 
-    <ImageView fx:id="imageView" preserveRatio="true"/>
+    <ImageView fx:id="imageView" preserveRatio="true" visible="false"/>
+    <Label fx:id="eyeSideLabel">
+        <font>
+            <Font size="64.0"/>
+        </font>
+    </Label>
 
 </GridPane>

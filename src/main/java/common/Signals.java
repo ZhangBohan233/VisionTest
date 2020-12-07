@@ -13,4 +13,5 @@ public class Signals {
     public static final byte SHOW_ETDRS = 14;
     public static final byte NEXT_TEST_UNIT = 20;
     public static final byte TEST_CONNECTION = 30;
+    public static final byte SHOW_EYE_SIDE = 40;
 }

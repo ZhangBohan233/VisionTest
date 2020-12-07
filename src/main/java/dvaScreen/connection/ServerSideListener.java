@@ -4,6 +4,7 @@ import common.EventLogger;
 import common.Signals;
 import dvaScreen.gui.ScreenMainView;
 import dvaScreen.gui.ScreenTestView;
+import dvaTest.testCore.EyeSide;
 import dvaTest.testCore.TestType;
 import dvaTest.testCore.tests.TestUnit;
 import javafx.application.Platform;
@@ -12,7 +13,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -107,6 +107,10 @@ public class ServerSideListener extends Thread {
             case Signals.NEXT_TEST_UNIT:
                 TestUnit testUnit = TestUnit.fromByteArray(array);
                 screenTestView.showGraph(testUnit);
+                break;
+            case Signals.SHOW_EYE_SIDE:
+                EyeSide eyeSide = EyeSide.fromBytes(array);
+                screenTestView.showSideText(eyeSide);
                 break;
             default:
                 System.err.println("Unknown signal received by server: " + array[0]);

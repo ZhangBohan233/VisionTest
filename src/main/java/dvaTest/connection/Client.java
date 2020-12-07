@@ -3,26 +3,30 @@ package dvaTest.connection;
 import common.Signals;
 import dvaTest.gui.MainView;
 import dvaTest.testCore.ITestController;
-import dvaTest.testCore.TestController;
 import dvaTest.testCore.tests.TestUnit;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
 
 public class Client extends Thread {
 
     private final MainView mainView;
     private final Socket clientSocket;
+    //    private StatusChecker statusChecker;
+    private final Listener listener;
     private boolean disconnected;
     private ITestController testController;
-    private final Listener listener;
 
     Client(String address, int port, MainView mainView) throws IOException {
         this.mainView = mainView;
 
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(address, port));
+
+//        statusChecker = new StatusChecker();
 
         sendMessage(Signals.GREET);
 
@@ -33,10 +37,12 @@ public class Client extends Thread {
 
     public synchronized void sendMessage(byte[] array) throws IOException {
         clientSocket.getOutputStream().write(array);
+        clientSocket.getOutputStream().flush();
     }
 
     public synchronized void sendMessage(byte signal) throws IOException {
         clientSocket.getOutputStream().write(signal);
+        clientSocket.getOutputStream().flush();
     }
 
     public synchronized void sendTestUnit(TestUnit testUnit) throws IOException {
@@ -50,7 +56,11 @@ public class Client extends Thread {
     }
 
     private synchronized void shutdown() throws IOException {
-//        disconnected = true;
+//        statusChecker.cancel();
+        shutdownEssential();
+    }
+
+    private synchronized void shutdownEssential() throws IOException {
         clientSocket.shutdownInput();
         clientSocket.shutdownOutput();
 
@@ -104,9 +114,7 @@ public class Client extends Thread {
         private synchronized void processSignal(byte b) throws IOException {
             switch (b) {
                 case Signals.DISCONNECT_BY_SERVER:
-//                    disconnected = true;
                     shutdown();
-//                    ClientManager.discardCurrentClient();
                     mainView.setDisconnected();
                     break;
                 case Signals.SCREEN_INTERRUPT:
@@ -120,4 +128,34 @@ public class Client extends Thread {
             }
         }
     }
+
+//    class StatusChecker {
+//        private final Timer timer;
+//
+//        StatusChecker() {
+//            timer = new Timer();
+//            timer.schedule(new StatusCheckTask(), 0, 3000);
+//        }
+//
+//        void cancel() {
+//            timer.cancel();
+//        }
+//    }
+//
+//    class StatusCheckTask extends TimerTask {
+//        @Override
+//        public void run() {
+//            try {
+//                clientSocket.sendUrgentData(0xff);
+//            } catch (IOException e) {
+//                mainView.setDisconnected();
+//                statusChecker.cancel();
+//                try {
+//                    shutdownEssential();
+//                } catch (IOException ioException) {
+//                    EventLogger.log(ioException);
+//                }
+//            }
+//        }
+//    }
 }

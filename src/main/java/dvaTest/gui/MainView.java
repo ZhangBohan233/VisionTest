@@ -223,11 +223,9 @@ public class MainView implements Initializable {
             stage.setScene(new Scene(root));
 
             TestPrepView testPrepView = loader.getController();
-            testPrepView.setTestPref(testPref, stage);
+            testPrepView.setup(testPref, stage);
 
             stage.show();
-
-            ClientManager.getCurrentClient().sendMessage(testType.getSignal());
         } catch (IOException e) {
             e.printStackTrace();
             EventLogger.log(e);

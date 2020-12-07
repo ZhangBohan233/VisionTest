@@ -109,7 +109,7 @@ public class TestView implements Initializable {
     }
 
     public void setEyeLabel(EyeSide eyeSide) {
-        eyeLabel.setText(bundle.getString("pleaseUse") + eyeSide.toString());
+        eyeLabel.setText(eyeSide.toString());
     }
 
     public void closeWindow() {

@@ -58,7 +58,14 @@ public class TestController implements ITestController {
     private void finishOneSideTest() {
         resultMap.put(currentController.side, currentController.testResults);
         if (!queue.isEmpty()) {
-            testView.nextSideTest(queue.peek());
+            EyeSide peek = queue.peek();
+            testView.nextSideTest(peek);
+            try {
+                ClientManager.getCurrentClient().sendMessage(peek.toBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+                EventLogger.log(e);
+            }
         } else {
             finishTotalTest();
         }
@@ -73,6 +80,7 @@ public class TestController implements ITestController {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
             e.printStackTrace();
+            EventLogger.log(e);
         }
     }
 

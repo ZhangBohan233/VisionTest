@@ -1,9 +1,11 @@
 package dvaScreen.gui;
 
+import dvaTest.testCore.EyeSide;
 import dvaTest.testCore.tests.TestUnit;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -17,6 +19,9 @@ public class ScreenTestView implements Initializable {
     @FXML
     ImageView imageView;
 
+    @FXML
+    Label eyeSideLabel;
+
     private ResourceBundle bundle;
 
     private double pixelPerMm;
@@ -29,20 +34,20 @@ public class ScreenTestView implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
 
-        InputStream inputStream1 = getClass().getResourceAsStream("/common/images/c/C100.png");
-        Image image = new Image(inputStream1);
-        imageView.setFitHeight(500);
-        imageView.setImage(image);
+//        InputStream inputStream1 = getClass().getResourceAsStream("/common/images/c/C100.png");
+//        Image image = new Image(inputStream1);
+//        imageView.setFitHeight(500);
+//        imageView.setImage(image);
+//
+//        InputStream inputStream2 = getClass().getResourceAsStream("/common/images/c/C_BLANK.jpg");
+//        blankImage = new Image(inputStream2);
 
-        InputStream inputStream2 = getClass().getResourceAsStream("/common/images/c/C_BLANK.jpg");
-        blankImage = new Image(inputStream2);
-
-        try {
-            inputStream1.close();
-            inputStream2.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            inputStream1.close();
+//            inputStream2.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
@@ -55,6 +60,9 @@ public class ScreenTestView implements Initializable {
     }
 
     public void showGraph(TestUnit testUnit) {
+        eyeSideLabel.setVisible(false);
+        imageView.setVisible(true);
+
         Image image = testUnit.getTestImage().getImage();
         System.out.println("Received " + testUnit.getTestImage().getName());
 
@@ -63,6 +71,7 @@ public class ScreenTestView implements Initializable {
         final double graphHeightPixels = Math.round(graphHeightMm * pixelPerMm / systemZoom);
 
         Platform.runLater(() -> {
+            // 显示图片
             imageView.setFitHeight(graphHeightPixels);
             imageView.setImage(image);
             System.out.println("Shown " + testUnit.getTestImage().getName() + " " + testUnit.getVisionLevel());
@@ -75,8 +84,17 @@ public class ScreenTestView implements Initializable {
         }
 
         Platform.runLater(() -> {
-            imageView.setImage(blankImage);
+            // 显示空白
+            imageView.setImage(null);
             System.out.println("Blank");
+        });
+    }
+
+    public void showSideText(EyeSide eyeSide) {
+        Platform.runLater(() -> {
+            imageView.setVisible(false);
+            eyeSideLabel.setVisible(true);
+            eyeSideLabel.setText(eyeSide.toString());
         });
     }
 }
