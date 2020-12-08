@@ -25,6 +25,9 @@ import java.util.ResourceBundle;
 
 public class MainView implements Initializable {
 
+    public static final double MIN_DIST = 2.0;
+    public static final double MAX_DIST = 6.1;
+
     @FXML
     TitledPane distVisionPane;
 
@@ -47,10 +50,12 @@ public class MainView implements Initializable {
     CheckBox leftEyeBox, rightEyeBox, dualEyesBox;
 
     @FXML
-    ComboBox<Double> distanceBox;
+    ComboBox<String> distanceBox;
 
     private ResourceBundle bundle;
     private Stage thisStage;
+
+    private double lastValidDistance;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,6 +63,7 @@ public class MainView implements Initializable {
 
         setFrameTimeSliderListener();
         setCheckBoxListeners();
+        setDistanceBoxListener();
 
         refreshTimeIntervalLabel(timeIntervalSlider.getValue());
         refreshHidingTimeLabel(hidingTimeSlider.getValue());
@@ -72,10 +78,6 @@ public class MainView implements Initializable {
         restoreFromCache();
 
         setTestButtons();
-
-        distanceBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
-            AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_DISTANCE, newValue);
-        }));
     }
 
     @FXML
@@ -203,12 +205,11 @@ public class MainView implements Initializable {
         TestPref testPref = new TestPref.TestPrefBuilder()
                 .testType(testType)
                 .scoreCounting(scoreCountingBox.getValue())
-                .distance(distanceBox.getValue())
+                .distance(distanceFilter(Double.parseDouble(distanceBox.getValue())))
                 .frameTimeMills(getTimeInterval())
                 .hidingTimeMills(getHidingMills())
                 .leftRightDualEyes(leftEyeBox.isSelected(), rightEyeBox.isSelected(), dualEyesBox.isSelected())
                 .build();
-//        storeCache();
         try {
             Stage stage = new Stage();
             stage.initOwner(thisStage);
@@ -230,6 +231,39 @@ public class MainView implements Initializable {
             e.printStackTrace();
             EventLogger.log(e);
         }
+    }
+
+    private void setDistanceBoxListener() {
+        distanceBox.focusedProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue) {
+                lastValidDistance = Double.parseDouble(distanceBox.getValue());
+            } else {
+                double dist;
+                try {
+                    dist = Double.parseDouble(distanceBox.getValue());
+                } catch (NullPointerException | NumberFormatException e) {
+                    distanceBox.getEditor().setText(String.valueOf(lastValidDistance));
+                    return;
+                }
+
+                distanceBox.getEditor().setText(String.valueOf(distanceFilter(dist)));
+            }
+        }));
+        distanceBox.getEditor().textProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.length() == 0) return;
+            try {
+                Double.parseDouble(newValue);
+            } catch (NullPointerException | NumberFormatException e) {
+                distanceBox.getEditor().setText(oldValue);
+            }
+        }));
+        distanceBox.valueProperty().addListener(((observable, oldValue, newValue) -> {
+            try {
+                AutoSavers.getCacheSaver().putCache(CacheSaver.TEST_DISTANCE, Double.parseDouble(newValue));
+            } catch (NullPointerException | NumberFormatException e) {
+                //
+            }
+        }));
     }
 
     private void setCheckBoxListeners() {
@@ -310,13 +344,18 @@ public class MainView implements Initializable {
         hidingTimeLabel.setText(res);
     }
 
+    private static double distanceFilter(double srcDist) {
+        return Math.min(MAX_DIST, Math.max(srcDist, MIN_DIST));
+    }
+
     private void restoreFromCache() {
         CacheSaver cacheSaver = AutoSavers.getCacheSaver();
         CacheSaver.MainViewCache mvc = cacheSaver.getMainViewCache();
+        lastValidDistance = mvc.testDistance;
         scoreCountingBox.getSelectionModel().select(mvc.scoreCounting);
         timeIntervalSlider.setValue((double) mvc.timeInterval / 1000);
         hidingTimeSlider.setValue((double) mvc.hidingInterval / 1000);
-        distanceBox.getSelectionModel().select(mvc.testDistance);
+        distanceBox.setValue(String.valueOf(distanceFilter(mvc.testDistance)));
         leftEyeBox.setSelected(mvc.leftEye);
         rightEyeBox.setSelected(mvc.rightEye);
         dualEyesBox.setSelected(mvc.dualEyes);

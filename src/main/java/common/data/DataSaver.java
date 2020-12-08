@@ -23,7 +23,7 @@ import java.util.*;
 public class DataSaver {
 
     public static final String DATA_DIR = "data";
-    public static final SimpleDateFormat FILE_NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+    public static final SimpleDateFormat FILE_NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -90,8 +90,7 @@ public class DataSaver {
         base.put("results", results);
 
         String jsonString = base.toString(2);
-        String fileName = createFileNameNoDup(
-                subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName);
+        String fileName = subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName;
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
@@ -103,15 +102,6 @@ public class DataSaver {
             EventLogger.log(e);
             return false;
         }
-    }
-
-    private static String createFileNameNoDup(String oriFileName) {
-        String curName = oriFileName;
-        int count = 0;
-        while (new File(curName).exists()) {
-            curName = String.format("%s(%d)", oriFileName, ++count);
-        }
-        return curName;
     }
 
     public static ResultRecord.NamedRecord loadSavedResult(File file) {
@@ -255,7 +245,8 @@ public class DataSaver {
     public static int deleteRecords(List<ResultRecord.NamedRecord> recordList) {
         int sucCount = 0;
         for (ResultRecord.NamedRecord nr : recordList) {
-            File file = new File(getSubjectDirByPerson(nr.name) + File.separator + nr.resultRecord.fileName);
+            File file = new File(
+                    getSubjectDirByPerson(nr.name) + File.separator + nr.resultRecord.fileName);
             if (file.delete()) {
                 sucCount++;
             } else {

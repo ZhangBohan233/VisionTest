@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.Double?>
+<?import java.lang.*?>
 <GridPane prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="dvaTest.gui.MainView" vgap="10.0" hgap="5.0">
 
@@ -37,11 +37,15 @@
         <VBox spacing="10.0">
             <HBox spacing="10.0" alignment="CENTER_LEFT">
                 <Label text="%testDistance"/>
-                <ComboBox fx:id="distanceBox" value="5.0">
+                <ComboBox fx:id="distanceBox" editable="true" prefWidth="100.0" value="5.0">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <Double fx:value="2.5"/>
-                            <Double fx:value="5.0"/>
+                            <String fx:value="2.0"/>
+                            <String fx:value="2.5"/>
+                            <String fx:value="3.0"/>
+                            <String fx:value="4.0"/>
+                            <String fx:value="5.0"/>
+                            <String fx:value="6.0"/>
                         </FXCollections>
                     </items>
                 </ComboBox>

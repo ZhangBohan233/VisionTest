@@ -179,6 +179,7 @@ public class HistoryView implements Initializable {
 
         ResultPane rp = new ResultPane();
         rp.setup(test.record.resultRecord);
+        rp.setNote(test.record.note);
         rightPane.setManaged(true);
         rightPane.setVisible(true);
         rightPane.getChildren().add(rp);

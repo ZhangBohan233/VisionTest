@@ -9,16 +9,14 @@ public class ResultRecord {
     public final TestPref testPref;
     public final Date testStartTime;
     public final String fileName;
-//    public final String scoreConclusion;
     public final Map<EyeSide, String> scoreConclusions;
 
     public ResultRecord(Map<EyeSide, UnitList[]> testResults, TestPref testPref, Date testStartTime) {
         this.testResults = testResults;
         this.testPref = testPref;
         this.testStartTime = testStartTime;
-        this.fileName = "test-" + DataSaver.FILE_NAME_FORMATTER.format(testStartTime) + ".json";
+        this.fileName = "test-" + DataSaver.FILE_NAME_FORMATTER.format(testStartTime);
         this.scoreConclusions = generateScoreConclusions();
-//        this.scoreConclusion = generateScoreConclusion();
     }
 
     /**

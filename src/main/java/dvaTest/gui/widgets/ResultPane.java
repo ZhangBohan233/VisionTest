@@ -39,7 +39,7 @@ public class ResultPane extends VBox {
 
     @FXML
     Label testTypeLabel, scoreCountingLabel, distanceLabel, showingTimeLabel,
-            hidingTimeLabel, testTimeLabel;
+            hidingTimeLabel, testTimeLabel, noteLabel, noteContentLabel;
 
     private ResultRecord resultRecord;
 
@@ -101,7 +101,14 @@ public class ResultPane extends VBox {
         hidingTimeLabel.setText((double) testPref.getHidingMills() / 1000 + " " + bundle.getString("unitSecond"));
         distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
         testTimeLabel.setText(TestApp.getFullDateFormat().format(resultRecord.testStartTime));
-//        conclusionLabel.setText(resultRecord.scoreConclusion);
+    }
+
+    public void setNote(String note) {
+        if (note != null && note.length() > 0) {
+            noteLabel.setVisible(true);
+            noteContentLabel.setVisible(true);
+            noteContentLabel.setText(note);
+        }
     }
 
     @SuppressWarnings("unchecked")
