@@ -15,7 +15,7 @@ public class ResultRecord {
         this.testResults = testResults;
         this.testPref = testPref;
         this.testStartTime = testStartTime;
-        this.fileName = "test-" + DataSaver.FILE_NAME_FORMATTER.format(testStartTime);
+        this.fileName = "test-" + DataSaver.FILE_NAME_FORMATTER.format(testStartTime) + ".json";
         this.scoreConclusions = generateScoreConclusions();
     }
 

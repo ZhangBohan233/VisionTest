@@ -57,10 +57,12 @@ public class TestPrepView implements Initializable {
         ClientManager.getCurrentClient().sendMessage(testPref.getTestType().getSignal());
         try {
             Thread.sleep(100);
+            ClientManager.getCurrentClient().sendMessage(realController.getNextSide().toBytes());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ClientManager.getCurrentClient().sendMessage(realController.getNextSide().toBytes());
+
+        stage.setOnCloseRequest(e -> realController.stopByUser());
     }
 
     @FXML

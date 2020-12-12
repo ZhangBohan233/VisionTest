@@ -50,9 +50,15 @@ public class Client extends Thread {
     }
 
     synchronized void disconnectWithServerByClient() throws IOException {
-        sendMessage(Signals.DISCONNECT_BY_CLIENT);
+        try {
+            sendMessage(Signals.DISCONNECT_BY_CLIENT);
+            shutdown();
+        } catch (SocketException e) {
+            // 屏幕已经被关闭
+        }
         disconnected = true;
-        shutdown();
+        listener.interrupt();
+        System.out.println("Listener interrupted");
     }
 
     private synchronized void shutdown() throws IOException {
@@ -75,8 +81,6 @@ public class Client extends Thread {
 //        clientSocket.getInputStream().close();
         clientSocket.close();
         System.out.println("client socket closed");
-        listener.interrupt();
-        System.out.println("Listener interrupted");
     }
 
     public void setTestController(ITestController testController) {
@@ -119,7 +123,7 @@ public class Client extends Thread {
                     break;
                 case Signals.SCREEN_INTERRUPT:
                     if (testController != null) {
-                        testController.interrupt();
+                        testController.interruptByScreen();
                         testController.closeTestView();
                     }
                     break;

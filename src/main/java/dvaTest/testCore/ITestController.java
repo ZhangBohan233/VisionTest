@@ -8,7 +8,7 @@ public interface ITestController {
     void closeTestView();
 
     /**
-     * 如当前正在测试则将其打断
+     * 处理屏幕端发送的打断信号
      */
-    void interrupt();
+    void interruptByScreen();
 }

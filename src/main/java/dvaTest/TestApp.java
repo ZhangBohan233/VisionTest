@@ -8,9 +8,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,6 +23,7 @@ public class TestApp extends Application {
     public static final String AUTHOR_ZH = "张博涵";
     public static final String AUTHOR_EN = "Bohan Zhang";
 
+    private static Image icon;
     private static ResourceBundle bundle;
     private static SimpleDateFormat fullDateFormat;
     private static SimpleDateFormat dateFormat;
@@ -50,6 +53,7 @@ public class TestApp extends Application {
         Parent root = loader.load();
 
         primaryStage.setTitle(bundle.getString("appName"));
+        primaryStage.getIcons().add(getIcon());
         primaryStage.setScene(new Scene(root));
 
         MainView mainView = loader.getController();
@@ -81,5 +85,14 @@ public class TestApp extends Application {
 
     public static SimpleDateFormat getTimeFormat() {
         return timeFormat;
+    }
+
+    public static Image getIcon() throws IOException {
+        if (icon == null) {
+            InputStream iconInputStream = TestApp.class.getResourceAsStream("/common/images/icon.jpg");
+            icon = new Image(iconInputStream);
+            iconInputStream.close();
+        }
+        return icon;
     }
 }

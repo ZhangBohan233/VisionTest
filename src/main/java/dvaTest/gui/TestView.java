@@ -1,5 +1,6 @@
 package dvaTest.gui;
 
+import dvaTest.TestApp;
 import dvaTest.connection.ClientManager;
 import dvaTest.gui.widgets.inputs.*;
 import dvaTest.testCore.*;
@@ -59,9 +60,9 @@ public class TestView implements Initializable {
 
         thisStage.sizeToScene();
 
-        thisStage.setOnCloseRequest(e -> {
-            testController.stopByUser();
-        });
+//        thisStage.setOnCloseRequest(e -> {
+//            testController.stopByUser();
+//        });
     }
 
     public Scene getScene() {
@@ -91,6 +92,7 @@ public class TestView implements Initializable {
                 Parent root = loader.load();
 
                 Stage windowStage = new Stage();
+                windowStage.getIcons().add(TestApp.getIcon());
                 windowStage.setScene(new Scene(root));
 
                 ResultView resultView = loader.getController();

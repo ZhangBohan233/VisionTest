@@ -103,7 +103,7 @@ public class TestController implements ITestController {
      */
     public void stopByUser() {
 //        interrupted = true;
-        currentController.interrupt();
+        if (currentController != null) currentController.interrupt();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
@@ -116,11 +116,12 @@ public class TestController implements ITestController {
         getTestView().closeWindow();
     }
 
+    /**
+     * 处理由屏幕端发来的中止测试信号
+     */
     @Override
-    public void interrupt() {
-//        interrupted = true;
+    public void interruptByScreen() {
         currentController.interrupt();
-//        baseTimer.cancel();
     }
 
     public void userInput(String name, String buttonText) {

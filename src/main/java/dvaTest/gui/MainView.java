@@ -90,6 +90,7 @@ public class MainView implements Initializable {
         Parent root = loader.load();
 
         stage.setTitle(bundle.getString("connectionTitle"));
+        stage.getIcons().add(TestApp.getIcon());
         stage.setScene(new Scene(root));
 
         ConnectionView connectionView = loader.getController();
@@ -138,6 +139,7 @@ public class MainView implements Initializable {
             Parent root = loader.load();
 
             stage.setTitle(bundle.getString("testHistory"));
+            stage.getIcons().add(TestApp.getIcon());
             stage.setScene(new Scene(root));
 
             HistoryView historyView = loader.getController();
@@ -160,6 +162,7 @@ public class MainView implements Initializable {
         Parent root = loader.load();
 
         stage.setScene(new Scene(root));
+        stage.getIcons().add(TestApp.getIcon());
         stage.setTitle(bundle.getString("appName"));
 
         stage.show();
@@ -221,6 +224,7 @@ public class MainView implements Initializable {
             Parent root = loader.load();
 
 //            stage.setTitle(testType.show(bundle, true));
+            stage.getIcons().add(TestApp.getIcon());
             stage.setScene(new Scene(root));
 
             TestPrepView testPrepView = loader.getController();

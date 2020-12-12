@@ -2,6 +2,7 @@ package dvaScreen.connection;
 
 import common.EventLogger;
 import common.Signals;
+import dvaScreen.ScreenApp;
 import dvaScreen.gui.ScreenMainView;
 import dvaScreen.gui.ScreenTestView;
 import dvaTest.testCore.EyeSide;
@@ -127,6 +128,7 @@ public class ServerSideListener extends Thread {
                 Parent root = loader.load();
 
                 screenTestStage = new Stage();
+                screenTestStage.getIcons().add(ScreenApp.getIcon());
                 screenTestStage.initOwner(mainView.getStage());
                 screenTestStage.initModality(Modality.APPLICATION_MODAL);
                 screenTestStage.setMaximized(true);
