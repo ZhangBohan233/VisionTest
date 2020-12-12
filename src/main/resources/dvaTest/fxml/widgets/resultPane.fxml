@@ -11,7 +11,8 @@
         <Label text="%testType"/>
         <Label fx:id="testTypeLabel" GridPane.columnIndex="1"/>
         <Label text="%visionScoreCount" GridPane.rowIndex="1"/>
-        <Label fx:id="scoreCountingLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="scoreCountingBox" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+<!--        <Label fx:id="scoreCountingLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>-->
         <Label text="%testDistance" GridPane.rowIndex="2"/>
         <Label fx:id="distanceLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
         <Label text="%showingTime" GridPane.rowIndex="3"/>

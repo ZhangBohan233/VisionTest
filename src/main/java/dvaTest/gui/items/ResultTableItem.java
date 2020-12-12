@@ -3,6 +3,7 @@ package dvaTest.gui.items;
 import common.Utility;
 import javafx.fxml.FXML;
 
+@SuppressWarnings("unused")
 public class ResultTableItem implements Comparable<ResultTableItem> {
 
     private final String visionLevel;

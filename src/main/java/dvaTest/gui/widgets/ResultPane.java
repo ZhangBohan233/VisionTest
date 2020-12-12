@@ -2,11 +2,13 @@ package dvaTest.gui.widgets;
 
 import dvaTest.TestApp;
 import dvaTest.gui.items.ResultTableItem;
+import dvaTest.gui.items.ScoreCounting;
 import dvaTest.testCore.EyeSide;
 import dvaTest.testCore.ResultRecord;
 import dvaTest.testCore.TestPref;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,18 +30,12 @@ public class ResultPane extends VBox {
     @FXML
     Label leftScoreLabel, rightScoreLabel, bothScoreLabel;
 
-//    @FXML
-//    TableColumn<ResultTableItem, Double> visionLevelCol;
-//
-//    @FXML
-//    TableColumn<ResolutionItem, Integer> correctCountCol, incorrectCountCol;
-//
-//    @FXML
-//    TableColumn<ResolutionItem, String> correctRatioCol;
+    @FXML
+    Label testTypeLabel, distanceLabel, showingTimeLabel,
+            hidingTimeLabel, testTimeLabel, noteLabel, noteContentLabel;
 
     @FXML
-    Label testTypeLabel, scoreCountingLabel, distanceLabel, showingTimeLabel,
-            hidingTimeLabel, testTimeLabel, noteLabel, noteContentLabel;
+    ComboBox<ScoreCounting> scoreCountingBox;
 
     private ResultRecord resultRecord;
 
@@ -59,8 +55,9 @@ public class ResultPane extends VBox {
         setTableFactory();
     }
 
-    private void addResultsToTable(TableView<ResultTableItem> tableView, Map<String, int[]> sucFailMap) {
-        for (Map.Entry<String, int[]> entry: sucFailMap.entrySet()) {
+    private void setResultToTable(TableView<ResultTableItem> tableView, Map<String, int[]> sucFailMap) {
+        tableView.getItems().clear();
+        for (Map.Entry<String, int[]> entry : sucFailMap.entrySet()) {
             tableView.getItems().add(new ResultTableItem(entry.getKey(), entry.getValue()[0], entry.getValue()[1]));
         }
         Collections.sort(tableView.getItems());
@@ -69,34 +66,12 @@ public class ResultPane extends VBox {
     public void setup(ResultRecord resultRecord) {
         this.resultRecord = resultRecord;
 
-        Map<EyeSide, Map<String, int[]>> sucFailMap = resultRecord.toLevelMap();
-
-        for (Map.Entry<EyeSide, Map<String, int[]>> entry : sucFailMap.entrySet()) {
-            if (entry.getKey() == EyeSide.LEFT) {
-                leftBox.setManaged(true);
-                leftBox.setVisible(true);
-                addResultsToTable(leftTable, entry.getValue());
-                leftScoreLabel.setText(resultRecord.scoreConclusions.get(EyeSide.LEFT));
-            } else if (entry.getKey() == EyeSide.RIGHT) {
-                rightBox.setManaged(true);
-                rightBox.setVisible(true);
-                addResultsToTable(rightTable, entry.getValue());
-                rightScoreLabel.setText(resultRecord.scoreConclusions.get(EyeSide.RIGHT));
-            } else if (entry.getKey() == EyeSide.BOTH) {
-                bothBox.setManaged(true);
-                bothBox.setVisible(true);
-                addResultsToTable(bothTable, entry.getValue());
-                bothScoreLabel.setText(resultRecord.scoreConclusions.get(EyeSide.BOTH));
-            }
-        }
-
-//        Collections.sort(resultTable.getItems());
-
         ResourceBundle bundle = TestApp.getBundle();
         TestPref testPref = resultRecord.testPref;
 
+        setTestTypeBox(testPref.getScoreCounting());
+
         testTypeLabel.setText(testPref.getTestType().show(bundle, false));
-        scoreCountingLabel.setText(testPref.getScoreCounting().toString());
         showingTimeLabel.setText((double) testPref.getIntervalMills() / 1000 + " " + bundle.getString("unitSecond"));
         hidingTimeLabel.setText((double) testPref.getHidingMills() / 1000 + " " + bundle.getString("unitSecond"));
         distanceLabel.setText(testPref.getDistance() + " " + bundle.getString("unitMeters"));
@@ -109,6 +84,53 @@ public class ResultPane extends VBox {
             noteContentLabel.setVisible(true);
             noteContentLabel.setText(note);
         }
+    }
+
+    private void refreshScoreCounting(ScoreCounting newSc) {
+        Map<EyeSide, Map<String, int[]>> sucFailMap =
+                resultRecord.toLevelMap(
+                        resultRecord.testPref.getTestType().getTest(),
+                        resultRecord.testPref.getScoreCounting(),
+                        newSc
+                );
+
+        Map<EyeSide, String> conclusion = resultRecord.generateScoreConclusions(newSc);
+        for (Map.Entry<EyeSide, Map<String, int[]>> entry : sucFailMap.entrySet()) {
+            if (entry.getKey() == EyeSide.LEFT) {
+                leftBox.setManaged(true);
+                leftBox.setVisible(true);
+                setResultToTable(leftTable, entry.getValue());
+                leftScoreLabel.setText(conclusion.get(EyeSide.LEFT));
+            } else if (entry.getKey() == EyeSide.RIGHT) {
+                rightBox.setManaged(true);
+                rightBox.setVisible(true);
+                setResultToTable(rightTable, entry.getValue());
+                rightScoreLabel.setText(conclusion.get(EyeSide.RIGHT));
+            } else if (entry.getKey() == EyeSide.BOTH) {
+                bothBox.setManaged(true);
+                bothBox.setVisible(true);
+                setResultToTable(bothTable, entry.getValue());
+                bothScoreLabel.setText(conclusion.get(EyeSide.BOTH));
+            }
+        }
+    }
+
+    private void setTestTypeBox(ScoreCounting scoreCounting) {
+        scoreCountingBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue != null)
+                refreshScoreCounting(newValue);
+        }));
+
+        if (scoreCounting.isLogMar) {
+            scoreCountingBox.getItems().addAll(
+                    ScoreCounting.FIVE, ScoreCounting.DEC, ScoreCounting.LOG_MAR
+            );
+        } else {
+            scoreCountingBox.getItems().addAll(
+                    ScoreCounting.FRAC_METER
+            );
+        }
+        scoreCountingBox.getSelectionModel().select(scoreCounting);
     }
 
     @SuppressWarnings("unchecked")

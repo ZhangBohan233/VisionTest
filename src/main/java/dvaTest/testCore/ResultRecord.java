@@ -1,6 +1,9 @@
 package dvaTest.testCore;
 
+import common.Utility;
 import common.data.DataSaver;
+import dvaTest.gui.items.ScoreCounting;
+import dvaTest.testCore.tests.Test;
 
 import java.util.*;
 
@@ -9,14 +12,14 @@ public class ResultRecord {
     public final TestPref testPref;
     public final Date testStartTime;
     public final String fileName;
-    public final Map<EyeSide, String> scoreConclusions;
+//    public final Map<EyeSide, String> scoreConclusions;
 
     public ResultRecord(Map<EyeSide, UnitList[]> testResults, TestPref testPref, Date testStartTime) {
         this.testResults = testResults;
         this.testPref = testPref;
         this.testStartTime = testStartTime;
         this.fileName = "test-" + DataSaver.FILE_NAME_FORMATTER.format(testStartTime) + ".json";
-        this.scoreConclusions = generateScoreConclusions();
+//        this.scoreConclusions = generateScoreConclusions();
     }
 
     /**
@@ -24,13 +27,16 @@ public class ResultRecord {
      *
      * @return map of {level: [correct, incorrect]}
      */
-    public Map<EyeSide, Map<String, int[]>> toLevelMap() {
+    public Map<EyeSide, Map<String, int[]>> toLevelMap(Test test, ScoreCounting src, ScoreCounting dst) {
         Map<EyeSide, Map<String, int[]>> sideMap = new TreeMap<>();
         for (Map.Entry<EyeSide, UnitList[]> entry : testResults.entrySet()) {
             Map<String, int[]> sucFailMap = new TreeMap<>();  // vision level: [correct, incorrect]
             for (UnitList ul : entry.getValue()) {
                 for (RecordUnit ru : ul) {
-                    int[] res = sucFailMap.computeIfAbsent(ru.getVisionLevel(), k -> new int[2]);
+                    int[] res = sucFailMap.computeIfAbsent(
+                            src == dst ? ru.getVisionLevel() :
+                                    Utility.transferScoreCounting(test, src, ru.getVisionLevel(), dst),
+                            k -> new int[2]);
                     if (ru.isCorrect()) res[0]++;
                     else res[1]++;
                 }
@@ -40,10 +46,10 @@ public class ResultRecord {
         return sideMap;
     }
 
-    private Map<EyeSide, String> generateScoreConclusions() {
+    public Map<EyeSide, String> generateScoreConclusions(ScoreCounting scoreCounting) {
         Map<EyeSide, String> result = new TreeMap<>();
         for (Map.Entry<EyeSide, UnitList[]> entry : testResults.entrySet()) {
-            result.put(entry.getKey(), generateSideScoreConclusion(entry.getValue()));
+            result.put(entry.getKey(), generateSideScoreConclusion(entry.getValue(), scoreCounting));
         }
         return result;
     }
@@ -53,7 +59,7 @@ public class ResultRecord {
      *
      * @return the string conclusion of score
      */
-    private String generateSideScoreConclusion(UnitList[] sideResults) {
+    private String generateSideScoreConclusion(UnitList[] sideResults, ScoreCounting scoreCounting) {
         int levelCount = testPref.getTestType().getTest().visionLevelCount();
         int highestIndex = 0;
         int failsInHighest = 0;
@@ -70,7 +76,7 @@ public class ResultRecord {
         }
         StringBuilder stringBuilder =
                 new StringBuilder(testPref.getTestType().getTest().getLevelString(
-                        testPref.getScoreCounting(),
+                        scoreCounting,
                         highestIndex));
         if (failsInHighest > 0) stringBuilder.append(" - ").append(failsInHighest);
         for (int i : corrInFailedLevels) stringBuilder.append(" + ").append(i);

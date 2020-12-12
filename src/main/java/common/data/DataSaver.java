@@ -69,6 +69,7 @@ public class DataSaver {
 
         JSONObject results = new JSONObject();
 
+        Map<EyeSide, String> conclusion = record.resultRecord.generateScoreConclusions(testPref.getScoreCounting());
         for (Map.Entry<EyeSide, ResultRecord.UnitList[]> entry : record.resultRecord.testResults.entrySet()) {
             JSONArray resultArray = new JSONArray();
             for (ResultRecord.UnitList ul : entry.getValue()) {
@@ -82,7 +83,7 @@ public class DataSaver {
                 }
             }
             JSONObject side = new JSONObject();
-            side.put("conclusion", record.resultRecord.scoreConclusions.get(entry.getKey()));
+            side.put("conclusion", conclusion.get(entry.getKey()));
             side.put("detail", resultArray);
             results.put(entry.getKey().name(), side);
         }
@@ -211,8 +212,11 @@ public class DataSaver {
 
         // 内容
         for (int i = 0; i < recordList.size(); i++) {
+            // 每次循环是一次测试
             ResultRecord.NamedRecord record = recordList.get(i);
             TestPref testPref = record.resultRecord.testPref;
+            Map<EyeSide, String> conclusion = record.resultRecord.generateScoreConclusions(
+                    record.resultRecord.testPref.getScoreCounting());
 
             XSSFRow row = sheet.createRow(i + 1);
 
@@ -226,9 +230,9 @@ public class DataSaver {
             row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);
             row.createCell(6).setCellValue(testPref.getTestType().show(bundle, false));
             row.createCell(7).setCellValue(testPref.getScoreCounting().toString());
-            row.createCell(8).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.LEFT));
-            row.createCell(9).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.RIGHT));
-            row.createCell(10).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.BOTH));
+            row.createCell(8).setCellValue(conclusion.get(EyeSide.LEFT));
+            row.createCell(9).setCellValue(conclusion.get(EyeSide.RIGHT));
+            row.createCell(10).setCellValue(conclusion.get(EyeSide.BOTH));
             row.createCell(11).setCellValue(record.note);
         }
 
