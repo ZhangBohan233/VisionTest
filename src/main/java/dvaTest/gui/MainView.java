@@ -89,6 +89,7 @@ public class MainView implements Initializable {
                         TestApp.getBundle());
         Parent root = loader.load();
 
+        stage.initOwner(thisStage);
         stage.setTitle(bundle.getString("connectionTitle"));
         stage.getIcons().add(TestApp.getIcon());
         stage.setScene(new Scene(root));
@@ -102,7 +103,6 @@ public class MainView implements Initializable {
     @FXML
     void onDisconnectClicked() throws IOException {
         ClientManager.closeAndDiscardCurrentClient();
-//        ClientManager.discardCurrentClient();
         setDisconnected();
     }
 
@@ -131,7 +131,6 @@ public class MainView implements Initializable {
         try {
             Stage stage = new Stage();
             stage.initOwner(thisStage);
-            stage.initModality(Modality.WINDOW_MODAL);
 
             FXMLLoader loader =
                     new FXMLLoader(getClass().getResource("/dvaTest/fxml/historyView.fxml"),
@@ -183,6 +182,9 @@ public class MainView implements Initializable {
         distVisionPane.setExpanded(true);
     }
 
+    /**
+     * 将界面设置为未连接时的界面
+     */
     public void setDisconnected() {
         Platform.runLater(() -> {
             needDisplayDeviceBox.setManaged(true);
@@ -331,21 +333,20 @@ public class MainView implements Initializable {
     }
 
     private void refreshTimeIntervalLabel(double value) {
-        int d = (int) value;
-        double frac = value - d;
-        double resFrac = Math.round(frac * 10 / 5) * 5;
-        String res = String.format("%.1f", resFrac / 10 + d);
-
-        timeIntervalLabel.setText(res);
+        refreshTimeLabel(timeIntervalLabel, value);
     }
 
     private void refreshHidingTimeLabel(double value) {
+        refreshTimeLabel(hidingTimeLabel, value);
+    }
+
+    private void refreshTimeLabel(Label label, double value) {
         int d = (int) value;
         double frac = value - d;
         double resFrac = Math.round(frac * 10 / 5) * 5;
         String res = String.format("%.1f", resFrac / 10 + d);
 
-        hidingTimeLabel.setText(res);
+        label.setText(res);
     }
 
     private static double distanceFilter(double srcDist) {

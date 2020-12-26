@@ -38,7 +38,7 @@ public class DataSaver {
      * 保存测试记录
      *
      * @param record 测试记录
-     * @return 若保存成功，返回{@code true}。反之返回{@code false}
+     * @return 若保存成功，返回{@code true}，反之返回{@code false}
      */
     public static boolean saveTestResult(ResultRecord.NamedRecord record) {
         createDirsIfNone();
@@ -105,6 +105,12 @@ public class DataSaver {
         }
     }
 
+    /**
+     * 从单个存档文件内加载存档。
+     *
+     * @param file 存档文件，必须为文件而非文件夹
+     * @return 存档，如有错误则返回{@code null}
+     */
     public static ResultRecord.NamedRecord loadSavedResult(File file) {
         try {
             String content;
@@ -183,6 +189,13 @@ public class DataSaver {
         }
     }
 
+    /**
+     * 导出为Microsoft Excel表格。
+     *
+     * @param file       excel文件
+     * @param recordList 要导出的存档条目
+     * @throws IOException 若无法写入
+     */
     public static void exportAsXlsx(File file, List<ResultRecord.NamedRecord> recordList) throws IOException {
         ResourceBundle bundle = TestApp.getBundle();
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -236,10 +249,10 @@ public class DataSaver {
             row.createCell(11).setCellValue(record.note);
         }
 
-        FileOutputStream fos = new FileOutputStream(file);
-        workbook.write(fos);
-        fos.flush();
-        fos.close();
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            workbook.write(fos);
+            fos.flush();
+        }
     }
 
     /**

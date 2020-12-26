@@ -39,7 +39,8 @@ public class CacheSaver {
         root = readJson(fileName);
 
         timer = new Timer();
-        timer.schedule(new AutoSaveTask(), 0, AutoSavers.PERIOD);
+        // 跳过第一个保存周期
+        timer.schedule(new AutoSaveTask(), AutoSavers.PERIOD, AutoSavers.PERIOD);
     }
 
     private static JSONObject readJson(String fileName) {

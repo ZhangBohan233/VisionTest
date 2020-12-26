@@ -108,6 +108,12 @@ public class Server extends Thread {
 
     public synchronized void sendMessage(byte signal) throws IOException {
         clientSocket.getOutputStream().write(signal);
+        clientSocket.getOutputStream().flush();
+    }
+
+    public synchronized void sendMessage(byte[] data) throws IOException {
+        clientSocket.getOutputStream().write(data);
+        clientSocket.getOutputStream().flush();
     }
 
 //    class StatusChecker {

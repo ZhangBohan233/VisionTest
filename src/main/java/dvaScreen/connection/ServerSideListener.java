@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class ServerSideListener extends Thread {
 
@@ -60,6 +61,11 @@ public class ServerSideListener extends Thread {
         switch (signal) {
             case Signals.TEST_CONNECTION:
                 System.out.println("received connection test!");
+                try {
+                    server.sendMessage(ServerManager.getThisAddress().getHostName().getBytes(StandardCharsets.UTF_8));
+                } catch (IOException e) {
+                    EventLogger.log(e);
+                }
                 disconnected = true;
 //                try {
 //                    client.shutdownInput();

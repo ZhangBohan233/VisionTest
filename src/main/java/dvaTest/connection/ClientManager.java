@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -50,7 +51,7 @@ public class ClientManager {
         return thisAddr.substring(0, firstThree.lastIndexOf('.'));
     }
 
-    public static void listLanDevices(ObservableList<InetAddress> connectibleList, int port, BooleanProperty running) {
+    public static void listLanDevices(ObservableList<DeviceItem> connectibleList, int port, BooleanProperty running) {
         try {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(Runtime.getRuntime().exec("arp -a").getInputStream()));
@@ -73,8 +74,9 @@ public class ClientManager {
 //                new AsyncAddressChecker(InetAddress.getByName(ip), connectibleList).start();
                 if (ip.startsWith(firstTwoIp)) {
                     InetAddress address = InetAddress.getByName(ip);
-                    if (checkAddress(address, port))
-                        connectibleList.add(address);
+                    DeviceItem di = checkAddress(address, port);
+                    if (di != null)
+                        connectibleList.add(di);
                 }
             }
 
@@ -83,7 +85,7 @@ public class ClientManager {
         }
     }
 
-    private synchronized static boolean checkAddress(InetAddress address, int port) {
+    private synchronized static DeviceItem checkAddress(InetAddress address, int port) {
         try {
             System.out.print("Reaching " + address + "... ");
             if (address.isReachable(50)) {
@@ -91,9 +93,12 @@ public class ClientManager {
                 Socket socket = new Socket();
                 try {
                     socket.connect(new InetSocketAddress(address.getHostAddress(), port));
+                    socket.setSoTimeout(1000);
                     socket.getOutputStream().write(Signals.TEST_CONNECTION);
+                    byte[] buffer = new byte[1024];
+                    int read = socket.getInputStream().read(buffer);
                     System.out.println("Success");
-                    return true;
+                    return new DeviceItem(address, new String(buffer, 0, read, StandardCharsets.UTF_8));
                 } catch (IOException e2) {
                     System.out.println("Failed");
                     //
@@ -110,6 +115,6 @@ public class ClientManager {
         } catch (IOException e) {
             EventLogger.log(e);
         }
-        return false;
+        return null;
     }
 }
