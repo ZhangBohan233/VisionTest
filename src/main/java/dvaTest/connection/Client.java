@@ -15,7 +15,6 @@ public class Client extends Thread {
 
     private final MainView mainView;
     private final Socket clientSocket;
-    //    private StatusChecker statusChecker;
     private final Listener listener;
     private boolean disconnected;
     private ITestController testController;
@@ -25,8 +24,6 @@ public class Client extends Thread {
 
         clientSocket = new Socket();
         clientSocket.connect(new InetSocketAddress(address, port));
-
-//        statusChecker = new StatusChecker();
 
         sendMessage(Signals.GREET);
 
@@ -62,7 +59,6 @@ public class Client extends Thread {
     }
 
     private synchronized void shutdown() throws IOException {
-//        statusChecker.cancel();
         shutdownEssential();
     }
 
@@ -78,7 +74,6 @@ public class Client extends Thread {
             }
         } while (!clientSocket.isInputShutdown() || !clientSocket.isOutputShutdown());
 
-//        clientSocket.getInputStream().close();
         clientSocket.close();
         System.out.println("client socket closed");
     }
@@ -132,34 +127,4 @@ public class Client extends Thread {
             }
         }
     }
-
-//    class StatusChecker {
-//        private final Timer timer;
-//
-//        StatusChecker() {
-//            timer = new Timer();
-//            timer.schedule(new StatusCheckTask(), 0, 3000);
-//        }
-//
-//        void cancel() {
-//            timer.cancel();
-//        }
-//    }
-//
-//    class StatusCheckTask extends TimerTask {
-//        @Override
-//        public void run() {
-//            try {
-//                clientSocket.sendUrgentData(0xff);
-//            } catch (IOException e) {
-//                mainView.setDisconnected();
-//                statusChecker.cancel();
-//                try {
-//                    shutdownEssential();
-//                } catch (IOException ioException) {
-//                    EventLogger.log(ioException);
-//                }
-//            }
-//        }
-//    }
 }

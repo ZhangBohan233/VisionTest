@@ -1,6 +1,5 @@
 package dvaTest.testCore.tests;
 
-import dvaTest.testCore.TestType;
 import dvaTest.testCore.testItems.TestImage;
 
 import java.util.Map;

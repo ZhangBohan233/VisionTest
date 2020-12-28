@@ -2,6 +2,7 @@ package dvaTest.connection;
 
 import java.net.InetAddress;
 
+@SuppressWarnings("unused")
 public class DeviceItem {
 
     private final InetAddress address;

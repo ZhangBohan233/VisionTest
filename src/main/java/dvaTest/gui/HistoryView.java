@@ -31,9 +31,6 @@ public class HistoryView implements Initializable {
     @FXML
     TreeTableColumn<HistoryTreeItem.Item, CheckBox> checkBoxCol;
 
-//    @FXML
-//    TreeTableColumn<HistoryTreeItem.Item, String> subjectCol;
-
     @FXML
     TreeTableColumn<HistoryTreeItem.Item, String> timeCol;
 

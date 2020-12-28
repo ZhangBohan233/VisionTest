@@ -67,14 +67,6 @@ public class ServerSideListener extends Thread {
                     EventLogger.log(e);
                 }
                 disconnected = true;
-//                try {
-//                    client.shutdownInput();
-//                    client.shutdownOutput();
-//                    client.close();
-//                    server.startListening();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
                 break;
             case Signals.GREET:
                 System.out.println("connected with client! ");
@@ -83,9 +75,6 @@ public class ServerSideListener extends Thread {
             case Signals.SHOW_SNELLEN:
                 showTestScreen(TestType.SNELLEN);
                 break;
-//            case Signals.SHOW_E:
-//                showTestScreen(TestType.E_CHART);
-//                break;
             case Signals.SHOW_C:
                 showTestScreen(TestType.LANDOLT);
                 break;
@@ -125,7 +114,6 @@ public class ServerSideListener extends Thread {
     }
 
     private void showTestScreen(TestType testType) {
-//        mainView.storeToCache();
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader =
@@ -138,7 +126,6 @@ public class ServerSideListener extends Thread {
                 screenTestStage.initOwner(mainView.getStage());
                 screenTestStage.initModality(Modality.APPLICATION_MODAL);
                 screenTestStage.setMaximized(true);
-//                screenTestStage.setFullScreen(true);
                 screenTestStage.setOnCloseRequest(e -> {
                     try {
                         ServerManager.getCurrentServer().sendMessage(Signals.SCREEN_INTERRUPT);

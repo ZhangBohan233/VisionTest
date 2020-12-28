@@ -225,7 +225,6 @@ public class MainView implements Initializable {
                             bundle);
             Parent root = loader.load();
 
-//            stage.setTitle(testType.show(bundle, true));
             stage.getIcons().add(TestApp.getIcon());
             stage.setScene(new Scene(root));
 

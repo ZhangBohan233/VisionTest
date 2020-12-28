@@ -9,8 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,29 +23,11 @@ public class ScreenTestView implements Initializable {
     private ResourceBundle bundle;
 
     private double pixelPerMm;
-    private double imageHeight;
     private double systemZoom;
-
-    private Image blankImage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.bundle = resourceBundle;
-
-//        InputStream inputStream1 = getClass().getResourceAsStream("/common/images/c/C100.png");
-//        Image image = new Image(inputStream1);
-//        imageView.setFitHeight(500);
-//        imageView.setImage(image);
-//
-//        InputStream inputStream2 = getClass().getResourceAsStream("/common/images/c/C_BLANK.jpg");
-//        blankImage = new Image(inputStream2);
-
-//        try {
-//            inputStream1.close();
-//            inputStream2.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**

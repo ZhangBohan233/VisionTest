@@ -7,7 +7,6 @@ import dvaTest.testCore.testItems.TestImage;
 
 public class TestUnit {
 
-//    private final int levelIndex;
     private final String visionLevel;
     private final double graphScale;
     private final double distance;
@@ -18,7 +17,6 @@ public class TestUnit {
 
     TestUnit(String visionLevel, double graphScale, double distance, long timeInterval,
              TestImage testImage, TestType testType) {
-//        this.levelIndex = levelIndex;
         this.visionLevel = visionLevel;
         this.graphScale = graphScale;
         this.distance = distance;
@@ -103,7 +101,6 @@ public class TestUnit {
         byte[] strBytes = new byte[strLen];
         System.arraycopy(array, 27, strBytes, 0, strLen);
         String name = new String(strBytes);
-//        TestImage testItem = TestImage.getByName(testType, name);
         TestImage testImage = testType.getTest().getTestImageMap().get(name);
         int levelLen = array[27 + strLen] & 0xff;
         byte[] levelBytes = new byte[levelLen];

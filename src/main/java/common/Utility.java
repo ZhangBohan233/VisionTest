@@ -1,7 +1,6 @@
 package common;
 
 import dvaTest.gui.items.ScoreCounting;
-import dvaTest.testCore.TestType;
 import dvaTest.testCore.tests.Test;
 
 public class Utility {

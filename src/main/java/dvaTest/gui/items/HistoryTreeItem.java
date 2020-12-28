@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeItem;
 
-import java.io.File;
 import java.util.List;
 
 public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {

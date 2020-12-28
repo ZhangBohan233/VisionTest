@@ -4,7 +4,6 @@ import common.EventLogger;
 import common.data.AutoSavers;
 import dvaScreen.connection.ServerManager;
 import dvaScreen.gui.ScreenMainView;
-import dvaTest.TestApp;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

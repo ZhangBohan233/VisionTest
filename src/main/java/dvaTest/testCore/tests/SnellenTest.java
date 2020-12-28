@@ -1,7 +1,6 @@
 package dvaTest.testCore.tests;
 
 import dvaTest.gui.items.ScoreCounting;
-import dvaTest.testCore.TestType;
 import dvaTest.testCore.TestTypeException;
 import dvaTest.testCore.testItems.TestImage;
 

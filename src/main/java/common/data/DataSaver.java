@@ -64,7 +64,6 @@ public class DataSaver {
         base.put("scoreCounting", testPref.getScoreCounting().name());
         base.put("interval", testPref.getIntervalMills());
         base.put("hidingTime", testPref.getHidingMills());
-//        base.put("conclusion", record.resultRecord.scoreConclusion);
         base.put("note", record.note);
 
         JSONObject results = new JSONObject();

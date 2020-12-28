@@ -13,10 +13,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,7 +67,6 @@ public class ClientManager {
 
             while (running.get() && matcher.find()) {
                 String ip = matcher.group();
-//                new AsyncAddressChecker(InetAddress.getByName(ip), connectibleList).start();
                 if (ip.startsWith(firstTwoIp)) {
                     InetAddress address = InetAddress.getByName(ip);
                     DeviceItem di = checkAddress(address, port);

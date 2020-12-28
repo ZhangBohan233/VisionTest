@@ -143,7 +143,6 @@ public class CacheSaver {
     The following two method is only usable for test cache
      */
     public MainViewCache getMainViewCache() {
-//        String[] scIntDt = getTestCachesByKeys("scoreCounting", "interval", "distance");
         String scStr = getCache(TEST_SCORE_COUNTING);
         long intervalOri = getLong(TEST_INTERVAL);
         long hidingOri = getLong(TEST_HIDING_INTERVAL);

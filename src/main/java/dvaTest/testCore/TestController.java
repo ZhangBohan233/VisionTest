@@ -25,8 +25,6 @@ public class TestController implements ITestController {
     private Date testStartTime;
     private SideTestController currentController;
 
-//    private boolean interrupted = false;
-
     public TestController(TestPref testPref) {
         this.testPref = testPref;
 
@@ -102,7 +100,6 @@ public class TestController implements ITestController {
      * 由用户主动停止测试、关闭窗口造成的停止
      */
     public void stopByUser() {
-//        interrupted = true;
         if (currentController != null) currentController.interrupt();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
