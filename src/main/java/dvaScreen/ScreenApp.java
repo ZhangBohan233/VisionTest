@@ -9,14 +9,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ScreenApp extends Application {
     private static ResourceBundle bundle;
+    private static Image icon;
 
     public static void run(String[] args) {
         try {
@@ -31,12 +34,25 @@ public class ScreenApp extends Application {
         return bundle;
     }
 
+    public static Image getIcon() throws IOException {
+        if (icon == null) {
+            InputStream iconInputStream = ScreenApp.class.getResourceAsStream("/common/images/icon.jpg");
+            icon = new Image(iconInputStream);
+            iconInputStream.close();
+        }
+        return icon;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         AutoSavers.startScreenSavers();
 
         bundle = ResourceBundle.getBundle("common.bundles.Languages",
                 new Locale("zh", "CN"));
+
+        InputStream iconInputStream = getClass().getResourceAsStream("/common/images/icon.jpg");
+        icon = new Image(iconInputStream);
+        iconInputStream.close();
 
         FXMLLoader loader =
                 new FXMLLoader(getClass().getResource("/dvaScreen/fxml/screenMainView.fxml"), bundle);
@@ -46,6 +62,7 @@ public class ScreenApp extends Application {
         controller.setup(primaryStage);
 
         primaryStage.setTitle(bundle.getString("appNameScreen"));
+        primaryStage.getIcons().add(getIcon());
         primaryStage.setScene(new Scene(root));
 
         if (!ServerManager.startServer(controller)) {

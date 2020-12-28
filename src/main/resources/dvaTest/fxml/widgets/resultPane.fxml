@@ -2,9 +2,7 @@
 
 <?import dvaTest.gui.widgets.ResultPane?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <fx:root type="dvaTest.gui.widgets.ResultPane" xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          prefHeight="400.0" prefWidth="600.0" spacing="10.0">
@@ -13,7 +11,8 @@
         <Label text="%testType"/>
         <Label fx:id="testTypeLabel" GridPane.columnIndex="1"/>
         <Label text="%visionScoreCount" GridPane.rowIndex="1"/>
-        <Label fx:id="scoreCountingLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <ComboBox fx:id="scoreCountingBox" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+<!--        <Label fx:id="scoreCountingLabel" GridPane.rowIndex="1" GridPane.columnIndex="1"/>-->
         <Label text="%testDistance" GridPane.rowIndex="2"/>
         <Label fx:id="distanceLabel" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
         <Label text="%showingTime" GridPane.rowIndex="3"/>
@@ -22,6 +21,9 @@
         <Label fx:id="hidingTimeLabel" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
         <Label text="%testTime" GridPane.rowIndex="5"/>
         <Label fx:id="testTimeLabel" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        <Label fx:id="noteLabel" text="%note" GridPane.columnIndex="2" visible="false"/>
+        <Label fx:id="noteContentLabel" GridPane.columnIndex="3"
+               GridPane.rowSpan="6" GridPane.valignment="TOP" visible="false"/>
     </GridPane>
 
     <HBox spacing="5.0">

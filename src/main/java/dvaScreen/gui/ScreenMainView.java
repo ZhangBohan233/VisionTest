@@ -10,9 +10,9 @@ import dvaScreen.gui.items.WindowsScaleItem;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -20,7 +20,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -162,7 +161,6 @@ public class ScreenMainView implements Initializable {
 
     private void setAutoDetected() throws HeadlessException {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-//        double windowsWidth = screen.getWidth();
         double windowsHeight = screen.getHeight();
         DisplayMode mode = GraphicsEnvironment.getLocalGraphicsEnvironment()
                 .getDefaultScreenDevice().getDisplayMode();
@@ -231,18 +229,18 @@ public class ScreenMainView implements Initializable {
         return inches + Double.parseDouble(frac);
     }
 
-    private void updatePpi() {
-        ResolutionItem ri = resolutionBox.getValue();
-        screenPpiLabel.setText(String.valueOf(calculatePpiRounded(ri.getWidth(), ri.getHeight(),
-                getScreenSize())));
-    }
-
     private void setScreenSize(double value) {
         int intPart = (int) value;
         intFactory.setValue(intPart);
         String fracWithDot = String.valueOf(Utility.round(value - intPart, 2));
         String frac = fracWithDot.substring(fracWithDot.indexOf('.') + 1);
         fracField.setText(frac);
+    }
+
+    private void updatePpi() {
+        ResolutionItem ri = resolutionBox.getValue();
+        screenPpiLabel.setText(String.valueOf(calculatePpiRounded(ri.getWidth(), ri.getHeight(),
+                getScreenSize())));
     }
 
     public void setConnectedUi() {

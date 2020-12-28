@@ -39,7 +39,8 @@ public class CacheSaver {
         root = readJson(fileName);
 
         timer = new Timer();
-        timer.schedule(new AutoSaveTask(), 0, AutoSavers.PERIOD);
+        // 跳过第一个保存周期
+        timer.schedule(new AutoSaveTask(), AutoSavers.PERIOD, AutoSavers.PERIOD);
     }
 
     private static JSONObject readJson(String fileName) {
@@ -142,7 +143,6 @@ public class CacheSaver {
     The following two method is only usable for test cache
      */
     public MainViewCache getMainViewCache() {
-//        String[] scIntDt = getTestCachesByKeys("scoreCounting", "interval", "distance");
         String scStr = getCache(TEST_SCORE_COUNTING);
         long intervalOri = getLong(TEST_INTERVAL);
         long hidingOri = getLong(TEST_HIDING_INTERVAL);

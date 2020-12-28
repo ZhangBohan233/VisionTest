@@ -4,6 +4,7 @@ import common.data.AutoSavers;
 import common.data.CacheSaver;
 import dvaScreen.connection.ServerManager;
 import dvaTest.connection.ClientManager;
+import dvaTest.connection.DeviceItem;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
@@ -32,7 +33,7 @@ public class ConnectionView implements Initializable {
     Label msgLabel, deviceListPlaceHolder;
 
     @FXML
-    TableView<InetAddress> devicesTable;
+    TableView<DeviceItem> devicesTable;
 
     ScanDevicesService scanService;
 
@@ -126,12 +127,12 @@ public class ConnectionView implements Initializable {
     }
 
     private void setDevicesTableFactory() {
-        devicesTable.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("hostName"));
+        devicesTable.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("name"));
         devicesTable.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("hostAddress"));
 
         devicesTable.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                ipField.setText(newValue.getHostAddress());
+                ipField.setText(newValue.getAddress().getHostAddress());
             }
         }));
 

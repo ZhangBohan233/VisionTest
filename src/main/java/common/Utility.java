@@ -1,5 +1,8 @@
 package common;
 
+import dvaTest.gui.items.ScoreCounting;
+import dvaTest.testCore.tests.Test;
+
 public class Utility {
 
     public static final char[] ILLEGAL_NAME_CHARS = {'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
@@ -88,6 +91,11 @@ public class Utility {
             res[i] = String.valueOf(array[i]);
         }
         return res;
+    }
+
+    public static String transferScoreCounting(
+            Test test, ScoreCounting srcScoreCount, String src, ScoreCounting dstScoreCount) {
+        return test.getLevelString(dstScoreCount, test.getLevelIndexFromShown(srcScoreCount, src));
     }
 
     public static void main(String[] args) {

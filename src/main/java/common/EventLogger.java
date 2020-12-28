@@ -10,17 +10,42 @@ public class EventLogger {
     private static final String LOG_BASE_NAME = LOG_DIR + File.separator + "error-";
     private static final String DATE_FMT = "yyyy-MM-dd HH-mm-ss";
 
+    /**
+     * 将完整错误信息保存至一个新的日志文件。
+     *
+     * @param throwable 错误
+     */
     public static void log(Throwable throwable) {
         createLogDirIfNone();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FMT);
-            String realName = LOG_BASE_NAME + sdf.format(new Date(System.currentTimeMillis())) + ".log";
+            String realName = LOG_BASE_NAME + sdf.format(new Date()) + ".log";
             FileWriter fileWriter = new FileWriter(realName);
             PrintWriter pw = new PrintWriter(fileWriter);
             throwable.printStackTrace(pw);
 
             pw.flush();
             pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将文本信息保存至一个新的日志文件。
+     *
+     * @param message 文本信息
+     */
+    public static void log(String message) {
+        createLogDirIfNone();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FMT);
+            String realName = LOG_BASE_NAME + sdf.format(new Date()) + ".log";
+            FileWriter fileWriter = new FileWriter(realName);
+            fileWriter.write(message);
+
+            fileWriter.flush();
+            fileWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

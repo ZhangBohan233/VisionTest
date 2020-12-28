@@ -24,4 +24,5 @@ module DVATest {
     opens dvaTest.gui;
     opens dvaTest.gui.widgets;
     opens dvaTest.gui.widgets.inputs;
+    opens dvaTest.connection;
 }

@@ -1,5 +1,6 @@
 package dvaTest.gui;
 
+import dvaTest.TestApp;
 import dvaTest.connection.ClientManager;
 import dvaTest.gui.widgets.inputs.*;
 import dvaTest.testCore.*;
@@ -58,10 +59,6 @@ public class TestView implements Initializable {
         setAllOnKeyPressed(rootPane);
 
         thisStage.sizeToScene();
-
-        thisStage.setOnCloseRequest(e -> {
-            testController.stopByUser();
-        });
     }
 
     public Scene getScene() {
@@ -91,6 +88,7 @@ public class TestView implements Initializable {
                 Parent root = loader.load();
 
                 Stage windowStage = new Stage();
+                windowStage.getIcons().add(TestApp.getIcon());
                 windowStage.setScene(new Scene(root));
 
                 ResultView resultView = loader.getController();
@@ -109,7 +107,7 @@ public class TestView implements Initializable {
     }
 
     public void setEyeLabel(EyeSide eyeSide) {
-        eyeLabel.setText(bundle.getString("pleaseUse") + eyeSide.toString());
+        eyeLabel.setText(eyeSide.toString());
     }
 
     public void closeWindow() {

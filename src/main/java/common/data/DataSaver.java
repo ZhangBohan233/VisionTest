@@ -23,7 +23,7 @@ import java.util.*;
 public class DataSaver {
 
     public static final String DATA_DIR = "data";
-    public static final SimpleDateFormat FILE_NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm");
+    public static final SimpleDateFormat FILE_NAME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
     private static final SimpleDateFormat TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -38,7 +38,7 @@ public class DataSaver {
      * 保存测试记录
      *
      * @param record 测试记录
-     * @return 若保存成功，返回{@code true}。反之返回{@code false}
+     * @return 若保存成功，返回{@code true}，反之返回{@code false}
      */
     public static boolean saveTestResult(ResultRecord.NamedRecord record) {
         createDirsIfNone();
@@ -64,11 +64,11 @@ public class DataSaver {
         base.put("scoreCounting", testPref.getScoreCounting().name());
         base.put("interval", testPref.getIntervalMills());
         base.put("hidingTime", testPref.getHidingMills());
-//        base.put("conclusion", record.resultRecord.scoreConclusion);
         base.put("note", record.note);
 
         JSONObject results = new JSONObject();
 
+        Map<EyeSide, String> conclusion = record.resultRecord.generateScoreConclusions(testPref.getScoreCounting());
         for (Map.Entry<EyeSide, ResultRecord.UnitList[]> entry : record.resultRecord.testResults.entrySet()) {
             JSONArray resultArray = new JSONArray();
             for (ResultRecord.UnitList ul : entry.getValue()) {
@@ -82,7 +82,7 @@ public class DataSaver {
                 }
             }
             JSONObject side = new JSONObject();
-            side.put("conclusion", record.resultRecord.scoreConclusions.get(entry.getKey()));
+            side.put("conclusion", conclusion.get(entry.getKey()));
             side.put("detail", resultArray);
             results.put(entry.getKey().name(), side);
         }
@@ -90,8 +90,7 @@ public class DataSaver {
         base.put("results", results);
 
         String jsonString = base.toString(2);
-        String fileName = createFileNameNoDup(
-                subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName);
+        String fileName = subjectDir.getAbsolutePath() + File.separator + record.resultRecord.fileName;
 
         try {
             FileWriter fileWriter = new FileWriter(fileName);
@@ -105,15 +104,12 @@ public class DataSaver {
         }
     }
 
-    private static String createFileNameNoDup(String oriFileName) {
-        String curName = oriFileName;
-        int count = 0;
-        while (new File(curName).exists()) {
-            curName = String.format("%s(%d)", oriFileName, ++count);
-        }
-        return curName;
-    }
-
+    /**
+     * 从单个存档文件内加载存档。
+     *
+     * @param file 存档文件，必须为文件而非文件夹
+     * @return 存档，如有错误则返回{@code null}
+     */
     public static ResultRecord.NamedRecord loadSavedResult(File file) {
         try {
             String content;
@@ -192,6 +188,13 @@ public class DataSaver {
         }
     }
 
+    /**
+     * 导出为Microsoft Excel表格。
+     *
+     * @param file       excel文件
+     * @param recordList 要导出的存档条目
+     * @throws IOException 若无法写入
+     */
     public static void exportAsXlsx(File file, List<ResultRecord.NamedRecord> recordList) throws IOException {
         ResourceBundle bundle = TestApp.getBundle();
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -221,8 +224,11 @@ public class DataSaver {
 
         // 内容
         for (int i = 0; i < recordList.size(); i++) {
+            // 每次循环是一次测试
             ResultRecord.NamedRecord record = recordList.get(i);
             TestPref testPref = record.resultRecord.testPref;
+            Map<EyeSide, String> conclusion = record.resultRecord.generateScoreConclusions(
+                    record.resultRecord.testPref.getScoreCounting());
 
             XSSFRow row = sheet.createRow(i + 1);
 
@@ -236,16 +242,16 @@ public class DataSaver {
             row.createCell(5).setCellValue((double) testPref.getHidingMills() / 1000);
             row.createCell(6).setCellValue(testPref.getTestType().show(bundle, false));
             row.createCell(7).setCellValue(testPref.getScoreCounting().toString());
-            row.createCell(8).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.LEFT));
-            row.createCell(9).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.RIGHT));
-            row.createCell(10).setCellValue(record.resultRecord.scoreConclusions.get(EyeSide.BOTH));
+            row.createCell(8).setCellValue(conclusion.get(EyeSide.LEFT));
+            row.createCell(9).setCellValue(conclusion.get(EyeSide.RIGHT));
+            row.createCell(10).setCellValue(conclusion.get(EyeSide.BOTH));
             row.createCell(11).setCellValue(record.note);
         }
 
-        FileOutputStream fos = new FileOutputStream(file);
-        workbook.write(fos);
-        fos.flush();
-        fos.close();
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            workbook.write(fos);
+            fos.flush();
+        }
     }
 
     /**
@@ -255,7 +261,8 @@ public class DataSaver {
     public static int deleteRecords(List<ResultRecord.NamedRecord> recordList) {
         int sucCount = 0;
         for (ResultRecord.NamedRecord nr : recordList) {
-            File file = new File(getSubjectDirByPerson(nr.name) + File.separator + nr.resultRecord.fileName);
+            File file = new File(
+                    getSubjectDirByPerson(nr.name) + File.separator + nr.resultRecord.fileName);
             if (file.delete()) {
                 sucCount++;
             } else {

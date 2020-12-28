@@ -13,8 +13,6 @@ public class StdLogTest extends LogBasedText {
             "down", new TestImage("down", "stdLog/down.jpg")
     );
 
-//    public static final StdLogTest STD_LOG_TEST = new StdLogTest(ITEMS);
-
     public StdLogTest() {
         super(ITEMS);
     }

@@ -27,7 +27,6 @@ public class Server extends Thread {
     @Override
     public void run() {
         try {
-//            serverSocket = new ServerSocket(port, 50, ServerManager.getThisAddress());
             startListening();
         } catch (BindException e) {
             mainView.showCannotConnect(mainView.getBundle().getString("portOccupied"),
@@ -64,11 +63,11 @@ public class Server extends Thread {
         } catch (SocketException e) {
             // No client has connected
             System.out.println("Socket server closed without connection!");
-//            e.printStackTrace();
             return;
         }
         System.out.println("Connected! ");
         ServerSideListener listener = new ServerSideListener(mainView, this, clientSocket);
+        listener.setDaemon(true);
         listener.start();
     }
 
@@ -81,7 +80,6 @@ public class Server extends Thread {
             return;
         }
         closed = true;
-//        System.out.println("Closing server");
         try {
             if (clientSocket != null && !clientSocket.isClosed()) {
                 sendMessage(Signals.DISCONNECT_BY_SERVER);
@@ -100,5 +98,11 @@ public class Server extends Thread {
 
     public synchronized void sendMessage(byte signal) throws IOException {
         clientSocket.getOutputStream().write(signal);
+        clientSocket.getOutputStream().flush();
+    }
+
+    public synchronized void sendMessage(byte[] data) throws IOException {
+        clientSocket.getOutputStream().write(data);
+        clientSocket.getOutputStream().flush();
     }
 }

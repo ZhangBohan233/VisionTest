@@ -2,8 +2,10 @@ package dvaScreen.connection;
 
 import common.EventLogger;
 import common.Signals;
+import dvaScreen.ScreenApp;
 import dvaScreen.gui.ScreenMainView;
 import dvaScreen.gui.ScreenTestView;
+import dvaTest.testCore.EyeSide;
 import dvaTest.testCore.TestType;
 import dvaTest.testCore.tests.TestUnit;
 import javafx.application.Platform;
@@ -12,11 +14,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class ServerSideListener extends Thread {
 
@@ -59,15 +61,12 @@ public class ServerSideListener extends Thread {
         switch (signal) {
             case Signals.TEST_CONNECTION:
                 System.out.println("received connection test!");
+                try {
+                    server.sendMessage(ServerManager.getThisAddress().getHostName().getBytes(StandardCharsets.UTF_8));
+                } catch (IOException e) {
+                    EventLogger.log(e);
+                }
                 disconnected = true;
-//                try {
-//                    client.shutdownInput();
-//                    client.shutdownOutput();
-//                    client.close();
-//                    server.startListening();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
                 break;
             case Signals.GREET:
                 System.out.println("connected with client! ");
@@ -76,9 +75,6 @@ public class ServerSideListener extends Thread {
             case Signals.SHOW_SNELLEN:
                 showTestScreen(TestType.SNELLEN);
                 break;
-//            case Signals.SHOW_E:
-//                showTestScreen(TestType.E_CHART);
-//                break;
             case Signals.SHOW_C:
                 showTestScreen(TestType.LANDOLT);
                 break;
@@ -108,13 +104,16 @@ public class ServerSideListener extends Thread {
                 TestUnit testUnit = TestUnit.fromByteArray(array);
                 screenTestView.showGraph(testUnit);
                 break;
+            case Signals.SHOW_EYE_SIDE:
+                EyeSide eyeSide = EyeSide.fromBytes(array);
+                screenTestView.showSideText(eyeSide);
+                break;
             default:
                 System.err.println("Unknown signal received by server: " + array[0]);
         }
     }
 
     private void showTestScreen(TestType testType) {
-//        mainView.storeToCache();
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader =
@@ -123,10 +122,10 @@ public class ServerSideListener extends Thread {
                 Parent root = loader.load();
 
                 screenTestStage = new Stage();
+                screenTestStage.getIcons().add(ScreenApp.getIcon());
                 screenTestStage.initOwner(mainView.getStage());
                 screenTestStage.initModality(Modality.APPLICATION_MODAL);
                 screenTestStage.setMaximized(true);
-//                screenTestStage.setFullScreen(true);
                 screenTestStage.setOnCloseRequest(e -> {
                     try {
                         ServerManager.getCurrentServer().sendMessage(Signals.SCREEN_INTERRUPT);

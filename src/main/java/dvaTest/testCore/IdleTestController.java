@@ -16,7 +16,7 @@ public class IdleTestController implements ITestController {
     }
 
     @Override
-    public void interrupt() {
+    public void interruptByScreen() {
 
     }
 }

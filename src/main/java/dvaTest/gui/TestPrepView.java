@@ -41,7 +41,7 @@ public class TestPrepView implements Initializable {
         this.bundle = resourceBundle;
     }
 
-    public void setTestPref(TestPref testPref, Stage stage) {
+    public void setup(TestPref testPref, Stage stage) throws IOException {
         this.testPref = testPref;
         this.stage = stage;
         this.scene = stage.getScene();
@@ -53,6 +53,16 @@ public class TestPrepView implements Initializable {
 
         inputContainer.getChildren().add(testPref.getTestType().generateTestInput(null));
         setEyeLabel(realController.getNextSide());
+
+        ClientManager.getCurrentClient().sendMessage(testPref.getTestType().getSignal());
+        try {
+            Thread.sleep(100);
+            ClientManager.getCurrentClient().sendMessage(realController.getNextSide().toBytes());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        stage.setOnCloseRequest(e -> realController.stopByUser());
     }
 
     @FXML
@@ -93,7 +103,7 @@ public class TestPrepView implements Initializable {
     }
 
     private void setEyeLabel(EyeSide eyeSide) {
-        eyeLabel.setText(bundle.getString("pleaseUse") + eyeSide.toString());
+        eyeLabel.setText(eyeSide.toString());
     }
 
     public void closeWindow() {

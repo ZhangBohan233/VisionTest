@@ -25,8 +25,6 @@ public class TestController implements ITestController {
     private Date testStartTime;
     private SideTestController currentController;
 
-//    private boolean interrupted = false;
-
     public TestController(TestPref testPref) {
         this.testPref = testPref;
 
@@ -58,7 +56,14 @@ public class TestController implements ITestController {
     private void finishOneSideTest() {
         resultMap.put(currentController.side, currentController.testResults);
         if (!queue.isEmpty()) {
-            testView.nextSideTest(queue.peek());
+            EyeSide peek = queue.peek();
+            testView.nextSideTest(peek);
+            try {
+                ClientManager.getCurrentClient().sendMessage(peek.toBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+                EventLogger.log(e);
+            }
         } else {
             finishTotalTest();
         }
@@ -73,6 +78,7 @@ public class TestController implements ITestController {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
             e.printStackTrace();
+            EventLogger.log(e);
         }
     }
 
@@ -94,8 +100,7 @@ public class TestController implements ITestController {
      * 由用户主动停止测试、关闭窗口造成的停止
      */
     public void stopByUser() {
-//        interrupted = true;
-        currentController.interrupt();
+        if (currentController != null) currentController.interrupt();
         try {
             ClientManager.getCurrentClient().sendMessage(Signals.STOP_TEST);
         } catch (IOException e) {
@@ -108,11 +113,12 @@ public class TestController implements ITestController {
         getTestView().closeWindow();
     }
 
+    /**
+     * 处理由屏幕端发来的中止测试信号
+     */
     @Override
-    public void interrupt() {
-//        interrupted = true;
+    public void interruptByScreen() {
         currentController.interrupt();
-//        baseTimer.cancel();
     }
 
     public void userInput(String name, String buttonText) {

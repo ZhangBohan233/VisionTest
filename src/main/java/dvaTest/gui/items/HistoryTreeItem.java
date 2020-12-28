@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TreeItem;
 
-import java.io.File;
 import java.util.List;
 
 public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
@@ -85,9 +84,19 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
 
     public static class Test extends Item {
         public final ResultRecord.NamedRecord record;
+        private final String showing;
 
         public Test(ResultRecord.NamedRecord record) {
             this.record = record;
+
+            if (record.note.length() == 0) {
+                showing = TestApp.getFullDateFormat().format(record.resultRecord.testStartTime);
+            } else {
+                String[] lines = record.note.split("\n");
+                if (lines.length == 0) showing = TestApp.getFullDateFormat().format(record.resultRecord.testStartTime);
+                else if (lines.length == 1) showing = lines[0];
+                else showing = lines[0] + " ...";
+            }
         }
 
         @Override
@@ -97,7 +106,7 @@ public class HistoryTreeItem extends TreeItem<HistoryTreeItem.Item> {
 
         @Override
         public String getTimeOrName() {
-            return TestApp.getFullDateFormat().format(record.resultRecord.testStartTime);
+            return showing;
         }
 
         @Override
