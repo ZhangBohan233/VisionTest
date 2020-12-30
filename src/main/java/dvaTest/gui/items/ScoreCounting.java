@@ -2,6 +2,9 @@ package dvaTest.gui.items;
 
 import dvaTest.TestApp;
 
+/**
+ * 计分方式
+ */
 public enum ScoreCounting {
     FIVE(TestApp.getBundle().getString("fiveScore"), true),
     DEC(TestApp.getBundle().getString("decScore"), true),

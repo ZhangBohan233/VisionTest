@@ -6,6 +6,11 @@ import dvaTest.TestApp;
 
 public class Main {
 
+    /**
+     * 主函数
+     *
+     * @param args 命令行参数
+     */
     public static void main(String[] args) {
         if (args.length < 1) {
             EventLogger.log("Too few arguments");

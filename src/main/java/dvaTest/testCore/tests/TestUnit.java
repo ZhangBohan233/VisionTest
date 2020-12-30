@@ -25,6 +25,29 @@ public class TestUnit {
         this.testType = testType;
     }
 
+    /**
+     * 从字节数据中重建一个{@code TestUnit}实例
+     *
+     * @param array 从socket接收的字节数据
+     * @return 根据字节数据重建的{@code TestUnit}实例
+     */
+    public static TestUnit fromByteArray(byte[] array) {
+        TestType testType = TestType.fromByte(array[1]);
+        double graphScale = Utility.bytesToDouble(array, 2);
+        double distance = Utility.bytesToDouble(array, 10);
+        long timeInterval = Utility.bytesToLong(array, 18);
+        int strLen = array[26] & 0xff;
+        byte[] strBytes = new byte[strLen];
+        System.arraycopy(array, 27, strBytes, 0, strLen);
+        String name = new String(strBytes);
+        TestImage testImage = testType.getTest().getTestImageMap().get(name);
+        int levelLen = array[27 + strLen] & 0xff;
+        byte[] levelBytes = new byte[levelLen];
+        System.arraycopy(array, 28 + strLen, levelBytes, 0, levelLen);
+        String visionLevel = new String(levelBytes);
+        return new TestUnit(visionLevel, graphScale, distance, timeInterval, testImage, testType);
+    }
+
     public TestImage getTestImage() {
         return testImage;
     }
@@ -54,6 +77,8 @@ public class TestUnit {
     }
 
     /**
+     * 导出该实例为一个字节数组
+     * <p>
      * 数组结构：
      * 0: signal
      * 1: testType
@@ -90,23 +115,6 @@ public class TestUnit {
                 levelBytes.length);
 
         return array;
-    }
-
-    public static TestUnit fromByteArray(byte[] array) {
-        TestType testType = TestType.fromByte(array[1]);
-        double graphScale = Utility.bytesToDouble(array, 2);
-        double distance = Utility.bytesToDouble(array, 10);
-        long timeInterval = Utility.bytesToLong(array, 18);
-        int strLen = array[26] & 0xff;
-        byte[] strBytes = new byte[strLen];
-        System.arraycopy(array, 27, strBytes, 0, strLen);
-        String name = new String(strBytes);
-        TestImage testImage = testType.getTest().getTestImageMap().get(name);
-        int levelLen = array[27 + strLen] & 0xff;
-        byte[] levelBytes = new byte[levelLen];
-        System.arraycopy(array, 28 + strLen, levelBytes, 0, levelLen);
-        String visionLevel = new String(levelBytes);
-        return new TestUnit(visionLevel, graphScale, distance, timeInterval, testImage, testType);
     }
 
     public TestType getTestType() {

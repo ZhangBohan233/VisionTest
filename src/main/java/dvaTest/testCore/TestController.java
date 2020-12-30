@@ -12,7 +12,13 @@ import javafx.application.Platform;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * 实际控制一次测试的控制器
+ */
 public class TestController implements ITestController {
+    /**
+     * 每个视力等级的最大测试次数
+     */
     private final int maxCount = AutoSavers.getPrefSaver().getInt("eachLevel", 5);
 
     private final TestPref testPref;

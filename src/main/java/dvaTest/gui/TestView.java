@@ -46,6 +46,7 @@ public class TestView implements Initializable {
     }
 
     public void setup(Stage stage, TestPrepView testPrepView, TestController testController, TestPref testPref) {
+        // TestPrepView和TestView实际共用同一个stage
         this.thisStage = stage;
         this.testPrepView = testPrepView;
         this.thisScene = stage.getScene();
@@ -70,9 +71,7 @@ public class TestView implements Initializable {
     }
 
     public void updateGui(TestUnit testUnit) {
-        Platform.runLater(() -> {
-            levelLabel.setText(testUnit.getVisionLevel());
-        });
+        Platform.runLater(() -> levelLabel.setText(testUnit.getVisionLevel()));
     }
 
     public void updateInput(String input) {

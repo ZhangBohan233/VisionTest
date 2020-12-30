@@ -1,5 +1,8 @@
 package dvaTest.testCore;
 
+/**
+ * 测试控制器，用于实际控制测试并发送数据给屏幕端
+ */
 public interface ITestController {
 
     /**

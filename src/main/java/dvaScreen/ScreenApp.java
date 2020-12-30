@@ -17,6 +17,9 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * 屏幕端应用
+ */
 public class ScreenApp extends Application {
     private static ResourceBundle bundle;
     private static Image icon;

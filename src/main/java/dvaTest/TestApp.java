@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * 输入端应用
+ */
 public class TestApp extends Application {
 
     public static final String VERSION = "V1.0";

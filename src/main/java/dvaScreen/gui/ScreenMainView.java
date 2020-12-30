@@ -95,9 +95,7 @@ public class ScreenMainView implements Initializable {
             alert.initModality(Modality.WINDOW_MODAL);
             alert.show();
 
-            alert.setOnCloseRequest(e -> {
-                stage.close();
-            });
+            alert.setOnCloseRequest(e -> stage.close());
         });
     }
 
@@ -108,10 +106,6 @@ public class ScreenMainView implements Initializable {
         if (!ServerManager.hasConnection()) {
             setDisconnectedUi();
         }
-    }
-
-    public double getPpi() {
-        return Double.parseDouble(screenPpiLabel.getText());
     }
 
     public double getPixelsPerMm() {
@@ -154,9 +148,8 @@ public class ScreenMainView implements Initializable {
         intSpinner.setValueFactory(intFactory);
         intFactory.setValue(24);
 
-        intSpinner.valueProperty().addListener(((observable, oldValue, newValue) -> {
-            AutoSavers.getCacheSaver().putCache(CacheSaver.SCREEN_SIZE, getScreenSize());
-        }));
+        intSpinner.valueProperty().addListener(((observable, oldValue, newValue) ->
+                AutoSavers.getCacheSaver().putCache(CacheSaver.SCREEN_SIZE, getScreenSize())));
     }
 
     private void setAutoDetected() throws HeadlessException {

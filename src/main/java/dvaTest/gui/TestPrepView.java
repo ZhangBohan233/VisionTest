@@ -62,6 +62,7 @@ public class TestPrepView implements Initializable {
             e.printStackTrace();
         }
 
+        // TestPrepView和TestView实际共用同一个stage
         stage.setOnCloseRequest(e -> realController.stopByUser());
     }
 

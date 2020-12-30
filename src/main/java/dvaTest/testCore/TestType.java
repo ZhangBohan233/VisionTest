@@ -7,6 +7,9 @@ import dvaTest.testCore.tests.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 
+/**
+ * 测试类型
+ */
 public enum TestType {
     SNELLEN("snellenChart", Signals.SHOW_SNELLEN, SnellenTest.class, SnellenTestInput.class),
     LANDOLT("cChart", Signals.SHOW_C, CTest.class, CTestInput.class),

@@ -6,6 +6,9 @@ import dvaTest.TestApp;
 
 import java.util.ResourceBundle;
 
+/**
+ * 表示一个眼侧，左眼、右眼、双眼。
+ */
 public enum EyeSide {
     LEFT("leftEye"),
     RIGHT("rightEye"),
