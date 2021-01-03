@@ -58,7 +58,7 @@ public class ConnectionView implements Initializable {
         if (port == -1) return;
         String ipAddress = ipField.getText();
         try {
-            ClientManager.startClient(ipAddress, port, parent);
+            ClientManager.startLanClient(ipAddress, port, parent);
 
             Platform.runLater(() -> {
                 msgLabel.setTextFill(Paint.valueOf("black"));

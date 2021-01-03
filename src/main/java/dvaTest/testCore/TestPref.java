@@ -39,7 +39,7 @@ public class TestPref {
             return this;
         }
 
-        public TestPrefBuilder leftRightDualEyes(boolean leftEye, boolean rightEye, boolean dualEyes) {
+        public TestPrefBuilder leftRightBothEyes(boolean leftEye, boolean rightEye, boolean dualEyes) {
             testPref.leftEye = leftEye;
             testPref.rightEye = rightEye;
             testPref.bothEyes = dualEyes;

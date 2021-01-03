@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
@@ -24,13 +25,19 @@ public class ServerSideListener extends Thread {
 
     private final ScreenMainView mainView;
     private final Server server;
-    private final Socket client;
+//    private final Socket client;
+    private InputStream clientInputStream;
+    private OutputStream clientOutputStream;
     private Stage screenTestStage;
     private ScreenTestView screenTestView;
     private boolean disconnected;
 
-    ServerSideListener(ScreenMainView mainView, Server server, Socket client) {
-        this.client = client;
+    ServerSideListener(ScreenMainView mainView, Server server,
+                       InputStream clientInputStream, OutputStream clientOutputStream) {
+//        this.client = client;
+        this.clientInputStream = clientInputStream;
+        this.clientOutputStream = clientOutputStream;
+
         this.mainView = mainView;
         this.server = server;
     }
@@ -39,9 +46,8 @@ public class ServerSideListener extends Thread {
     public void run() {
         try {
             byte[] buf = new byte[1024];
-            InputStream inputStream = client.getInputStream();
             int read;
-            while (!(client.isInputShutdown() || disconnected) && (read = inputStream.read(buf)) >= 0) {
+            while (!(server.isClientInputShutdown() || disconnected) && (read = clientInputStream.read(buf)) >= 0) {
                 if (read == 1) {  // 单个信号
                     processSignal(buf[0]);
                 } else if (read > 0) {

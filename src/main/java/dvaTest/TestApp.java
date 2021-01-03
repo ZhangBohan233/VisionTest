@@ -2,6 +2,9 @@ package dvaTest;
 
 import common.EventLogger;
 import common.data.AutoSavers;
+import dvaScreen.connection.Server;
+import dvaScreen.connection.ServerManager;
+import dvaTest.connection.Client;
 import dvaTest.connection.ClientManager;
 import dvaTest.gui.MainView;
 import javafx.application.Application;
@@ -32,6 +35,8 @@ public class TestApp extends Application {
     private static SimpleDateFormat dateFormat;
     private static SimpleDateFormat timeFormat;
 
+    private static boolean local = false;
+
     public static void run(String[] args) {
         try {
             launch(args);
@@ -39,6 +44,11 @@ public class TestApp extends Application {
             e.printStackTrace();
             EventLogger.log(e);
         }
+    }
+
+    public static void runLocal(String[] args) {
+        local = true;
+        run(args);
     }
 
     @Override
@@ -70,6 +80,16 @@ public class TestApp extends Application {
                 ioException.printStackTrace();
             }
         });
+
+        if (local) {
+            ClientManager.startLocalClient(mainView);
+            Server server = ServerManager.getCurrentServer();
+            if (!(server instanceof Server.LocalServer)) {
+                EventLogger.log("Not a local server. ");
+                return;
+            }
+            ((Server.LocalServer) server).setLocalClient((Client.LocalClient) ClientManager.getCurrentClient());
+        }
 
         primaryStage.show();
     }

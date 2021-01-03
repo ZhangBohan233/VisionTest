@@ -5,6 +5,7 @@ import common.Signals;
 import dvaTest.gui.MainView;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
+import main.Main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,11 +26,15 @@ public class ClientManager {
         return currentClient;
     }
 
-    public static void startClient(String address, int port, MainView mainView) throws IOException {
+    public static void startLanClient(String address, int port, MainView mainView) throws IOException {
         if (currentClient != null) {
             // todo: close client
         }
-        currentClient = new Client(address, port, mainView);
+        currentClient = new Client.LanClient(address, port, mainView);
+    }
+
+    public static void startLocalClient(MainView mainView) {
+        currentClient = new Client.LocalClient(mainView);
     }
 
     public static void closeAndDiscardCurrentClient() throws IOException {

@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 public class ScreenApp extends Application {
     private static ResourceBundle bundle;
     private static Image icon;
+    private static boolean local = false;
 
     public static void run(String[] args) {
         try {
@@ -31,6 +32,11 @@ public class ScreenApp extends Application {
             e.printStackTrace();
             EventLogger.log(e);
         }
+    }
+
+    public static void runLocal(String[] args) {
+        local = true;
+        run(args);
     }
 
     public static ResourceBundle getBundle() {
@@ -68,7 +74,7 @@ public class ScreenApp extends Application {
         primaryStage.getIcons().add(getIcon());
         primaryStage.setScene(new Scene(root));
 
-        if (!ServerManager.startServer(controller)) {
+        if (!ServerManager.startServer(controller, local)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(bundle.getString("error"));
             alert.setContentText(bundle.getString("cannotConnectToNet"));
@@ -81,6 +87,8 @@ public class ScreenApp extends Application {
         });
 
         primaryStage.show();
-        controller.askConnectionIfNone();
+
+        if (!local)
+            controller.askConnectionIfNone();
     }
 }

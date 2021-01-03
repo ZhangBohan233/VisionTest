@@ -14,18 +14,36 @@ public class ServerManager {
 
     private static Server currentServer;
 
-    public static boolean startServer(ScreenMainView mainView) {
+    public static boolean startServer(ScreenMainView mainView, boolean isLocal) {
+        if (isLocal) {
+            return startLocalServer(mainView);
+        } else {
+            return startLanServer(mainView);
+        }
+    }
+
+    private static boolean startLanServer(ScreenMainView mainView) {
         port = AutoSavers.getPrefSaver().getInt("port", DEFAULT_PORT);
         try {
             generateIpAddress();
             if (currentServer == null) {
-                currentServer = new Server(mainView, port);
+                currentServer = new Server.LanServer(mainView, port);
                 currentServer.start();
             } else {
                 return false;
             }
             return true;
         } catch (IOException | ServerException e) {
+            return false;
+        }
+    }
+
+    private static boolean startLocalServer(ScreenMainView mainView) {
+        if (currentServer == null) {
+            currentServer = new Server.LocalServer(mainView);
+            currentServer.start();  // 43.2
+            return true;
+        } else {
             return false;
         }
     }
@@ -37,7 +55,7 @@ public class ServerManager {
     }
 
     public static boolean hasConnection() {
-        return currentServer != null && currentServer.getClientSocket() != null;
+        return currentServer != null && currentServer.hasConnection();
     }
 
     public static Server getCurrentServer() {
