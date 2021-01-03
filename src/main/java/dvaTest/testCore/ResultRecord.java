@@ -72,13 +72,27 @@ public class ResultRecord {
                 corrInFailedLevels.add(corrCount);
             }
         }
-        StringBuilder stringBuilder =
-                new StringBuilder(testPref.getTestType().getTest().getLevelString(
-                        scoreCounting,
-                        highestIndex));
-        if (failsInHighest > 0) stringBuilder.append(" - ").append(failsInHighest);
-        for (int i : corrInFailedLevels) stringBuilder.append(" + ").append(i);
-        return stringBuilder.toString();
+        if (scoreCounting == ScoreCounting.FIVE) {
+            double plus;
+            if (failsInHighest == 0) {
+                if (corrInFailedLevels.size() > 0) {
+                    plus = corrInFailedLevels.get(0) * (0.1 / TestController.EACH_LEVEL);
+                } else plus = 0.0;
+            } else {
+                plus = -failsInHighest * (0.1 / TestController.EACH_LEVEL);
+            }
+            String shown = testPref.getTestType().getTest().getLevelString(scoreCounting, highestIndex);
+            double score = Double.parseDouble(shown) + plus;
+            return String.valueOf(score);
+        } else {
+            StringBuilder stringBuilder =
+                    new StringBuilder(testPref.getTestType().getTest().getLevelString(
+                            scoreCounting,
+                            highestIndex));
+            if (failsInHighest > 0) stringBuilder.append(" - ").append(failsInHighest);
+            for (int i : corrInFailedLevels) stringBuilder.append(" + ").append(i);
+            return stringBuilder.toString();
+        }
     }
 
     public static class RecordUnit {

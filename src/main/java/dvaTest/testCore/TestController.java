@@ -19,7 +19,7 @@ public class TestController implements ITestController {
     /**
      * 每个视力等级的最大测试次数
      */
-    private final int maxCount = AutoSavers.getPrefSaver().getInt("eachLevel", 5);
+    public static final int EACH_LEVEL = AutoSavers.getPrefSaver().getInt("eachLevel", 5);
 
     private final TestPref testPref;
     private TestView testView;
@@ -177,7 +177,7 @@ public class TestController implements ITestController {
         }
 
         private boolean levelComplete(int levelIndex) {
-            return testResults[levelIndex].size() == maxCount;
+            return testResults[levelIndex].size() == EACH_LEVEL;
         }
 
         /**
@@ -186,7 +186,7 @@ public class TestController implements ITestController {
          */
         private boolean levelSuccess(int levelIndex) {
             if (levelComplete(levelIndex)) {
-                return testResults[levelIndex].correctCount() > maxCount / 2;  // 不用转换为double
+                return testResults[levelIndex].correctCount() > EACH_LEVEL / 2;  // 不用转换为double
             }
             return false;
         }
