@@ -213,7 +213,7 @@ public class MainView implements Initializable {
                 .distance(distanceFilter(Double.parseDouble(distanceBox.getValue())))
                 .frameTimeMills(getTimeInterval())
                 .hidingTimeMills(getHidingMills())
-                .leftRightDualEyes(leftEyeBox.isSelected(), rightEyeBox.isSelected(), dualEyesBox.isSelected())
+                .leftRightBothEyes(leftEyeBox.isSelected(), rightEyeBox.isSelected(), dualEyesBox.isSelected())
                 .build();
         try {
             Stage stage = new Stage();

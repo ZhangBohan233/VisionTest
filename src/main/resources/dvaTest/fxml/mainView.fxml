@@ -52,8 +52,8 @@
                 <Label text="%unitMeters"/>
             </HBox>
             <HBox spacing="10.0">
-                <CheckBox fx:id="leftEyeBox" text="%leftEye"/>
                 <CheckBox fx:id="rightEyeBox" text="%rightEye"/>
+                <CheckBox fx:id="leftEyeBox" text="%leftEye"/>
                 <CheckBox fx:id="dualEyesBox" text="%bothEyes"/>
             </HBox>
             <HBox spacing="10.0" alignment="CENTER_LEFT" prefWidth="400.0">

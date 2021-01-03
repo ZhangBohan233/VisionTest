@@ -36,8 +36,8 @@ public class TestController implements ITestController {
 
         test = testPref.getTestType().getTest();
 
-        if (testPref.isLeftEye()) queue.add(EyeSide.LEFT);
         if (testPref.isRightEye()) queue.add(EyeSide.RIGHT);
+        if (testPref.isLeftEye()) queue.add(EyeSide.LEFT);
         if (testPref.isBothEyes()) queue.add(EyeSide.BOTH);
 
         if (queue.isEmpty()) throw new RuntimeException("Unexpected error, no test has been selected.");

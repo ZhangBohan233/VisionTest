@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>trashsoftware</groupId>
     <artifactId>dva-test</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>dva-test</name>
 
@@ -144,49 +144,6 @@
                     </transformers>
                 </configuration>
             </plugin>
-
-<!--            <plugin>-->
-<!--                <artifactId>maven-assembly-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>test-jar</id>-->
-<!--                        <configuration>-->
-<!--                            <finalName>DvaTest</finalName>-->
-<!--                            <archive>-->
-<!--                                <manifest>-->
-<!--                                    <mainClass>dvaTest.TestMain</mainClass>-->
-<!--                                </manifest>-->
-<!--                            </archive>-->
-<!--                            <descriptorRefs>-->
-<!--                                <descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--                            </descriptorRefs>-->
-<!--                        </configuration>-->
-<!--                        <phase>install</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>assembly</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>screen-jar</id>-->
-<!--                        <configuration>-->
-<!--                            <finalName>DvaScreen</finalName>-->
-<!--                            <archive>-->
-<!--                                <manifest>-->
-<!--                                    <mainClass>dvaScreen.Screen</mainClass>-->
-<!--                                </manifest>-->
-<!--                            </archive>-->
-<!--                            <descriptorRefs>-->
-<!--                                <descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--                            </descriptorRefs>-->
-<!--                        </configuration>-->
-<!--                        <phase>install</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>assembly</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-
         </plugins>
     </build>
 
